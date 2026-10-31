@@ -162,3 +162,19 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   outline: 3px solid #d94a44;
   outline-offset: 2px;
 }
+
+/* --- Policy pages --- */
+.policy { max-width: 48rem; margin: 0 auto; padding: 2.5rem 1rem 3rem; font-family: "Roboto Slab", serif; line-height: 1.65; }
+.policy h1 { font-family: "Anton", sans-serif; font-size: 2.6rem; text-transform: uppercase; line-height: 1.05; margin-bottom: 1rem; }
+.policy h2 { font-family: "Anton", sans-serif; font-size: 1.6rem; text-transform: uppercase; margin: 2rem 0 0.5rem; border-top: 2px solid #000; padding-top: 0.75rem; }
+.policy h3 { font-family: "Roboto Condensed", sans-serif; font-weight: 700; font-size: 1.1rem; margin: 1.25rem 0 0.25rem; }
+.policy p, .policy li { margin-bottom: 0.75rem; }
+.policy ul, .policy ol { margin: 0 0 1rem 1.25rem; }
+.policy ul { list-style: disc; }
+.policy ol { list-style: decimal; }
+.policy a { text-decoration: underline; }
+.policy table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-family: "Roboto Condensed", sans-serif; }
+.policy th, .policy td { border: 1px solid #000; padding: 0.5rem; text-align: left; }
+.policy th { background: #000; color: #f3f0e7; text-transform: uppercase; }
+/* Marks a fact only the owner can supply. Search for owner-todo before launch. */
+.owner-todo { background: #ffe14d; color: #000; padding: 0 0.3rem; font-weight: 700; }

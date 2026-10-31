@@ -71,6 +71,15 @@ window.AWAKEN_DROP = {
     }
   }
 
+  // Policy pages show the live drop terms: <span data-drop="shipsBy"></span> etc.
+  function fillDropText() {
+    const closes = D.closesAt
+      ? new Date(D.closesAt).toLocaleDateString("en-ZA", { day: "numeric", month: "long", year: "numeric", timeZone: "Africa/Johannesburg" })
+      : "the close date announced on the shop page";
+    const values = { name: D.name, shipsBy: D.shipsByText(), closes };
+    document.querySelectorAll("[data-drop]").forEach(el => { el.textContent = values[el.dataset.drop] || ""; });
+  }
+
   // Keeps the sticky banner flush under the sticky desktop header.
   function syncHeaderHeight() {
     const header = document.querySelector('header');
@@ -89,6 +98,7 @@ window.AWAKEN_DROP = {
 
   document.addEventListener('DOMContentLoaded', () => {
     renderBanner();
+    fillDropText();
     syncHeaderHeight();
     window.addEventListener('resize', syncHeaderHeight);
     const header = document.querySelector('header');
