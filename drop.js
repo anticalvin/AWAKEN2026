@@ -11,7 +11,7 @@
  *   status     'preorder' while open, 'closed' to shut the drop early.
  */
 window.AWAKEN_DROP = {
-  name: 'DROP 001',
+  name: 'NEW WORLD ORDER',
   status: 'preorder',
   closesAt: null,
   shipsBy: null,

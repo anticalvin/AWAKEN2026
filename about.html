@@ -26,6 +26,7 @@
 </head>
  <body class="bg-black text-white p-6 min-h-screen flex items-center justify-center">
   <div class="max-w-xl w-full">
+   <a href="index.html" id="back-link" class="inline-block mb-4 text-xs font-mono underline py-2">&larr; Back</a>
    <div class="flex items-center space-x-3 mb-6">
     <img alt="Red triangular AWAKEN CULT logo with horizontal stripes" class="w-20 h-15 object-contain" height="60" src="https://i.ibb.co/R49Dxwg7/NEW-EYE-LOGO-WHITE-VEC.png" width="80"/>
     <div class="text-white leading-tight">
@@ -70,5 +71,11 @@ Website: www.awakencult.com
     </p>
    </div>
   </div>
+   <script>
+   // Back goes to the page the visitor came from; direct visits fall back to the homepage.
+   const back = () => { (document.referrer && new URL(document.referrer).origin === location.origin && history.length > 1) ? history.back() : (location.href = "index.html"); };
+   document.getElementById("back-link").addEventListener("click", e => { e.preventDefault(); back(); });
+   document.addEventListener("keydown", e => { if (e.key === "Escape") back(); });
+  </script>
  </body>
 </html>
