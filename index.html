@@ -914,6 +914,7 @@
       border-color: #d94a44;
     }
   </style>
+  <link rel="stylesheet" href="site.css">
 </head>
 <body>
   <!-- Header -->
@@ -1006,7 +1007,7 @@
 
   <!-- Shop Section -->
   <section id="shop" class="content-section">
-    <h2 class="text-3xl font-anton text-center mb-8 uppercase">Underground Market</h2>
+    <h2 class="text-3xl font-anton text-center mb-8 uppercase">Underground Market &middot; <span id="drop-name">Drop 001</span></h2>
     <div id="product-grid" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <!-- Product cards are rendered by renderHomepageProducts() from products.js -->
     </div>
@@ -1202,28 +1203,22 @@
   </div>
 
   <script src="products.js"></script>
+  <script src="drop.js"></script>
   <script src="cart.js"></script>
   <script>
-    // Homepage shows a hand-picked row of the catalogue.
-    const HOMEPAGE_PRODUCT_IDS = ['p6', 'p2', 'p1', 'p4', 'p5', 'p3'];
-
     function renderHomepageProducts() {
       const grid = document.getElementById('product-grid');
       if (!grid) return;
-      grid.innerHTML = HOMEPAGE_PRODUCT_IDS.map(getProduct).filter(Boolean).map(product => `
-        <div class="shop-product-card lg:aspect-square group">
-          <a href="product-detail.html?id=${esc(product.id)}" class="product-image-container block">
-            <img src="${esc(product.image)}" alt="${esc(product.name)}" loading="lazy" />
-          </a>
-          <h3 class="text-xl font-bold mt-3">${esc(product.name)}</h3>
-          <p class="text-sm mb-2">${isOneOption(product) ? '' : 'From '}${formatZAR(productFromPrice(product))}</p>
-          <button class="add-to-cart-btn" data-add-product="${esc(product.id)}">Add to cart</button>
-        </div>`).join('');
+      // The homepage shows the current drop.
+      document.getElementById('drop-name').textContent = DROP.name;
+      grid.innerHTML = DROP.productIds.map(getProduct).filter(Boolean)
+        .map(product => productCardHTML(product, 'shop-product-card lg:aspect-square group', false)).join('');
     }
 
     document.addEventListener('DOMContentLoaded', () => {
       renderHomepageProducts();
       document.addEventListener('awaken:catalogue', renderHomepageProducts);
+      document.addEventListener('awaken:dropchange', renderHomepageProducts);
 
       // Marquee
       const marqueeContentWrapper = document.querySelector('.marquee-container .marquee-content-wrapper');

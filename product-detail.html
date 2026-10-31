@@ -572,6 +572,7 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="site.css">
 </head>
 <body>
 
@@ -664,6 +665,7 @@
   </footer>
 
   <script src="products.js"></script>
+  <script src="drop.js"></script>
   <script src="cart.js"></script>
   <script>
     const PAGE_URL = window.location.origin + window.location.pathname;
@@ -696,7 +698,7 @@
           highPrice: Math.max(...prices).toFixed(2),
           offerCount: product.variants.length,
           itemCondition: 'https://schema.org/NewCondition',
-          availability: 'https://schema.org/InStock'
+          availability: DROP.canBuy(product.id) ? 'https://schema.org/PreOrder' : 'https://schema.org/Discontinued'
         }
       };
       let tag = document.getElementById('product-jsonld');
@@ -765,6 +767,8 @@
         });
       }
 
+      renderBuyBox(product);
+
       document.getElementById('add-to-cart-btn').onclick = () => {
         const quantity = Math.min(10, Math.max(1, parseInt(document.getElementById('product-quantity').value, 10) || 1));
         addItemToCart(product, selectedVariant(product).shopifyVariantId, quantity);
@@ -774,9 +778,41 @@
       renderRelated(product);
     }
 
+    // Pre-order label, ship-by line and button state for the current drop.
+    function renderBuyBox(product) {
+      const button = document.getElementById('add-to-cart-btn');
+      const inDrop = DROP.includes(product.id);
+      const closed = DROP.isClosed();
+
+      let shipsLine = document.getElementById('product-shipsby');
+      if (!shipsLine) {
+        shipsLine = document.createElement('p');
+        shipsLine.id = 'product-shipsby';
+        shipsLine.className = 'ships-by';
+        document.getElementById('product-price').insertAdjacentElement('afterend', shipsLine);
+      }
+      shipsLine.textContent = inDrop && !closed ? `${DROP.name} pre-order. Ships by ${DROP.shipsByText()}. Charged today.` : '';
+      shipsLine.style.display = shipsLine.textContent ? '' : 'none';
+
+      let badge = document.getElementById('product-badge');
+      if (!badge) {
+        badge = document.createElement('span');
+        badge.id = 'product-badge';
+        document.getElementById('product-image').parentNode.style.position = 'relative';
+        document.getElementById('product-image').insertAdjacentElement('afterend', badge);
+      }
+      badge.className = 'preorder-badge' + (closed ? ' is-closed' : '');
+      badge.textContent = closed ? 'Closed' : 'Pre-order';
+      badge.style.display = inDrop ? '' : 'none';
+
+      button.disabled = !inDrop || closed;
+      button.textContent = !inDrop ? `Not part of ${DROP.name}` : closed ? 'Pre-orders closed' : 'Pre-order';
+      document.getElementById('product-quantity').closest('.product-options-group').style.display = DROP.canBuy(product.id) ? '' : 'none';
+    }
+
     function renderRelated(current) {
       const grid = document.getElementById('related-grid');
-      grid.innerHTML = PRODUCTS.filter(p => p.id !== current.id).slice(0, 3).map(p => `
+      grid.innerHTML = PRODUCTS.filter(p => p.id !== current.id && DROP.includes(p.id)).slice(0, 3).map(p => `
         <a href="product-detail.html?id=${esc(p.id)}" class="related-article-card block no-underline text-black">
           <img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy" />
           <h3>${esc(p.name)}</h3>
@@ -788,6 +824,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       renderProductPage();
       document.addEventListener('awaken:catalogue', renderProductPage);
+      document.addEventListener('awaken:dropchange', renderProductPage);
 
       // Marquee
       const marqueeContentWrapper = document.querySelector('.marquee-container .marquee-content-wrapper');

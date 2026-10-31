@@ -969,6 +969,7 @@
         margin-top: 1.5rem; /* Add some space above the button */
     }
   </style>
+  <link rel="stylesheet" href="site.css">
 </head>
 <body>
   <!-- Header - Consistent with main site -->
@@ -1003,7 +1004,7 @@
   </section>
 
   <!-- New Image Grid below Hero Section (on black background) -->
-  <section class="grid grid-cols-1 lg:grid-cols-3 gap-0 px-2 bg-black w-full box-border">
+  <section class="shop-image-strip grid grid-cols-1 lg:grid-cols-3 gap-0 px-2 bg-black w-full box-border">
     <img src="https://i.ibb.co/5x4jkM92/Chat-GPT-Image-Jul-15-2025-at-05-05-06-PM.webp" alt="Market Image 1" class="hidden lg:block w-full h-auto object-cover flex-shrink-0" />
     <img src="https://i.ibb.co/Jw5NW7yv/Chat-GPT-Image-Jul-15-2025-at-05-05-18-PM.webp" alt="Market Image 2" class="hidden lg:block w-full h-auto object-cover flex-shrink-0" />
     <img src="https://i.ibb.co/bjQJDRVq/bully.webp" alt="Market Image 3" class="block w-full h-auto object-cover flex-shrink-0" />
@@ -1011,10 +1012,29 @@
 
   <!-- Product Grid Section -->
   <section class="content-section product-grid-section">
-    <h2 class="text-3xl font-anton text-center mb-8">Latest Revelations</h2>
+    <section id="drop-list" class="drop-list">
+      <h2 id="drop-list-title">Get the close-reminder</h2>
+      <p id="drop-list-text">One email before pre-orders close. Nothing else.</p>
+      <form action="https://assets.mailerlite.com/jsonp/1660429/forms/159738966717761336/subscribe" method="post" target="ml-frame" id="drop-list-form">
+        <input type="email" name="fields[email]" placeholder="Enter your email" required aria-label="Email address" />
+        <input type="hidden" name="ml-submit" value="1">
+        <input type="hidden" name="anticsrf" value="true">
+        <button type="submit">Notify me</button>
+      </form>
+      <p id="drop-list-thanks" role="status" style="display:none;margin-top:0.75rem;font-weight:700;">You're on the list.</p>
+      <iframe name="ml-frame" title="Subscription" style="display:none" tabindex="-1" aria-hidden="true"></iframe>
+    </section>
+
+    <h2 id="drop-title" class="text-3xl font-anton text-center mb-8">Drop 001</h2>
     <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
       <!-- Product cards will be injected here by JavaScript -->
     </div>
+
+    <details id="drop-archive" class="drop-archive">
+      <summary>Archive</summary>
+      <p class="text-sm mb-4">Past pieces. Not part of this drop, so not for sale.</p>
+      <div id="archive-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6"></div>
+    </details>
   </section>
 
   <!-- Shopping Cart Overlay -->
@@ -1072,23 +1092,28 @@
   </footer>
 
   <script src="products.js"></script>
+  <script src="drop.js"></script>
   <script src="cart.js"></script>
   <script>
-    function visibleProducts() {
-      return PRODUCTS;
+    function renderProducts() {
+      const inDrop = PRODUCTS.filter(p => DROP.includes(p.id));
+      const archive = PRODUCTS.filter(p => !DROP.includes(p.id));
+      document.getElementById('product-list').innerHTML = inDrop
+        .map(p => productCardHTML(p, 'product-card', true)).join('');
+      document.getElementById('archive-list').innerHTML = archive
+        .map(p => productCardHTML(p, 'product-card', true)).join('');
+      document.getElementById('drop-archive').style.display = archive.length ? '' : 'none';
+      document.getElementById('drop-title').textContent = DROP.name;
+      renderListCopy();
     }
 
-    function renderProducts() {
-      const list = document.getElementById('product-list');
-      list.innerHTML = visibleProducts().map(product => `
-        <div class="product-card">
-          <a href="product-detail.html?id=${esc(product.id)}" class="product-image-container block">
-            <img src="${esc(product.image)}" alt="${esc(product.name)}" loading="lazy" />
-          </a>
-          <h3 class="text-xl font-bold mt-3"><a href="product-detail.html?id=${esc(product.id)}">${esc(product.name)}</a></h3>
-          <p class="text-sm mb-2">${isOneOption(product) ? '' : 'From '}${formatZAR(productFromPrice(product))}</p>
-          <button class="add-to-cart-btn" data-add-product="${esc(product.id)}">Add to Cart</button>
-        </div>`).join('');
+    // The email box reads "close-reminder" while open and "join the list" once the drop is over.
+    function renderListCopy() {
+      const closed = DROP.isClosed();
+      document.getElementById('drop-list-title').textContent = closed ? `${DROP.name} is closed` : 'Get the close-reminder';
+      document.getElementById('drop-list-text').textContent = closed
+        ? 'Join the list. You hear about the next drop first.'
+        : 'One email before pre-orders close. Nothing else.';
     }
 
     // Marquee
@@ -1122,6 +1147,13 @@
     document.addEventListener('DOMContentLoaded', () => {
       renderProducts();
       document.addEventListener('awaken:catalogue', renderProducts);
+      document.addEventListener('awaken:dropchange', renderProducts);
+      document.getElementById('drop-list-form').addEventListener('submit', () => {
+        setTimeout(() => {
+          document.getElementById('drop-list-form').style.display = 'none';
+          document.getElementById('drop-list-thanks').style.display = 'block';
+        }, 400);
+      });
       updateMarquee();
       window.addEventListener('resize', updateMarquee);
     });

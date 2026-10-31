@@ -15,6 +15,9 @@ const CART_STORAGE_KEY = 'awakenCart';
 const VARIANT_ID_PATTERN = /^gid:\/\/shopify\/ProductVariant\/\d+$/;
 
 const PRODUCTS = window.AWAKEN_PRODUCTS || [];
+// drop.js decides what can be bought and until when. Without it, every product is buyable.
+const DROP = window.AWAKEN_DROP || null;
+const dropCanBuy = id => (DROP ? DROP.canBuy(id) : true);
 
 // --- Formatting ---
 function formatZAR(amount) {
@@ -76,7 +79,8 @@ function loadCart() {
   raw.forEach(item => {
     const id = item && item.shopifyVariantId;
     const qty = parseInt(item && item.quantity, 10);
-    if (!VARIANT_ID_PATTERN.test(id || '') || !findVariant(id) || !(qty > 0)) {
+    const found = VARIANT_ID_PATTERN.test(id || '') && findVariant(id);
+    if (!found || !(qty > 0) || (DROP && !DROP.includes(found.product.id))) {
       dropped++;
       return;
     }
@@ -145,6 +149,10 @@ function addItemToCart(product, variantId, quantity = 1) {
     showCustomAlert('Error: that option is not available.');
     return;
   }
+  if (!dropCanBuy(product.id)) {
+    showCustomAlert(DROP && DROP.includes(product.id) ? `${DROP.name} pre-orders are closed.` : `Not part of ${DROP.name}.`);
+    return;
+  }
   if (found.variant.available === false) {
     showCustomAlert('Sorry, that option is sold out.');
     return;
@@ -203,13 +211,65 @@ function updateCartDisplay() {
     }
     totalSpan.textContent = formatZAR(cartTotal());
   }
-  if (countSpan) countSpan.textContent = cart.reduce((n, i) => n + i.quantity, 0);
+  const count = cart.reduce((n, i) => n + i.quantity, 0);
+  if (countSpan) countSpan.textContent = count;
+  document.querySelectorAll('[data-cart-count]').forEach(s => { s.textContent = count; });
+  renderPreorderNote();
   saveCart();
+}
+
+// "Ships by" line above the total, so the customer sees the pre-order terms before paying.
+function renderPreorderNote() {
+  if (!DROP) return;
+  const button = document.querySelector('.cart-checkout-btn');
+  if (!button) return;
+  let note = document.getElementById('cart-preorder-note');
+  if (!note) {
+    note = document.createElement('p');
+    note.id = 'cart-preorder-note';
+    note.className = 'cart-preorder-note';
+    button.parentNode.insertBefore(note, button);
+  }
+  note.style.display = cart.length ? 'block' : 'none';
+  note.textContent = DROP.isClosed()
+    ? `${DROP.name} pre-orders are closed.`
+    : `Pre-order items ship by ${DROP.shipsByText()}. Charged today.`;
+}
+
+// --- Product cards (shared by the homepage and the shop) ---
+function productCardHTML(product, cardClass, headingLinked) {
+  const href = `product-detail.html?id=${esc(product.id)}`;
+  const inDrop = !DROP || DROP.includes(product.id);
+  const closed = DROP && DROP.isClosed();
+  const badge = inDrop && DROP
+    ? `<span class="preorder-badge${closed ? ' is-closed' : ''}">${closed ? 'Closed' : 'Pre-order'}</span>`
+    : '';
+  const title = esc(product.name);
+  const price = `${isOneOption(product) ? '' : 'From '}${formatZAR(productFromPrice(product))}`;
+  let action;
+  if (!inDrop) action = '<span class="archive-tag">Archive</span>';
+  else if (closed) action = '<button type="button" class="add-to-cart-btn" disabled>Closed</button>';
+  else action = `<button type="button" class="add-to-cart-btn" data-add-product="${esc(product.id)}">${DROP ? 'Pre-order' : 'Add to Cart'}</button>`;
+  const shipsLine = inDrop && DROP && !closed ? `<p class="ships-by">Ships by ${esc(DROP.shipsByText())}</p>` : '';
+  return `
+    <div class="${cardClass}">
+      <a href="${href}" class="product-image-container block">
+        <img src="${esc(product.image)}" alt="${title}" loading="lazy" />${badge}
+      </a>
+      <h3 class="text-xl font-bold mt-3">${headingLinked ? `<a href="${href}">${title}</a>` : title}</h3>
+      <p class="text-sm mb-1">${price}</p>
+      ${shipsLine}
+      ${action}
+    </div>`;
 }
 
 function toggleCart() {
   const overlay = document.getElementById('cart-overlay');
-  if (!overlay) return;
+  if (!overlay) {
+    // Pages without a cart drawer (manifesto, join-us) send the customer to the shop.
+    window.location.href = 'shop.html';
+    return;
+  }
   overlay.classList.toggle('active');
   if (overlay.classList.contains('active')) updateCartDisplay();
 }
@@ -259,7 +319,9 @@ function showSizeSelectionModal(product) {
     optionsDiv.appendChild(button);
   });
 
-  document.getElementById('add-to-cart-modal-btn').onclick = () => {
+  const modalButton = document.getElementById('add-to-cart-modal-btn');
+  modalButton.textContent = DROP ? 'Pre-order' : 'Add to Cart';
+  modalButton.onclick = () => {
     if (!selectedVariantInModal) {
       showCustomAlert(`Please select a ${product.optionName.toLowerCase()}.`);
       return;
@@ -333,6 +395,10 @@ async function proceedToShopifyCheckout() {
     showCustomAlert('Your cart is empty. Please add some artifacts before checking out.');
     return;
   }
+  if (DROP && DROP.isClosed()) {
+    setCartError(`${DROP.name} pre-orders are closed. Join the list to hear about the next drop.`);
+    return;
+  }
   const invalid = cart.filter(i => !VARIANT_ID_PATTERN.test(i.shopifyVariantId || '') || !findVariant(i.shopifyVariantId));
   if (invalid.length) {
     cart = cart.filter(i => !invalid.includes(i));
@@ -350,6 +416,11 @@ async function proceedToShopifyCheckout() {
   const input = {
     lines: cart.map(item => ({ merchandiseId: item.shopifyVariantId, quantity: item.quantity }))
   };
+  if (DROP) {
+    // Travels with the order so fulfilment can see which drop it belongs to and what was promised.
+    input.note = `${DROP.name} pre-order. Ships by ${DROP.shipsByText()}. Charged at checkout.`;
+    input.attributes = [{ key: 'Drop', value: DROP.name }, { key: 'Ships by', value: DROP.shipsByText() }];
+  }
   const query = `
     mutation cartCreate($input: CartInput) {
       cartCreate(input: $input) {
@@ -425,6 +496,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   syncCatalogueFromShopify();
   document.addEventListener('awaken:catalogue', updateCartDisplay);
+  document.addEventListener('awaken:dropchange', updateCartDisplay);
 });
 
 // Coming back from Shopify with the browser back button restores this page from cache.
