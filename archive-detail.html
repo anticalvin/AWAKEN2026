@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta name="robots" content="noindex, nofollow">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AWAKEN Archive Detail</title>
@@ -431,8 +432,7 @@
                 <a href="shop.html">Shop</a>
                 <a href="manifesto.html">Manifesto</a>
                 <a href="join-us.html">Join Us</a>
-                <a href="#about">About</a>
-                <a href="archives.html">Archive</a>
+                <a href="about.html">About</a>
                 <div class="cart-icon-container" onclick="toggleCart()">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-count" id="cart-count">0</span>
@@ -496,7 +496,7 @@
             <p class="empty-cart-message" id="empty-cart-message">Your cart is empty. Acquire some truth.</p>
         </div>
         <div class="cart-summary">
-            <p>Total: <span id="cart-total">$0.00</span></p>
+            <p>Total: <span id="cart-total">R0.00</span></p>
             <button class="cart-checkout-btn" onclick="proceedToCheckout()">Proceed to Checkout</button>
         </div>
     </div>
@@ -530,7 +530,7 @@
                         <img src="${item.image}" alt="${item.name}" class="cart-item-image" />
                         <div class="cart-item-details">
                             <h4>${item.name} (${item.size})</h4>
-                            <p>$${item.price.toFixed(2)} x ${item.quantity}</p>
+                            <p>R${item.price.toFixed(2)} x ${item.quantity}</p>
                         </div>
                         <button class="cart-item-remove" onclick="removeFromCart(${index})">Remove</button>
                     `;
@@ -538,7 +538,7 @@
                     total += item.price * item.quantity;
                 });
             }
-            cartTotalSpan.textContent = `$${total.toFixed(2)}`;
+            cartTotalSpan.textContent = `R${total.toFixed(2)}`;
             cartCountSpan.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
             localStorage.setItem('awakenCart', JSON.stringify(cart));
         }
