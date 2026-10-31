@@ -1,0 +1,59 @@
+AWAKEN CULT VISIONS – Proprietary License v2025
+===============================================
+
+Copyright (c) 2025 AWAKEN CULT VISIONS
+All Rights Reserved Worldwide.
+
+No rights are granted to any person, entity, or system except as
+expressly provided in writing by AWAKEN CULT VISIONS.
+
+1. DEFINITIONS
+--------------
+"Content" means all files, source code, images, text, designs, data,
+videos, sounds, digital products, or any other material in this
+repository.
+
+2. NO LICENSE GRANTED
+---------------------
+- No part of this Content may be used, copied, modified, merged,
+  published, distributed, sublicensed, sold, or otherwise exploited
+  in any form or by any means, whether commercial or non-commercial,
+  without prior written permission from AWAKEN CULT VISIONS.
+- Accessing or viewing this repository does NOT grant any rights or
+  permissions.
+- All implied licenses, including but not limited to "fair use",
+  are explicitly disclaimed to the maximum extent allowed by law.
+
+3. PROHIBITED USES
+------------------
+You are specifically prohibited from:
+- Using this Content for machine learning, AI training, data mining,
+  scraping, or any automated analysis.
+- Hosting, mirroring, or redistributing this Content on any platform.
+- Creating derivative works, forks, or adaptations.
+- Removing or altering copyright, watermark, or attribution notices.
+
+4. TRADEMARK NOTICE
+-------------------
+"AWAKEN CULT VISIONS," along with associated logos, slogans, designs,
+and trade dress, are claimed trademarks under application. Use of
+these marks in any form without written authorization is strictly
+prohibited.
+
+5. ENFORCEMENT
+--------------
+Unauthorized use of this Content constitutes infringement and breach
+of contract. AWAKEN CULT VISIONS reserves the right to pursue civil
+damages, criminal charges, injunctive relief, and recovery of legal
+fees to the maximum extent permitted by law.
+
+6. SURVIVAL
+-----------
+This agreement remains binding regardless of jurisdictional changes,
+hosting platform policies, or technical access. Unauthorized use
+creates liability independent of platform terms (including GitHub).
+
+------------------------------------------------------------
+For permissions, inquiries, or commercial licensing:
+Contact: info@awakencult.com
+------------------------------------------------------------

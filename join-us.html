@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AWAKEN Cult Newspaper - Join Us</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+  <style>
+    /* Import Google Fonts - Consistent with main site */
+    @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap');
+
+    /* Custom font classes - Consistent with main site */
+    .font-anton { font-family: 'Anton', sans-serif; }
+    .font-roboto-condensed { font-family: 'Roboto Condensed', sans-serif; }
+    .font-roboto-slab { font-family: 'Roboto Slab', serif; }
+    .font-tattler { font-family: 'Anton', sans-serif; letter-spacing: -0.05em; }
+    .font-national { font-family: 'Oswald', sans-serif; font-weight: 700; letter-spacing: 0.1em; }
+
+    /* Basic body styles - Consistent with main site */
+    body {
+      background-color: #f3f0e7; /* Light newspaper-like background */
+      color: #000; /* Black text */
+      font-family: 'Roboto Condensed', sans-serif; /* Default font for body */
+      line-height: 1.6;
+      overflow-x: hidden; /* Prevent horizontal scrolling */
+      margin: 0; /* Ensure no default body margin */
+      padding: 0; /* Ensure no default body padding */
+    }
+
+    /* General section padding and max-width - Consistent with main site */
+    .content-section {
+      padding: 3rem 1rem; /* Default vertical padding for sections */
+      max-width: 1280px; /* Max width for content */
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Header specific styles - Consistent with main site */
+    header {
+        background-color: #d94a44;
+        display: flex; /* Make it a flex container */
+        justify-content: space-between; /* Space between logo and nav */
+        align-items: center; /* Vertically center */
+        width: 100%;
+        box-sizing: border-box;
+        position: sticky; /* Make header sticky */
+        top: 0;
+        z-index: 99;
+        padding: 0.5rem 1rem; /* Consistent padding */
+    }
+    header .header-logo {
+        font-family: 'Anton', sans-serif;
+        font-size: 4rem; /* Default size for mobile */
+        color: #f3f0e7;
+        line-height: 1;
+        text-decoration: none;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+    header .header-logo:hover {
+        color: #fff;
+    }
+    header nav {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center; /* Center nav items horizontally if they wrap */
+        flex-wrap: wrap; /* Allow nav items to wrap */
+    }
+    header nav a {
+        color: #f3f0e7;
+        font-family: 'Roboto Condensed', sans-serif;
+        font-size: 0.875rem;
+        text-decoration: none;
+        margin: 0 0.5rem; /* Adjusted margin for wrapped items */
+        transition: underline 0.2s;
+    }
+    header nav a:hover {
+        text-decoration: underline;
+    }
+    .cart-icon-container {
+      position: relative;
+      cursor: pointer;
+      color: #f3f0e7;
+      font-size: 1.5rem;
+      margin-left: 1.5rem; /* Space from last nav item */
+    }
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: black;
+      color: white;
+      border-radius: 50%;
+      padding: 0.1rem 0.4rem;
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+
+    /* Join Us specific styles */
+    .join-us-container {
+      border: 1px solid black;
+      padding: 2rem;
+      background-color: #fff; /* Slightly whiter background for the content itself */
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+      text-align: center;
+    }
+
+    .join-us-headline {
+      font-family: 'Anton', sans-serif;
+      font-size: 4.5rem;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      color: #d94a44; /* Accent color */
+    }
+
+    .join-us-subheadline {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: 1.8rem;
+      margin-bottom: 2rem;
+      font-weight: bold;
+    }
+
+    .join-us-paragraph {
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+      text-align: center;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .benefit-grid {
+      display: grid;
+      grid-template-columns: 1fr; /* Default to 1 column for very small mobile */
+      gap: 1.5rem;
+      margin-top: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    @media (min-width: 480px) { /* Two columns for most mobile landscape and up */
+      .benefit-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (min-width: 1024px) { /* Three columns for desktop */
+      .benefit-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .benefit-card {
+      border: 1px solid black;
+      padding: 1.5rem;
+      text-align: left;
+      background-color: white; /* Changed to white background */
+      display: flex; /* Added for mobile layout fix */
+      flex-direction: column; /* Added for mobile layout fix */
+      justify-content: space-between; /* Added for mobile layout fix */
+      min-height: 180px; /* Added for consistent card height */
+    }
+
+    .benefit-card i {
+      font-size: 2.5rem;
+      color: #d94a44;
+      margin-bottom: 1rem;
+      display: block; /* Ensures icon is on its own line */
+    }
+
+    .benefit-card h3 {
+      font-family: 'Anton', sans-serif;
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+    }
+
+    .how-it-works-step {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+    .how-it-works-step .step-number {
+      font-family: 'Anton', sans-serif;
+      font-size: 3rem;
+      color: #d94a44;
+      line-height: 1;
+      margin-right: 1rem;
+      flex-shrink: 0;
+    }
+    .how-it-works-step p {
+      font-size: 1.1rem;
+    }
+
+    .signup-form-container {
+      border: 1px solid black; /* Changed to 1px solid black border */
+      padding: 2rem;
+      margin-top: 3rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      background-color: white; /* Changed to pure white background */
+    }
+
+    .signup-form-container h3 {
+      font-family: 'Anton', sans-serif;
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+      color: #000;
+    }
+
+    .signup-form-container input[type="text"],
+    .signup-form-container input[type="email"],
+    .signup-form-container textarea {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid black;
+      background-color: white; /* Changed to white background */
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: 1rem;
+    }
+
+    .signup-form-container textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .signup-form-container button {
+      background-color: #d94a44; /* Changed to red */
+      color: white; /* Changed to white text */
+      border: 1px solid #d94a44; /* Added border */
+      padding: 1rem 2rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 1.25rem;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.1s;
+      width: 100%;
+    }
+    .signup-form-container button:hover {
+      background-color: #b92a1e; /* Darker red on hover */
+      color: white; /* Text color on hover */
+      transform: translateY(-2px);
+    }
+    .signup-form-container button:active {
+      transform: translateY(0);
+    }
+
+    /* Testimonial section */
+    .testimonial-card {
+      border: 1px solid black;
+      padding: 1.5rem;
+      margin-top: 2rem;
+      background-color: white; /* Changed to white background */
+      font-style: italic;
+      font-size: 1.1rem;
+    }
+    .testimonial-card strong {
+      display: block;
+      margin-top: 1rem;
+      font-style: normal;
+      font-weight: bold;
+      color: #d94a44;
+    }
+
+    /* Manifesto section title - applied to "Why Join The Awakened?" and "Your Path to Influence" */
+    .manifesto-section-title {
+      font-family: 'Anton', sans-serif;
+      font-size: 2.5rem;
+      line-height: 1.1;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid black; /* Made border thinner */
+      padding-bottom: 0.5rem;
+      text-transform: uppercase;
+      font-weight: bold; /* Made bold as requested */
+    }
+
+    /* FAQ Section Styles */
+    .faq-section {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid black;
+      text-align: center;
+    }
+
+    .faq-section h2 {
+      font-family: 'Anton', sans-serif;
+      font-size: 2.5rem;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      color: #000;
+    }
+
+    .faq-item {
+      border: 1px solid black;
+      background-color: white;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+
+    .faq-item h3 {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: 1.25rem;
+      font-weight: bold;
+      margin-bottom: 0.75rem;
+      color: #d94a44; /* Red for questions */
+    }
+
+    .faq-item p {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #333;
+    }
+
+
+    /* Footer adjustments - Consistent with main site */
+    footer {
+      border-top: 1px solid black;
+      padding: 1.5rem 1rem;
+      font-size: 0.75rem;
+      text-align: center;
+    }
+    footer a {
+      text-decoration: underline;
+      color: inherit;
+    }
+    footer .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 0.75rem;
+      font-size: 1.25rem;
+    }
+
+    /* Responsive adjustments */
+    @media (min-width: 1024px) { /* Desktop screens and up */
+      header .header-logo {
+          font-size: 6rem; /* Larger logo for desktop */
+      }
+      header nav a {
+          font-size: 1rem;
+          margin-left: 2.5rem;
+      }
+    }
+    @media (max-width: 1023px) { /* All screens smaller than desktop */
+      header {
+          flex-direction: column; /* Stack logo and nav vertically on mobile/tablet */
+          align-items: center; /* Center items when stacked */
+      }
+      header .header-logo {
+          font-size: 4rem;
+          margin-bottom: 0.5rem; /* Space below logo when stacked */
+          margin-left: 0; /* Remove left margin when centered */
+      }
+      header nav {
+          margin-top: 0.5rem; /* Space above nav when stacked */
+          margin-right: 0; /* Remove right margin when centered */
+      }
+      .join-us-headline {
+        font-size: 3rem;
+      }
+      .join-us-subheadline {
+        font-size: 1.4rem;
+      }
+      .join-us-paragraph {
+        font-size: 1rem;
+      }
+      .benefit-card h3 {
+        font-size: 1.2rem;
+      }
+      .benefit-card i {
+        font-size: 2rem;
+      }
+      .how-it-works-step .step-number {
+        font-size: 2.5rem;
+      }
+      .how-it-works-step p {
+        font-size: 1rem;
+      }
+      .signup-form-container h3 {
+        font-size: 2rem;
+      }
+      .signup-form-container button {
+        font-size: 1rem;
+        padding: 0.8rem 1.5rem;
+      }
+      .testimonial-card {
+        font-size: 1rem;
+      }
+      .faq-section h2 {
+        font-size: 2rem;
+      }
+      .faq-item h3 {
+        font-size: 1.1rem;
+      }
+      .faq-item p {
+        font-size: 0.9rem;
+      }
+    }
+    @media (max-width: 480px) {
+      .join-us-headline {
+        font-size: 2.5rem;
+      }
+      .join-us-subheadline {
+        font-size: 1.1rem;
+      }
+      .join-us-paragraph {
+        font-size: 0.9rem;
+      }
+      .benefit-grid {
+        grid-template-columns: 1fr; /* Ensure 1 column for very small screens */
+      }
+      .benefit-card {
+        min-height: 150px; /* Smaller min-height for very small screens */
+      }
+      .benefit-card h3 {
+        font-size: 1rem;
+      }
+      .benefit-card i {
+        font-size: 1.8rem;
+      }
+      .how-it-works-step .step-number {
+        font-size: 2rem;
+      }
+      .how-it-works-step p {
+        font-size: 0.9rem;
+      }
+      .signup-form-container h3 {
+        font-size: 1.8rem;
+      }
+      .signup-form-container button {
+        font-size: 0.9rem;
+        padding: 0.7rem 1.2rem;
+      }
+      .testimonial-card {
+        font-size: 0.9rem;
+      }
+      .faq-section h2 {
+        font-size: 1.8rem;
+      }
+      .faq-item h3 {
+        font-size: 1rem;
+      }
+      .faq-item p {
+        font-size: 0.85rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header - Consistent with main site -->
+  <header class="bg-[#d94a44] px-3 pt-2 pb-1">
+    <a href="index.html" class="header-logo">AWAKEN</a>
+    <nav>
+      <a href="shop.html">Shop</a>
+      <a href="manifesto.html">Manifesto</a>
+      <a href="join-us.html">Join Us</a>
+      <a href="archives.html">Archives</a>
+      <a href="index.html#about">About</a> <!-- Moved About after Archives -->
+      <div class="cart-icon-container" onclick="toggleCart()">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count" id="cart-count">0</span>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Join Us Content Section -->
+  <section class="content-section">
+    <div class="join-us-container">
+      <h1 class="join-us-headline font-tattler">JOIN US</h1>
+      <p class="join-us-subheadline">Are you ready to transcend the mundane and embrace true purpose?</p>
+      <p class="join-us-paragraph">
+        The time for passive observation is over. The AWAKEN collective is expanding, seeking enlightened individuals ready to spread the truth and unlock their true potential. This is more than just an opportunity; it's a calling. Become an affiliate and help us illuminate the path for others, while securing your own place in the New World Order.
+      </p>
+
+      <h2 class="manifesto-section-title">Why Join Awaken?</h2>
+      <div class="benefit-grid">
+        <div class="benefit-card">
+          <i class="fas fa-hand-holding-usd"></i>
+          <h3>Financial Liberation</h3>
+          <p>Earn substantial commissions by sharing the tools of awakening. Your efforts will be justly rewarded.</p>
+        </div>
+        <div class="benefit-card">
+          <i class="fas fa-lightbulb"></i>
+          <h3>Spiritual Growth</h3>
+          <p>Deepen your understanding of the universe and align with the higher truths of the AWAKEN philosophy.</p>
+        </div>
+        <div class="benefit-card">
+          <i class="fas fa-users"></i>
+          <h3>Exclusive Community</h3>
+          <p>Gain access to the inner circle of the awakened, a network of like-minded individuals shaping the future.</p>
+        </div>
+        <div class="benefit-card">
+          <i class="fas fa-bullhorn"></i>
+          <h3>Spread The Truth</h3>
+          <p>Be a vital voice in the grand awakening, helping others shed their illusions and see clearly.</p>
+        </div>
+        <div class="benefit-card">
+          <i class="fas fa-chart-line"></i>
+          <h3>Uncapped Potential</h3>
+          <p>Your dedication directly correlates with your influence and rewards. The sky is not the limit; it's just the beginning.</p>
+        </div>
+        <div class="benefit-card">
+          <i class="fas fa-eye"></i>
+          <h3>Inner Knowledge</h3> <!-- Restored "Inner Knowledge" text -->
+          <p>Receive privileged insights and advanced teachings reserved for those committed to the cause.</p>
+        </div>
+      </div>
+
+      <h2 class="manifesto-section-title">Your Path to Influence</h2>
+      <div class="how-it-works-step">
+        <span class="step-number">01</span>
+        <p><strong>Apply for Induction:</strong> Fill out the form below. We seek those with genuine conviction, not just curiosity.</p>
+      </div>
+      <div class="how-it-works-step">
+        <span class="step-number">02</span>
+        <p><strong>Receive Your Tools:</strong> Once accepted, you'll gain access to exclusive resources, insights, and your unique affiliate codes.</p>
+      </div>
+      <div class="how-it-works-step">
+        <span class="step-number">03</span>
+        <p><strong>Awaken The Masses:</strong> Share the message, promote the artifacts, and witness the transformation in yourself and others.</p>
+      </div>
+
+      <div class="signup-form-container">
+       <h3>Initiate Your Awakening</h3>
+       <a href="https://awakencult.goaffpro.com/create-account" target="_blank">
+      <button type="button">Join The Collective</button>
+       </a>
+      </div>
+
+
+      <div class="testimonial-card">
+        "Before AWAKEN, I was lost in the noise. Now, I see the patterns, I understand the truth, and I'm building a future beyond my wildest dreams. This isn't just an income; it's purpose."
+        <strong>- A. Veritas, Awakened Affiliate</strong>
+      </div>
+
+      <!-- New FAQ Section -->
+      <div class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-item">
+          <h3>What is AWAKEN?</h3>
+          <p> AWAKEN CULT is a growing movement of individuals dedicated to uncovering hidden truths, achieving personal enlightenment, and participating in the formation of a New World Order based on clarity and purpose. We provide tools and knowledge for those ready to transcend societal illusions.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Is AWAKEN a real cult?</h3>
+          <p>We are a philosophical movement and a community of like-minded individuals. Our focus is on personal growth, critical thinking, and the pursuit of truth, rather than traditional cult practices. We encourage independent thought and exploration within our guiding principles.</p>
+        </div>
+        <div class="faq-item">
+          <h3>What kind of "artifacts" do you offer?</h3>
+          <p>Our "artifacts" are symbolic and practical tools designed to aid in your awakening journey. They include apparel, literature, and unique items that represent the principles and messages of the AWAKEN movement. Each artifact serves as a reminder of your commitment to truth.</p>
+        </div>
+        <div class="faq-item">
+          <h3>How can I contribute to the movement?</h3>
+          <p>Beyond joining, you can contribute by actively engaging with our community, sharing the manifesto, and promoting the artifacts. Your personal journey of awakening and the spread of our message are the most valuable contributions.</p>
+        </div>
+        <div class="faq-item">
+          <h3>What does "The Veil is Thinning" mean?</h3>
+          <p>"The Veil is Thinning" refers to the increasing transparency of hidden systems and truths that have long obscured human perception. It signifies a period of heightened awareness where illusions are breaking down, and the path to true understanding becomes clearer for those who seek it.</p>
+        </div>
+      </div>
+      <!-- End New FAQ Section -->
+
+    </div>
+  </section>
+
+  <!-- Footer - Consistent with main site -->
+  <footer class="bg-[#f3f0e7] border-t border-black text-xs font-roboto-condensed text-center py-4">
+    <div class="max-w-6xl mx-auto px-4">
+      <p class="mb-2">© 2025 AWAKEN CULT. Contact: <a href="mailto:info@awakencult.com" class="underline">info@awakencult.com</a></p>
+      <div class="social-icons">
+        <a href="https://instagram.com/awakencult" class="hover:text-gray-600" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://x.com/awakencult" class="hover:text-gray-600" target="_blank"><i class="fab fa-twitter"></i></a>
+        <a href="https://youtube.com/@awakencult" target="_blank"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

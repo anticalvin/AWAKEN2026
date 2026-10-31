@@ -1,0 +1,1864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AWAKEN Cult Newspaper - Underground Market</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+  <style>
+    /* Import Google Fonts - Consistent with main site */
+    @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Playfair+Display&family=Verdana:wght@400;700&display=swap'); /* Added homepage fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap'); /* For 'HATED' and 'WIDE SHUT' */
+
+
+    /* Custom font classes - Consistent with main site */
+    .font-anton { font-family: 'Anton', sans-serif; }
+    .font-roboto-condensed { font-family: 'Roboto Condensed', sans-serif; }
+    .font-roboto-slab { font-family: 'Roboto Slab', serif; }
+    .font-tattler { font-family: 'Anton', sans-serif; letter-spacing: -0.05em; }
+    .font-national { font-family: 'Oswald', sans-serif; font-weight: 700; letter-spacing: 0.1em; }
+    .font-bebas-neue { font-family: 'Bebas Neue', sans-serif; }
+    .font-playfair-display { font-family: 'Playfair Display', serif; }
+
+
+    /* Basic body styles - Consistent with main site */
+    body {
+      background-color: #f3f0e7; /* Light newspaper-like background */
+      color: #000; /* Black text */
+      font-family: 'Roboto Condensed', sans-serif; /* Default font for body */
+      line-height: 1.6;
+      overflow-x: hidden; /* Prevent horizontal scrolling */
+      margin: 0; /* Ensure no default body margin */
+      padding: 0; /* Ensure no default body padding */
+    }
+
+    /* Marquee animation - Consistent with homepage */
+    @keyframes marquee {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(var(--marquee-distance)); }
+    }
+    .marquee-container {
+        width: 100%;
+        overflow: hidden;
+        background-color: black;
+        color: white;
+        font-family: 'Roboto Condensed', sans-serif;
+        padding: 0.25rem 0;
+    }
+    .marquee-content-wrapper {
+        display: flex;
+        width: max-content;
+        animation: marquee var(--marquee-speed) linear infinite;
+    }
+    .marquee-text {
+        white-space: nowrap;
+        padding-right: 2rem;
+        flex-shrink: 0;
+    }
+
+    /* General section padding and max-width - Consistent with main site */
+    .content-section {
+      padding: 3rem 1rem; /* Default vertical padding for sections */
+      max-width: 1400px; /* Adjusted to match index-10.html */
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Header specific styles - Consistent with main site */
+    header {
+        background-color: #d94a44;
+        display: flex;
+        flex-direction: column; /* Stack logo/nav and marquee vertically */
+        width: 100%;
+        box-sizing: border-box;
+        position: sticky; /* Make header sticky */
+        top: 0;
+        z-index: 99; /* Above other content */
+    }
+    .header-top-row {
+        padding: 0.5rem 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    header .header-logo {
+        font-family: 'Anton', sans-serif;
+        font-size: 4rem;
+        color: #f3f0e7;
+        line-height: 1;
+        text-decoration: none;
+        cursor: pointer;
+        transition: color 0.2s;
+        margin-left: 1rem;
+    }
+    header .header-logo:hover {
+        color: #fff;
+    }
+    header nav {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        margin-right: 1rem;
+    }
+    header nav a {
+        color: #f3f0e7;
+        font-family: 'Roboto Condensed', sans-serif;
+        font-size: 0.875rem;
+        text-decoration: none;
+        margin-left: 1.5rem;
+        transition: underline 0.2s;
+    }
+    header nav a:hover {
+        text-decoration: underline;
+    }
+    .cart-icon-container {
+      position: relative;
+      cursor: pointer;
+      color: #f3f0e7;
+      font-size: 1.5rem;
+      margin-left: 1.5rem;
+    }
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: black;
+      color: white;
+      border-radius: 50%;
+      padding: 0.1rem 0.4rem;
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+
+    /* Shop Page Hero Section */
+    .shop-hero-section {
+      background-color: #000;
+      color: #f3f0e7;
+      padding: 4rem 1rem;
+      text-align: center;
+    }
+    .shop-hero-title {
+      font-family: 'Anton', sans-serif;
+      font-size: 5rem;
+      line-height: 1;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .shop-hero-subtitle {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: 1.5rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* Product Grid Section */
+    .product-grid-section {
+      padding-top: 3rem;
+    }
+
+    /* Product Card Styles - NOW MATCHING index-10.html */
+    .product-card {
+      border: 1px solid black;
+      padding: 1rem; /* Adjusted to match index-10.html's shop-product-card padding */
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    /* Apply aspect-square only on large screens and up */
+    @media (min-width: 1024px) { /* Desktop screens and up */
+      .product-card {
+        aspect-ratio: 1 / 1; /* Make cards square on desktop */
+      }
+    }
+
+    .product-card .product-image-container {
+      width: 100%;
+      height: auto; /* Allow height to adjust */
+      min-height: 12rem; /* Adjusted min-height to match index-10.html */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-grow: 1;
+    }
+
+    @media (min-width: 1024px) { /* Desktop screens and up */
+      .product-card .product-image-container {
+        height: 16rem; /* Fixed height for desktop to fit square card */
+        min-height: unset; /* Remove min-height override for desktop */
+      }
+    }
+
+    .product-card img {
+      max-width: 100%;
+      max-height: 100%;
+      height: auto;
+      object-fit: contain;
+      margin: 0 auto;
+      display: block;
+    }
+
+    .product-card h3 {
+      font-family: 'Roboto Slab', serif; /* Changed to Roboto Slab as in index-10.html */
+      font-size: 1.25rem; /* Adjusted to match index-10.html's larger font size */
+      font-weight: bold;
+      margin-top: 0.75rem; /* Tighter margin */
+      margin-bottom: 0.25rem;
+    }
+    .product-card p.price {
+      font-family: 'Roboto Condensed', sans-serif; /* Changed to Roboto Condensed as in index-10.html */
+      font-size: 1rem; /* Adjusted to match index-10.html's larger font size */
+      font-weight: bold;
+      color: black;
+      margin-bottom: 0.75rem; /* Adjusted margin */
+    }
+    .product-card p {
+        margin: 0.25rem 0; /* Tighter spacing for general paragraphs */
+        line-height: 1.3;
+        color: #111;
+    }
+
+
+    .product-card .add-to-cart-btn {
+      background-color: black;
+      color: white;
+      padding: 0.75rem 1.5rem; /* Adjusted to match index-10.html's larger button padding */
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 1rem; /* Adjusted to match index-10.html's larger button font size */
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      width: calc(100% - 2rem); /* Match index-10.html's width behavior (padding 1rem on each side) */
+      max-width: 150px; /* Keep max width to prevent it from getting too wide, as in index-10.html */
+      margin: 0.5rem auto 0 auto; /* Center button */
+      display: block;
+    }
+    .product-card .add-to-cart-btn:hover {
+      background-color: #333;
+    }
+
+
+    /* Propaganda Poster Section Styles - Adjusted for no whitespace around image */
+    .propaganda-poster-card {
+      border: 1px solid black;
+      background-color: transparent;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .propaganda-poster-card:hover {
+        background-color: #e0e0e0; /* Light gray highlight on hover */
+    }
+
+    .propaganda-poster-card .image-wrapper {
+      width: 100%;
+      height: auto;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .propaganda-poster-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      margin: 0;
+      border: none;
+    }
+
+    .propaganda-poster-card .caption-text {
+      padding: 0.75rem;
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: 0.75rem;
+      line-height: 1.3;
+      margin-top: 0;
+      text-align: center;
+    }
+
+    /* Archive Covers for Shop Page (New Dispatches from the Field Section) */
+    .shop-archive-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid for covers */
+      gap: 2rem;
+      justify-items: center;
+      padding: 2rem 0; /* Add some padding */
+    }
+
+    .magazine-cover {
+      width: 100%;
+      max-width: 320px; /* Max width for each cover */
+      aspect-ratio: 2 / 3; /* Standard magazine aspect ratio */
+      border: 2px solid black;
+      box-shadow: 8px 8px 0px rgba(0,0,0,0.8); /* Strong shadow for depth */
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end; /* Align content to bottom by default */
+      align-items: center;
+      text-align: center;
+      text-decoration: none; /* Remove underline from link */
+      color: inherit; /* Inherit text color */
+    }
+
+    .magazine-cover:hover {
+      transform: translateY(-8px);
+      box-shadow: 12px 12px 0px rgba(0,0,0,0.8);
+    }
+
+    /* Specific Cover Styles (copied from archives-page) */
+
+    /* NEW WORLD ORDER Cover */
+    .cover-nwo {
+      background-color: #1a1a1a;
+      color: #f3f0e7;
+      justify-content: center; /* Center content vertically */
+    }
+    .cover-nwo .title {
+      font-family: 'Anton', sans-serif;
+      font-size: 3.5rem;
+      line-height: 0.9;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      color: #d94a44; /* Red accent */
+      text-shadow: 4px 4px black;
+    }
+    .cover-nwo .subtitle {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: 1rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+    }
+    .cover-nwo .tagline {
+      font-family: 'Roboto Slab', serif;
+      font-size: 0.75rem;
+      line-height: 1.2;
+      max-width: 80%;
+      margin: 0 auto;
+    }
+    .cover-nwo .logo-text {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.2em;
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      border: 1px solid #f3f0e7;
+      padding: 0.2rem 0.5rem;
+    }
+    .cover-nwo .date {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        font-family: 'Roboto Condensed', sans-serif;
+        font-size: 0.75rem;
+        font-weight: bold;
+    }
+
+    /* NOISE Cover */
+    .cover-noise {
+      background-color: #e0e0e0;
+      color: #000;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1rem;
+      box-sizing: border-box;
+      background-image: url('data:image/svg+xml,%3Csvg width="6" height="6" viewBox="0 0 6 6" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%239C9C9C" fill-opacity="0.4"%3E%3Cpath d="M1 3h1v1H1V3zm2 0h1v1H3V3zM0 2h1v1H0V2zm4 0h1v1H4V2z"/%3E%3C/g%3E%3C/svg%3E'); /* Subtle noise pattern */
+    }
+    .cover-noise .top-bar {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: 0.7rem;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    .cover-noise .main-title {
+      font-family: 'Anton', sans-serif;
+      font-size: 4.5rem;
+      line-height: 0.8;
+      text-transform: uppercase;
+      text-align: center;
+      position: relative;
+      z-index: 10;
+      margin-top: 2rem;
+      color: #d94a44;
+      -webkit-text-stroke: 1px black; /* Outline effect */
+      text-stroke: 1px black;
+    }
+    .cover-noise .subtitle-noise {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: 1rem;
+      font-weight: bold;
+      text-align: center;
+      margin-top: -0.5rem;
+      margin-bottom: 1rem;
+      position: relative;
+      z-index: 10;
+    }
+    .cover-noise .noise-graphic {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      height: 80%;
+      background-color: rgba(0,0,0,0.1);
+      border-radius: 50%;
+      filter: blur(10px);
+      z-index: 5;
+    }
+    .cover-noise .small-text {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: 0.6rem;
+      text-align: center;
+      margin-top: auto; /* Push to bottom */
+      padding-bottom: 0.5rem;
+    }
+
+    /* HATED Cover */
+    .cover-hated {
+      background-color: #000;
+      color: #f3f0e7;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+      box-sizing: border-box;
+      background-image: url('https://placehold.co/320x480/222222/000000?text='); /* Placeholder for a gritty background image */
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+    .cover-hated::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.8));
+        z-index: 1;
+    }
+    .cover-hated > * {
+        position: relative;
+        z-index: 2;
+    }
+    .cover-hated .title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 5rem;
+      line-height: 0.8;
+      text-transform: uppercase;
+      color: white;
+      text-shadow: 4px 4px #d94a44; /* Red shadow */
+      margin-bottom: 0.5rem;
+      transform: rotate(-5deg); /* Slight tilt */
+    }
+    .cover-hated .subtitle {
+      font-family: 'Roboto Slab', serif;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #f3f0e7;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .cover-hated .issue-info {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: 0.7rem;
+      position: absolute;
+      bottom: 1rem;
+      left: 1rem;
+      right: 1rem;
+      display: flex;
+      justify-content: space-between;
+      text-transform: uppercase;
+    }
+    .cover-hated .tagline {
+        font-family: 'Roboto Condensed', sans-serif;
+        font-size: 0.8rem;
+        margin-top: 1rem;
+        max-width: 80%;
+        line-height: 1.3;
+    }
+
+    /* WIDE SHUT Cover */
+    .cover-wide-shut {
+      background-color: #0d1a26; /* Dark blue/black */
+      color: #f3f0e7;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+      box-sizing: border-box;
+      position: relative;
+      overflow: hidden;
+    }
+    .cover-wide-shut::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at center, rgba(255,255,255,0.05) 0%, transparent 70%);
+        z-index: 1;
+    }
+    .cover-wide-shut .awaken-logo {
+        font-family: 'Anton', sans-serif;
+        font-size: 2.5rem;
+        color: #d94a44; /* Red accent */
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        letter-spacing: 0.1em;
+        z-index: 2;
+    }
+    .cover-wide-shut .title {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      line-height: 1;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 0.5rem;
+      color: white;
+      position: relative;
+      z-index: 2;
+    }
+    .cover-wide-shut .subtitle {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-style: italic;
+      text-align: center;
+      margin-bottom: 1rem;
+      color: #ccc;
+      position: relative;
+      z-index: 2;
+    }
+    .cover-wide-shut .eye-icon {
+        font-size: 4rem;
+        color: #f3f0e7;
+        margin-bottom: 1rem;
+        position: relative;
+        z-index: 2;
+    }
+    .cover-wide-shut .feature-list {
+        font-family: 'Roboto Condensed', sans-serif;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        position: absolute;
+        bottom: 1rem;
+        right: 1rem;
+        text-align: right;
+        z-index: 2;
+    }
+    .cover-wide-shut .feature-list li {
+        margin-bottom: 0.2rem;
+        opacity: 0.8;
+    }
+
+    /* Cart Overlay - Consistent with main site */
+    .cart-overlay {
+      position: fixed;
+      top: 0;
+      right: -400px; /* Hidden off-screen */
+      width: 350px; /* Fixed width for the cart */
+      height: 100%;
+      background-color: #f3f0e7;
+      border-left: 2px solid black;
+      box-shadow: -4px 0 8px rgba(0,0,0,0.2);
+      z-index: 999;
+      transition: right 0.3s ease-in-out;
+      display: flex;
+      flex-direction: column;
+    }
+    .cart-overlay.active {
+      right: 0; /* Slide in */
+    }
+    .cart-header {
+      background-color: black;
+      color: white;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Anton', sans-serif;
+      font-size: 1.5rem;
+      text-transform: uppercase;
+    }
+    .cart-close-button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .cart-items {
+      flex-grow: 1;
+      padding: 1rem;
+      overflow-y: auto;
+    }
+    .cart-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+      border-bottom: 1px dashed #ccc;
+      padding-bottom: 0.5rem;
+    }
+    .cart-item-image {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      margin-right: 0.75rem;
+      border: 1px solid #eee;
+    }
+    .cart-item-details {
+      flex-grow: 1;
+      text-align: left;
+    }
+    .cart-item-details h4 {
+      font-weight: bold;
+      font-size: 0.95rem;
+    }
+    .cart-item-details p {
+      font-size: 0.85rem;
+      color: #555;
+    }
+    .cart-item-remove {
+      background-color: #d94a44;
+      color: white;
+      border: none;
+      padding: 0.3rem 0.6rem;
+      font-size: 0.75rem;
+      cursor: pointer;
+      border-radius: 0; /* Sharp corners */
+    }
+    .cart-item-remove:hover {
+      background-color: #b92a1e;
+    }
+    .cart-summary {
+      padding: 1rem;
+      border-top: 2px solid black;
+      font-family: 'Roboto Slab', serif;
+    }
+    .cart-summary p {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+    .cart-checkout-btn {
+      background-color: #d94a44;
+      color: white;
+      padding: 1rem;
+      width: 100%;
+      text-align: center;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      border-radius: 0; /* Sharp corners */
+    }
+    .cart-checkout-btn:hover {
+      background-color: #b92a1e;
+    }
+    .empty-cart-message {
+      text-align: center;
+      padding: 2rem;
+      color: #777;
+    }
+    /* New style for ASCII art */
+    .empty-cart-ascii {
+        font-family: 'monospace', 'Courier New', Courier, monospace;
+        white-space: pre;
+        font-size: 1.2rem; /* Increased font size for better visibility */
+        line-height: 1.2; /* Adjusted line height */
+        margin: 1rem auto;
+        color: #555;
+        /* Adjust for centering and preventing cutoff */
+        max-width: 100%; /* Ensure it doesn't overflow */
+        box-sizing: border-box; /* Include padding/border in width */
+        overflow-x: hidden; /* Hide horizontal overflow if any */
+        padding: 0 10px; /* Add some horizontal padding to prevent cutoff */
+    }
+
+    /* General Modal Overlay */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-content-small {
+      background-color: #f3f0e7;
+      padding: 1.5rem;
+      border: 2px solid black;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      max-width: 400px;
+      width: 90%;
+      transform: translateY(-20px);
+      transition: transform 0.3s ease-in-out;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-overlay.active .modal-content-small {
+      transform: translateY(0);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid black;
+      padding-bottom: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .modal-header h3 {
+      font-family: 'Anton', sans-serif;
+      font-size: 1.8rem;
+      text-transform: uppercase;
+    }
+
+    .modal-close-button {
+      background: none;
+      border: none;
+      font-size: 2rem;
+      cursor: pointer;
+      color: #000;
+      line-height: 1;
+    }
+
+    .modal-body {
+      text-align: center;
+    }
+
+    .size-option-btn {
+      background-color: #eee;
+      border: 1px solid #ccc;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      transition: background-color 0.2s, border-color 0.2s;
+      border-radius: 4px;
+      font-family: 'Roboto Condensed', sans-serif;
+    }
+
+    .size-option-btn:hover {
+      background-color: #ddd;
+    }
+
+    .size-option-btn.selected {
+      background-color: #d94a44;
+      color: white;
+      border-color: #d94a44;
+    }
+
+    /* Specific style for modal's Add to Cart button */
+    #add-to-cart-modal-btn {
+      background-color: black; /* Ensure it's black */
+      color: white;
+      padding: 0.75rem 1.5rem; /* Adjusted to match index-10.html's button style */
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 1rem; /* Adjusted to match index-10.html's button style */
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      width: calc(100% - 2rem); /* Full width within modal, accounting for padding */
+      max-width: 150px; /* Optional: constrain max width */
+      margin: 1rem auto 0 auto; /* Center button and add top margin */
+      display: block;
+    }
+
+    #add-to-cart-modal-btn:hover {
+      background-color: #333;
+    }
+
+
+    /* Responsive adjustments for header */
+    @media (min-width: 1024px) { /* Desktop screens and up */
+      header .header-logo {
+          font-size: 6rem;
+      }
+      header nav a {
+          font-size: 1rem;
+          margin-left: 2.5rem;
+      }
+      /* Desktop 3-column grid for products */
+      #product-list {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      /* Desktop centering for featured product text */
+      .featured-product-text-container {
+        text-align: center;
+      }
+    }
+    @media (max-width: 1023px) { /* All screens smaller than desktop */
+      header .header-top-row {
+          flex-direction: column;
+          padding: 0.5rem 1rem;
+      }
+      header .header-logo {
+          font-size: 4rem;
+          margin-bottom: 0.5rem;
+          margin-left: 0;
+      }
+      header nav {
+          text-align: center;
+          width: 100%;
+          margin-top: 0.5rem;
+          margin-right: 0;
+          justify-content: center;
+          flex-wrap: wrap;
+      }
+      header nav a {
+          font-size: 0.875rem;
+          margin: 0 0.5rem;
+      }
+      .cart-icon-container {
+          font-size: 1.2rem;
+          margin-left: 0.5rem;
+      }
+      .marquee-container {
+          top: auto;
+          position: relative;
+      }
+      .shop-hero-title {
+        font-size: 3rem;
+      }
+      .shop-hero-subtitle {
+        font-size: 1.2rem;
+      }
+      /* Mobile 1-column grid for products */
+      #product-list {
+        grid-template-columns: 1fr; /* Single column for mobile */
+      }
+      .product-card {
+        padding: 1rem; /* Matches index-10.html's shop-product-card padding */
+        width: 100%; /* Take full width of its container */
+        margin: 0 auto; /* Center the card */
+        aspect-ratio: auto; /* Remove fixed aspect ratio for mobile */
+        height: auto; /* Allow height to adjust */
+      }
+      .product-card .product-image-container {
+        height: auto; /* Allow height to adjust */
+        min-height: 12rem; /* Keep a minimum height for images */
+        margin-bottom: 0.5rem; /* More space below image */
+      }
+      .product-card h3 {
+        font-size: 1.25rem; /* Matches index-10.html's font size */
+        margin-bottom: 0.25rem; /* Adjusted margin */
+      }
+      .product-card .price {
+        font-size: 1rem; /* Matches index-10.html's font size */
+        margin-bottom: 0.5rem; /* Adjusted margin */
+      }
+      .product-card .add-to-cart-btn {
+        font-size: 1rem; /* Matches index-10.html button font size */
+        padding: 0.75rem 1.5rem; /* Matches index-10.html button padding */
+        width: calc(100% - 2rem); /* Make button width fit content */
+      }
+      /* Archive covers on mobile */
+      .shop-archive-grid {
+        grid-template-columns: 1fr;
+      }
+      .magazine-cover {
+        max-width: 90%; /* Allow covers to be wider on mobile */
+      }
+      .cover-nwo .title, .cover-noise .main-title, .cover-hated .title, .cover-wide-shut .title {
+        font-size: 3rem; /* Adjust title size for mobile */
+      }
+      .cover-nwo .subtitle, .cover-noise .subtitle-noise, .cover-hated .subtitle, .cover-wide-shut .subtitle {
+        font-size: 0.9rem;
+      }
+      .cover-nwo .tagline, .cover-noise .small-text, .cover-hated .tagline, .cover-wide-shut .feature-list li {
+        font-size: 0.6rem;
+      }
+      .cover-wide-shut .awaken-logo {
+        font-size: 1.8rem;
+      }
+      .cover-wide-shut .eye-icon {
+        font-size: 3rem;
+      }
+      .cart-overlay {
+        width: 100%; /* Full width on mobile */
+        right: -100vw;
+      }
+      .cart-overlay.active {
+        right: 0;
+      }
+      /* Mobile centering for featured product text */
+      .featured-product-text-container {
+        text-align: center;
+      }
+    }
+
+    /* Very small mobile adjustments (matching index-10.html 480px breakpoint) */
+    @media (max-width: 480px) {
+      .product-card {
+        padding: 0.75rem; /* Matches index-10.html .shop-item padding */
+      }
+      .product-card h3 {
+        font-size: 1.1rem; /* Adjusted to be slightly smaller than 1.25rem */
+      }
+      .product-card .price {
+        font-size: 0.9rem; /* Adjusted to be slightly smaller than 1rem */
+      }
+      .product-card .add-to-cart-btn {
+        font-size: 0.9rem; /* Adjusted to be slightly smaller than 1rem */
+        padding: 0.6rem 1.2rem; /* Adjusted padding */
+      }
+    }
+    /* Social icons in footer */
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 0.75rem;
+      font-size: 1.25rem; /* Explicitly set font size for icons */
+    }
+    /* Featured Product Button Alignment */
+    .featured-product-button-container {
+        display: flex;
+        justify-content: center; /* Center the button horizontally */
+        width: 100%; /* Ensure it takes full width to center effectively */
+        margin-top: 1.5rem; /* Add some space above the button */
+    }
+  </style>
+</head>
+<body>
+  <!-- Header - Consistent with main site -->
+  <header>
+    <div class="header-top-row">
+      <a href="index.html" class="header-logo">AWAKEN</a>
+      <nav>
+        <a href="shop.html">Shop</a>
+        <a href="manifesto.html">Manifesto</a>
+        <a href="join-us.html">Join Us</a>
+        <a href="archives.html">Archives</a>
+        <a href="about.html">About</a>
+        <div class="cart-icon-container" onclick="toggleCart()">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-count" id="cart-count">0</span>
+        </div>
+      </nav>
+    </div>
+    <div class="marquee-container">
+      <div class="marquee-content-wrapper">
+        <span class="marquee-text">ENLIGHTENMENT IS A CHOICE • JOIN THE CULT • AWAKEN • THE NEW WORLD ORDER IS HERE • BUY THE MESSAGE • BURN THE MASK • REVEAL THE TRUTH •</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Shop Hero Section -->
+  <section class="shop-hero-section">
+    <h1 class="shop-hero-title font-tattler">UNDERGROUND MARKET</h1>
+    <p class="shop-hero-subtitle">
+      Acquire the artifacts of awakening. Each garment, each symbol, a step closer to true perception.
+      These are not mere clothes; they are declarations.
+    </p>
+  </section>
+
+  <!-- New Image Grid below Hero Section (on black background) -->
+  <section class="grid grid-cols-1 lg:grid-cols-3 gap-0 px-2 bg-black w-full box-border">
+    <img src="https://i.ibb.co/5x4jkM92/Chat-GPT-Image-Jul-15-2025-at-05-05-06-PM.webp" alt="Market Image 1" class="hidden lg:block w-full h-auto object-cover flex-shrink-0" />
+    <img src="https://i.ibb.co/Jw5NW7yv/Chat-GPT-Image-Jul-15-2025-at-05-05-18-PM.webp" alt="Market Image 2" class="hidden lg:block w-full h-auto object-cover flex-shrink-0" />
+    <img src="https://i.ibb.co/bjQJDRVq/bully.webp" alt="Market Image 3" class="block w-full h-auto object-cover flex-shrink-0" />
+  </section>
+
+  <!-- Product Grid Section -->
+  <section class="content-section product-grid-section">
+    <h2 class="text-3xl font-anton text-center mb-8">Latest Revelations</h2>
+    <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
+      <!-- Product cards will be injected here by JavaScript -->
+    </div>
+  </section>
+
+  <!-- New Article Section: Dispatches from the Field (now using archive covers) -->
+  <section class="content-section">
+    <h2 class="text-3xl font-anton text-center mb-8">Dispatches From The Field</h2>
+    <div class="shop-archive-grid">
+        <!-- NEW WORLD ORDER Cover -->
+        <a href="archive-detail.html?id=new_world_order" class="magazine-cover cover-nwo">
+            <span class="logo-text">AWAKEN</span>
+            <span class="date">JULY 2025</span>
+            <div class="flex flex-col items-center">
+                <div class="title">NEW WORLD</div>
+                <div class="title">ORDER</div>
+                <div class="subtitle">THE TRUTH WILL SET YOU FREE.</div>
+                <p class="tagline">Are you ready to comprehend the true scale of the transformation? Decades of whispers, now brought to light.</p>
+            </div>
+        </a>
+
+        <!-- NOISE Cover -->
+        <a href="archive-detail.html?id=noise" class="magazine-cover cover-noise">
+            <div class="top-bar">
+                <span>AWAKEN DISPATCH</span>
+                <span>ISSUE 007</span>
+            </div>
+            <div class="main-title">NOISE</div>
+            <div class="subtitle-noise">SILENCE THE STATIC, FIND THE SIGNAL</div>
+            <div class="noise-graphic"></div>
+            <p class="small-text">In a world saturated with disinformation, the true challenge is discerning the signal from the noise. Learn to filter, to discern, to find your inner quiet in the storm.</p>
+        </a>
+
+        <!-- HATED Cover -->
+        <a href="archive-detail.html?id=hated" class="magazine-cover cover-hated">
+            <div class="title">HATED</div>
+            <div class="subtitle">A CULT LOVE STORY</div>
+            <p class="tagline">They fear what they don't understand. Their hatred is proof of our impact. Embrace the fire within.</p>
+            <div class="issue-info">
+                <span>AWAKEN PRESS</span>
+                <span>VOL. III</span>
+                <span>2025</span>
+            </div>
+        </a>
+
+        <!-- WIDE SHUT Cover -->
+        <a href="archive-detail.html?id=wide_shut" class="magazine-cover cover-wide-shut">
+            <span class="awaken-logo">AWAKEN</span>
+            <i class="fas fa-eye eye-icon"></i> <!-- Eye icon -->
+            <div class="title">WIDE</div>
+            <div class="title">SHUT</div>
+            <div class="subtitle">The Veil Is Thinning. The Truth Is Uncomfortable.</div>
+            <ul class="feature-list">
+                <li>UNSEEN FORCES</li>
+                <li>HIDDEN REALITIES</li>
+                <li>THE AWAKENING</li>
+                <li>THE CULT'S AGENDA</li>
+            </ul>
+        </a>
+    </div>
+  </section>
+
+  <!-- Featured Product / Editorial Showcase -->
+  <section class="content-section mt-12">
+    <h2 class="text-3xl font-anton text-center mb-8">The Awakened Wardrobe: Featured Artifact</h2>
+    <div class="border border-black p-4 flex flex-col md:flex-row items-center gap-6 bg-white">
+      <div class="md:w-1/2">
+        <!-- Removed border from the image -->
+        <img src="https://i.ibb.co/mrTy6Mhw/fake-news-hoodie.webp" alt="Featured Fake News Hoodie" class="w-full h-auto object-cover" />
+      </div>
+      <div class="md:w-1/2 featured-product-text-container">
+        <h3 class="font-anton text-4xl uppercase mb-3">The "Fake News" Hoodie</h3>
+        <p class="font-roboto-slab text-lg italic mb-4">"They feed you lies. We wear the truth."</p>
+        <p class="font-roboto-condensed text-base mb-4">
+          In an era saturated with manufactured narratives, the "Fake News" Hoodie stands as a defiant emblem of critical thought. Crafted for comfort in the coming storm, its bold declaration is a shield against deception and a beacon for those who question. Join the ranks of the discerning.
+        </p>
+        <div class="featured-product-button-container">
+            <button class="bg-black text-white px-6 py-3 font-bold uppercase hover:bg-gray-800 transition-colors" onclick="window.location.href='product-detail.html?id=p2'">Unveil This Truth</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- New Propaganda Poster Section -->
+  <section class="content-section mt-12">
+    <h2 class="text-3xl font-anton text-center mb-8">Propaganda Dispatches</h2>
+    <div class="propaganda-poster-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="propaganda-poster-card" onclick="window.location.href='product-detail.html?id=poster1'">
+        <div class="image-wrapper">
+          <img src="https://i.ibb.co/Yrm6S69/awaken-new-1.webp" alt="Propaganda Poster 1" />
+        </div>
+        <p class="caption-text">"The Hand of Truth" - Circulated in Sector 7, 2025.</p>
+      </div>
+      <div class="propaganda-poster-card" onclick="window.location.href='product-detail.html?id=poster2'">
+        <div class="image-wrapper">
+          <img src="https://i.ibb.co/K1p3Mhr/awakewn-needs-you.webp" alt="Propaganda Poster 2" />
+        </div>
+        <p class="caption-text">"They Need You Blind" - Found near the Central Spire, 2024.</p>
+      </div>
+      <div class="propaganda-poster-card" onclick="window.location.href='product-detail.html?id=poster3'">
+        <div class="image-wrapper">
+          <img src="https://i.ibb.co/N2ZQQh1F/mcga-v8.webp" alt="Propaganda Poster 3" />
+        </div>
+        <p class="caption-text">"Wake Up Now" - Discovered in the Old World Archives, 2023.</p>
+      </div>
+      <div class="propaganda-poster-card" onclick="window.location.href='product-detail.html?id=poster4'">
+        <div class="image-wrapper">
+          <img src="https://i.ibb.co/0pxj2wXM/new-world.png" alt="Propaganda Poster 4" />
+        </div>
+        <p class="caption-text">"The All-Seeing Eye" - A timeless symbol of vigilance.</p>
+      </div>
+      <div class="propaganda-poster-card" onclick="window.location.href='product-detail.html?id=poster5'">
+        <div class="image-wrapper">
+          <img src="https://i.ibb.co/600vhk2J/wake-up.webp" alt="Propaganda Poster 5" />
+        </div>
+        <p class="caption-text">"Cult of Truth" - Embrace the collective consciousness.</p>
+      </div>
+      <div class="propaganda-poster-card" onclick="window.location.href='product-detail.html?id=poster6'">
+        <div class="image-wrapper">
+          <img src="https://i.ibb.co/1jmQJ8X/mmm.png" alt="Propaganda Poster 6" />
+        </div>
+        <p class="caption-text">"Awaken Your Inner Eye" - See beyond the illusion.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Shopping Cart Overlay -->
+  <div id="cart-overlay" class="cart-overlay">
+    <div class="cart-header">
+      <span>Your Artifacts</span>
+      <button class="cart-close-button" onclick="toggleCart()">&times;</button>
+    </div>
+    <div id="cart-items" class="cart-items">
+      <!-- Cart items will be injected here by JavaScript -->
+      <p class="empty-cart-message" id="empty-cart-message">
+        <pre class="empty-cart-ascii">
+  ____|   \  |   _ \ __ __| \ \   / 
+  __|    |\/ |  |   |   |    \   /  
+  |      |   |  ___/    |       |   
+ _____| _|  _| _|      _|      _|   
+            </pre>
+            <p>YOUR CART IS EMPTY.<br>ACQUIRE SOME TRUTH.</p>
+      </p>
+    </div>
+    <div class="cart-summary">
+      <p>Total: <span id="cart-total">$0.00</span></p>
+      <button class="cart-checkout-btn" onclick="proceedToShopifyCheckout()">Proceed to Checkout</button>
+    </div>
+  </div>
+
+  <!-- Size Selection Modal -->
+  <div id="size-selection-modal" class="modal-overlay hidden">
+    <div class="modal-content-small">
+      <div class="modal-header">
+        <h3 id="modal-product-name">Select Size</h3>
+        <button class="modal-close-button" onclick="hideSizeSelectionModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <img id="modal-product-image" src="" alt="Product Image" class="w-24 h-24 object-contain mx-auto mb-4 rounded" />
+        <p id="modal-product-price" class="text-lg font-bold mb-4"></p>
+        <div id="size-options" class="flex flex-wrap justify-center gap-2 mb-6">
+          <!-- Size buttons will be inserted here by JavaScript -->
+        </div>
+        <button id="add-to-cart-modal-btn" class="add-to-cart-btn w-full">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer - Consistent with main site -->
+  <footer class="bg-[#f3f0e7] border-t border-black font-roboto-condensed text-center py-4">
+    <div class="max-w-6xl mx-auto px-4">
+      <p class="mb-2 text-xs">© 2025 AWAKEN CULT. Contact: <a href="mailto:info@awakencult.com" class="underline">info@awakencult.com</a></p>
+      <div class="social-icons">
+        <a href="https://instagram.com/awakencult" class="hover:text-gray-600" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://x.com/awakencult" class="hover:text-gray-600" target="_blank"><i class="fab fa-twitter"></i></a>
+        <a href="https://youtube.com/@awakencult" target="_blank"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // --- Shopify API Configuration ---
+    const SHOPIFY_STORE_DOMAIN = 'awakencult.myshopify.com'; 
+    // IMPORTANT: If you regenerate your Shopify Storefront Access Token,
+    // make sure to update it here with the new value.
+    const SHOPIFY_STOREFRONT_ACCESS_TOKEN = 'af1c53acddd4c3e2499460673394c830'; 
+    // Updated API version to 2024-07 as the Checkout API was deprecated in older versions.
+    const SHOPIFY_GRAPHQL_ENDPOINT = `https://${SHOPIFY_STORE_DOMAIN}/api/2024-07/graphql.json`;
+
+    // Define product data with Shopify Variant IDs and descriptions/lore
+    // IMPORTANT: Replace 'gid://shopify/ProductVariant/YOUR_VARIANT_ID_HERE' with actual Shopify Variant IDs.
+    const products = [
+        { 
+            id: 'p6', 
+            name: 'MCGA Cap', 
+            price: 250.00, 
+            image: 'https://i.ibb.co/GvhVTBTc/MCGA-CAP.webp', 
+            shopifyVariantId: 'gid://shopify/ProductVariant/41554201346151',
+            description: 'Make Cults Great Again. This cap is a bold declaration, a nod to the resurgence of true belief and collective action. Wear it proudly as a member of the AWAKEN movement.',
+            lore: "A rallying cry from the early days of the movement, repurposed for the modern awakened."
+        }, 
+        {
+            id: 'p2',
+            name: 'Fake News Hoodie',
+            price: 550.00,
+            image: 'https://i.ibb.co/mrTy6Mhw/fake-news-hoodie.webp',
+            description: 'In an era saturated with manufactured narratives, the "Fake News" Hoodie stands as a defiant emblem of critical thought. Crafted for comfort in the coming storm, its bold declaration is a shield against deception and a beacon for those who question. Join the ranks of the discerning.',
+            variants: [
+                { size: 'Small', shopifyVariantId: 'gid://shopify/ProductVariant/41554317279335' },
+                { size: 'Medium', shopifyVariantId: 'gid://shopify/ProductVariant/41554317312103' },
+                { size: 'Large', shopifyVariantId: 'gid://shopify/ProductVariant/41554317344871' },
+                { size: 'XL', shopifyVariantId: 'gid://shopify/ProductVariant/41554317377639' },
+                { size: 'XXL', shopifyVariantId: 'gid://shopify/ProductVariant/41554317410407' }
+            ],
+            lore: "A staple among the truth-seekers, this hoodie was first seen during the 'Information Purge' of 2023."
+        },
+        {
+            id: 'p1',
+            name: 'XTCY Tee',
+            price: 300.00,
+            image: 'https://i.ibb.co/twNrP2xF/XTCYYYY.webp',
+            description: 'Embrace the euphoria of truth with the XTCY Tee. Crafted for comfort and clarity, this garment is a statement of your awakened state. Limited run for true believers.',
+            variants: [
+                { size: 'Small', shopifyVariantId: 'gid://shopify/ProductVariant/41554323144807' },
+                { size: 'Medium', shopifyVariantId: 'gid://shopify/ProductVariant/41554323177575' },
+                { size: 'Large', shopifyVariantId: 'gid://shopify/ProductVariant/41554323210343' },
+                { size: 'XL', shopifyVariantId: 'gid://shopify/ProductVariant/41554323243111' },
+                { size: 'XXL', shopifyVariantId: 'gid://shopify/ProductVariant/41554323275879' }
+            ],
+            lore: "Rumored to be inspired by ancient glyphs discovered in the 'Forbidden Archives', promoting heightened awareness."
+        },
+        {
+            id: 'p4',
+            name: 'Vision Jacket', 
+            price: 800.00,
+            image: 'https://i.ibb.co/JFyXsdVv/vzn-jacket.webp',
+            description: 'Experience clarity with the Visions Hoodie. Its unique design represents the unfolding of hidden realities, offering warmth and comfort as you navigate the complexities of the awakened world.',
+            variants: [
+                { size: 'Small', shopifyVariantId: 'gid://shopify/ProductVariant/41554326356071' },
+                { size: 'Medium', shopifyVariantId: 'gid://shopify/ProductVariant/41554326388839' },
+                { size: 'Large', shopifyVariantId: 'gid://shopify/ProductVariant/41554326421607' }
+            ],
+            lore: "This design appeared to our founder in a profound vision, depicting the layers of reality peeling away."
+        },
+        {
+            id: 'p5',
+            name: 'Obey Sweater',
+            price: 350.00,
+            image: 'https://i.ibb.co/V0FTWqC1/oberyyy.webp',
+            description: 'Conceal your identity, reveal your true self. The Burn Balaclava is a symbol of rebellion against the system, a statement that you are ready to shed the old world and embrace the new.',
+            variants: [
+                { size: 'Small', shopifyVariantId: 'gid://shopify/ProductVariant/41554328256615' },
+                { size: 'Medium', shopifyVariantId: 'gid://shopify/ProductVariant/41554328289383' },
+                { size: 'Large', shopifyVariantId: 'gid://shopify/ProductVariant/41554328322151' }
+            ],
+            lore: "First donned by the anonymous 'Shadow Collective' during their silent protests against the illusion."
+        },
+        { 
+            id: 'p3', 
+            name: 'Third Eye Balaclava', 
+            price: 280.00, 
+            image: 'https://i.ibb.co/JRsBZr2d/BURN-BALACLAVAAA.webp', 
+            description: 'The Third Eye Balaclava is a symbol of enhanced perception and concealed identity. Perfect for those who see beyond the veil and operate in the shadows of truth.',
+            variants: [
+                { color: 'Black', shopifyVariantId: 'gid://shopify/ProductVariant/41554330255463' },
+                { color: 'Cream', shopifyVariantId: 'gid://shopify/ProductVariant/41554330288231' },
+                { color: 'Green', shopifyVariantId: 'gid://shopify/ProductVariant/41554330320999' }
+            ],
+            lore: "Rumored to be inspired by ancient glyphs discovered in the 'Forbidden Archives', promoting heightened awareness."
+        },
+        // New products from new-canvas-html, with placeholder Shopify Variant IDs
+        {
+            id: 'p7',
+            name: 'Exclusive Baby Tee',
+            price: 90.00,
+            image: 'https://i.ibb.co/Y72p2qg9/baby-tee-2.png',
+            description: 'Carry your revelations with you. This durable backpack is designed for the journey of truth-seeking, with hidden compartments for your most sacred findings.',
+            variants: [
+              { size: 'Small', shopifyVariantId: 'gid://shopify/ProductVariant/41554597675111' },
+              { size: 'Medium', shopifyVariantId: 'gid://shopify/ProductVariant/41554597707879' },
+              { size: 'Large', shopifyVariantId: 'gid://shopify/ProductVariant/41554597740647' }
+            ],
+            lore: "Equipped for the long road ahead, used by our scouts in their expeditions for ancient knowledge."
+        },
+        {
+            id: 'p8',
+            name: 'Shook Tee',
+            price: 40.00,
+            image: 'https://i.ibb.co/qM5H0KXG/shook-final.webp',
+            description: 'Protect your hands as you dismantle the old world. These gloves offer comfort and grip, perfect for handling the delicate threads of reality.',
+            variants: [
+              { size: 'S', shopifyVariantId: 'gid://shopify/ProductVariant/41554599805031' },
+              { size: 'M', shopifyVariantId: 'gid://shopify/ProductVariant/41554599837799' },
+              { size: 'L', shopifyVariantId: 'gid://shopify/ProductVariant/41554599870567' }
+            ],
+            lore: "Worn by code-breakers and truth-weavers, essential for intricate work in the digital realm."
+        },
+        {
+            id: 'p9',
+            name: 'NWO Tank',
+            price: 25.00,
+            image: 'https://i.ibb.co/60JYHjrZ/tank.webp',
+            description: 'Start your day with a dose of truth. This mug is inscribed with ancient symbols of awakening, perfect for your morning rituals.',
+            variants: [
+              { size: 'S', shopifyVariantId: 'gid://shopify/ProductVariant/41554600001639' },
+              { size: 'M', shopifyVariantId: 'gid://shopify/ProductVariant/41554600034407' },
+              { size: 'L', shopifyVariantId: 'gid://shopify/ProductVariant/41554600067175' }
+            ],
+            lore: "Used in the daily ceremonies of clarity, helping initiates focus their intentions."
+        },
+        {
+            id: 'p10',
+            name: 'Combat Pants',
+            price: 60.00,
+            image: 'https://i.ibb.co/kgfzBRBr/pants.png',
+            description: 'See the world as it truly is. These glasses are designed to cut through the static and reveal the hidden patterns of control.',
+            variants: [
+              { size: '28', shopifyVariantId: 'gid://shopify/ProductVariant/41554604916839' },
+              { size: '30', shopifyVariantId: 'gid://shopify/ProductVariant/41554604982375' },
+              { size: '32', shopifyVariantId: 'gid://shopify/ProductVariant/41554605047911' },
+              { size: '34', shopifyVariantId: 'gid://shopify/ProductVariant/41554605113447' },
+              { size: '36', shopifyVariantId: 'gid://shopify/ProductVariant/41554605178983' },
+              { size: '38', shopifyVariantId: 'gid://shopify/ProductVariant/41554605244519' },
+              { size: '40', shopifyVariantId: 'gid://shopify/ProductVariant/41554605310055' }
+            ],
+            lore: "Engineered by our perception specialists to aid in the discernment of true reality."
+        },
+        {
+            id: 'p11',
+            name: 'Utility Rain Poncho',
+            price: 100.00,
+            image: 'https://i.ibb.co/XZH1pMxf/poncho-2.webp',
+            description: 'A potent concoction designed to unlock dormant memories and accelerate your awakening. Use with caution.',
+            variants: [
+              { size: 'One Size', shopifyVariantId: 'gid://shopify/ProductVariant/41554605703271' }
+            ],
+            lore: "A rare elixir, distilled from the tears of forgotten prophets and the essence of pure truth."
+        },
+        {
+            id: 'p12',
+            name: 'Ameen Hoodie',
+            price: 85.00,
+            image: 'https://i.ibb.co/tMDwdkpT/ameen-final.png',
+            description: 'Navigate the labyrinth of perception. This compass points not to cardinal directions, but to the true north of your inner being.',
+            variants: [
+                { size: 'Small', shopifyVariantId: 'gid://shopify/ProductVariant/41554606096487' },
+                { size: 'Medium', shopifyVariantId: 'gid://shopify/ProductVariant/41554606129255' },
+                { size: 'Large', shopifyVariantId: 'gid://shopify/ProductVariant/41554606162023' },
+                { size: 'XL', shopifyVariantId: 'gid://shopify/ProductVariant/41554606194791' },
+                { size: 'XXL', shopifyVariantId: 'gid://shopify/ProductVariant/41554606227559' }
+            ],
+            lore: "An ancient artifact, rediscovered and re-calibrated to guide the awakened through the shifting landscapes of reality."
+        }
+    ];
+
+    let cart = JSON.parse(localStorage.getItem('awakenCart')) || []; // Load cart from local storage
+    let shopifyCartId = localStorage.getItem('shopifyCartId') || null; // Store Shopify cart ID
+    let refParam = ''; // For the ?ref= parameter
+    let currentProductForModal = null; // Stores the product object currently being viewed in the modal
+    let selectedVariantInModal = null; // Stores the selected variant object from the modal
+    let processingCheckout = false; // New flag to prevent multiple checkout attempts
+
+    // --- DOM Elements ---
+    const cartOverlay = document.getElementById('cart-overlay');
+    const cartCountSpan = document.getElementById('cart-count');
+    const cartItemsDiv = document.getElementById('cart-items');
+    const cartTotalSpan = document.getElementById('cart-total');
+    const emptyCartMessage = document.getElementById('empty-cart-message');
+    const checkoutButton = document.querySelector('.cart-checkout-btn'); // Get the checkout button
+
+    const sizeSelectionModal = document.getElementById('size-selection-modal');
+    const modalProductName = document.getElementById('modal-product-name');
+    const modalProductImage = document.getElementById('modal-product-image');
+    const modalProductPrice = document.getElementById('modal-product-price');
+    const sizeOptionsDiv = document.getElementById('size-options');
+    const addToCartModalBtn = document.getElementById('add-to-cart-modal-btn');
+
+
+    // --- Utility Functions ---
+    function showCustomAlert(message) {
+      const alertBox = document.createElement('div');
+      alertBox.style.cssText = `
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background-color: black;
+          color: white;
+          padding: 20px 30px;
+          border-radius: 8px;
+          box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+          z-index: 10000;
+          font-family: 'Roboto Condensed', sans-serif;
+          font-size: 1.1rem;
+          text-align: center;
+          opacity: 0;
+          transition: opacity 0.3s ease-in-out;
+      `;
+      alertBox.textContent = message;
+      document.body.appendChild(alertBox);
+
+      setTimeout(() => {
+          alertBox.style.opacity = 1;
+      }, 10);
+
+      setTimeout(() => {
+          alertBox.style.opacity = 0;
+          alertBox.addEventListener('transitionend', () => alertBox.remove());
+      }, 3000);
+    }
+
+    /**
+     * Adds an item to the local cart. This is the core logic.
+     * @param {object} product The product object.
+     * @param {string} selectedShopifyVariantId The Shopify variant ID to add.
+     * @param {number} quantity The quantity to add.
+     */
+    function addItemToCart(product, selectedShopifyVariantId, quantity = 1) {
+        console.log('Adding item to cart:', product.name, 'Variant ID:', selectedShopifyVariantId);
+        
+        // Specific check for MCGA Cap (p6)
+        if (product.id === 'p6') { 
+            const existingMCGA = cart.find(item => item.id === 'p6');
+            if (existingMCGA) {
+                showCustomAlert('You can only add 1 MCGA Cap to the cart.');
+                return; // Prevent adding more
+            }
+        }
+
+        const itemToAdd = {
+            id: product.id,
+            name: product.name,
+            price: product.price, 
+            image: product.image,
+            shopifyVariantId: selectedShopifyVariantId, 
+            quantity: quantity
+        };
+
+        // If the product has variants, ensure the cart item reflects the selected size/color
+        if (product.variants && product.variants.length > 0) {
+            const selectedVariant = product.variants.find(v => v.shopifyVariantId === selectedShopifyVariantId);
+            if (selectedVariant) {
+                // Modify name to include size or color for display in cart
+                const variantOption = selectedVariant.size || selectedVariant.color;
+                itemToAdd.name = `${product.name} (${variantOption})`;
+            }
+        } 
+
+
+        const existingItemIndex = cart.findIndex(item => item.shopifyVariantId === itemToAdd.shopifyVariantId);
+
+        if (existingItemIndex > -1) {
+            cart[existingItemIndex].quantity += quantity;
+        } else {
+            cart.push(itemToAdd);
+        }
+        updateCartDisplay();
+        showCustomAlert(`${itemToAdd.name} added to cart!`);
+    }
+
+
+    /**
+     * Removes a product from the local cart.
+     * @param {number} index The index of the item in the local 'cart' array.
+     */
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCartDisplay();
+    }
+
+    /**
+     * Updates the visual display of the cart (count, total, and items).
+     */
+    function updateCartDisplay() {
+      if (!cartItemsDiv || !cartCountSpan || !cartTotalSpan || !emptyCartMessage) {
+        return;
+      }
+
+      cartItemsDiv.innerHTML = ''; 
+      let total = 0;
+
+      if (cart.length === 0) {
+        // Only append if it's not already there
+        if (!cartItemsDiv.querySelector('.empty-cart-message')) {
+            emptyCartMessage.innerHTML = `<pre class="empty-cart-ascii">
+  ____|   \\  |   _ \\ __ __| \\ \\   / 
+  __|    |\\/ |  |   |   |    \\   /  
+  |      |   |  ___/    |       |   
+ _____| _|  _| _|      _|      _|   
+            </pre>
+            <p>YOUR CART IS EMPTY.<br>ACQUIRE SOME TRUTH.</p>`;
+            cartItemsDiv.appendChild(emptyCartMessage);
+            emptyCartMessage.style.display = 'block';
+        }
+      } else {
+        emptyCartMessage.style.display = 'none';
+        cart.forEach((item, index) => {
+          const cartItemDiv = document.createElement('div');
+          cartItemDiv.className = 'cart-item';
+          // Display the item name including size/color if available
+          const displayName = item.name;
+          // Add variant option to display name if it exists and is not 'One Size'
+          const variantOption = item.variants ? item.variants.find(v => v.shopifyVariantId === item.shopifyVariantId)?.size || item.variants.find(v => v.shopifyVariantId === item.shopifyVariantId)?.color : null;
+          const displayVariant = (variantOption && variantOption !== 'One Size') ? ` (${variantOption})` : '';
+
+          cartItemDiv.innerHTML = `
+            <img src="${item.image}" alt="${item.name}" class="cart-item-image rounded" />
+            <div class="cart-item-details">
+              <h4>${displayName}${displayVariant}</h4>
+              <p>R ${item.price.toFixed(2)} x ${item.quantity}</p>
+            </div>
+            <button class="cart-item-remove" onclick="removeFromCart(${index})">Remove</button>
+          `;
+          cartItemsDiv.appendChild(cartItemDiv);
+          total += item.price * item.quantity;
+        });
+      }
+
+      cartTotalSpan.textContent = `R ${total.toFixed(2)}`;
+      cartCountSpan.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+      localStorage.setItem('awakenCart', JSON.stringify(cart));
+    }
+
+    /**
+     * Shows the size selection modal for a given product.
+     * @param {object} product The product object with variants.
+     */
+    function showSizeSelectionModal(product) {
+        console.log('Showing size selection modal for:', product.name);
+        currentProductForModal = product;
+        selectedVariantInModal = null; // Reset selection
+
+        modalProductName.textContent = product.name;
+        modalProductImage.src = product.image;
+        modalProductPrice.textContent = `R ${product.price.toFixed(2)}`; // Display base price initially
+
+        sizeOptionsDiv.innerHTML = ''; // Clear previous options
+
+        // Only proceed if product has variants
+        if (product.variants && product.variants.length > 0) {
+            product.variants.forEach(variant => {
+                const button = document.createElement('button');
+                button.className = 'size-option-btn';
+                // Determine the text for the button based on whether it's a size or color variant
+                button.textContent = variant.size || variant.color;
+                button.dataset.shopifyVariantId = variant.shopifyVariantId;
+                button.addEventListener('click', () => {
+                    // Remove 'selected' class from all buttons
+                    document.querySelectorAll('#size-options .size-option-btn').forEach(btn => btn.classList.remove('selected'));
+                    // Add 'selected' class to the clicked button
+                    button.classList.add('selected');
+                    selectedVariantInModal = variant; // Store the selected variant object
+                });
+                sizeOptionsDiv.appendChild(button);
+            });
+        } else {
+            // This case should ideally not be hit if handleAddToCart is working correctly
+            // but as a fallback, if a product without variants somehow triggers this modal,
+            // we can show a default "One Size" button or just directly add it.
+            console.error("showSizeSelectionModal called for product without variants:", product);
+            showCustomAlert("Product has no selectable options.");
+            hideSizeSelectionModal();
+            return;
+        }
+
+        // Add to cart button in modal logic
+        addToCartModalBtn.onclick = () => {
+            if (selectedVariantInModal) {
+                addItemToCart(currentProductForModal, selectedVariantInModal.shopifyVariantId);
+                hideSizeSelectionModal();
+            } else {
+                showCustomAlert('Please select an option.'); // Changed message to be more general
+            }
+        };
+        
+        // Ensure the modal is visible
+        sizeSelectionModal.classList.remove('hidden'); // Remove the hidden class
+        sizeSelectionModal.classList.add('active');
+        console.log('Modal active status:', sizeSelectionModal.classList.contains('active'));
+    }
+
+    /**
+     * Hides the size selection modal.
+     */
+    function hideSizeSelectionModal() {
+        console.log('Hiding size selection modal.');
+        sizeSelectionModal.classList.remove('active');
+        sizeSelectionModal.classList.add('hidden'); // Add the hidden class back
+        currentProductForModal = null;
+        selectedVariantInModal = null;
+    }
+
+
+    /**
+     * Creates a Shopify cart and redirects to its checkoutUrl.
+     */
+    async function proceedToShopifyCheckout() {
+      if (processingCheckout) {
+        console.log('Checkout already in progress. Ignoring multiple clicks.');
+        return;
+      }
+
+      if (cart.length === 0) {
+        showCustomAlert('Your cart is empty. Please add some artifacts before checking out.');
+        return;
+      }
+
+      processingCheckout = true; // Set flag to true
+      checkoutButton.disabled = true; // Disable the button
+      showCustomAlert('Preparing your checkout...');
+
+      const lines = cart.map(item => ({
+        merchandiseId: item.shopifyVariantId, // Use merchandiseId for Cart API
+        quantity: item.quantity
+      }));
+
+      console.log('Lines being sent to Shopify Cart API:', JSON.stringify(lines, null, 2));
+      console.log('Using Shopify Storefront Access Token:', SHOPIFY_STOREFRONT_ACCESS_TOKEN);
+
+      let query;
+      let variables;
+
+      if (shopifyCartId) {
+        // If cart exists, add lines to it
+        query = `
+          mutation cartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!) {
+            cartLinesAdd(cartId: $cartId, lines: $lines) {
+              cart {
+                id
+                checkoutUrl
+              }
+              userErrors {
+                field
+                message
+              }
+            }
+          }
+        `;
+        variables = {
+          cartId: shopifyCartId,
+          lines: lines
+        };
+      } else {
+        // If no cart, create a new one
+        query = `
+          mutation cartCreate($input: CartInput) {
+            cartCreate(input: $input) {
+              cart {
+                id
+                checkoutUrl
+              }
+              userErrors {
+                field
+                message
+              }
+            }
+          }
+        `;
+        variables = {
+          input: {
+            lines: lines
+          }
+        };
+      }
+
+      try {
+        const response = await fetch(SHOPIFY_GRAPHQL_ENDPOINT, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Shopify-Storefront-Access-Token': SHOPIFY_STOREFRONT_ACCESS_TOKEN, 
+          },
+          body: JSON.stringify({ query, variables }),
+        });
+
+        console.log('Shopify API response status:', response.status);
+
+        const data = await response.json();
+        console.log('Shopify API response data:', JSON.stringify(data, null, 2));
+
+        if (data.errors) {
+          console.error('Shopify GraphQL Errors:', data.errors);
+          const errorMessage = data.errors.map(err => err.message).join(', ') || 'Unknown GraphQL error.';
+          showCustomAlert('Error processing cart: ' + errorMessage);
+          return;
+        }
+
+        let cartResult;
+        let errors;
+
+        if (shopifyCartId) {
+            cartResult = data.data.cartLinesAdd?.cart;
+            errors = data.data.cartLinesAdd?.userErrors;
+        } else {
+            cartResult = data.data.cartCreate?.cart;
+            errors = data.data.cartCreate?.userErrors;
+        }
+        
+        if (errors && errors.length > 0) {
+          console.error('Shopify Cart User Errors:', errors);
+          const errorMessage = errors.map(err => `${err.field ? err.field + ': ' : ''}${err.message}`).join(', ') || 'Unknown cart error.';
+          showCustomAlert('Cart error: ' + errorMessage);
+          return;
+        }
+
+        if (cartResult && cartResult.checkoutUrl) {
+          shopifyCartId = cartResult.id; // Save the new cart ID
+          localStorage.setItem('shopifyCartId', shopifyCartId); // Persist cart ID
+          
+          let finalCheckoutUrl = cartResult.checkoutUrl;
+          if (refParam) {
+            const url = new URL(finalCheckoutUrl);
+            url.searchParams.set('ref', refParam);
+            finalCheckoutUrl = url.toString();
+          }
+          
+          // Clear local cart and storage after successful checkout creation
+          cart = [];
+          localStorage.removeItem('awakenCart');
+          // Also clear the Shopify cart ID from local storage so a new cart is created next time
+          localStorage.removeItem('shopifyCartId'); 
+          updateCartDisplay(); // Update UI to reflect empty cart
+
+          showCustomAlert('Redirecting to Shopify checkout...');
+          window.location.href = finalCheckoutUrl; // Redirect to Shopify
+        } else {
+          showCustomAlert('Failed to get Shopify checkout URL from cart. No cart object or checkoutUrl found.');
+        }
+
+      } catch (error) {
+        console.error('Network or unexpected error during Shopify cart operation:', error);
+        showCustomAlert('Network error or unexpected issue. Please check your connection and console for details.');
+      } finally {
+          processingCheckout = false; // Reset flag
+          checkoutButton.disabled = false; // Re-enable the button
+      }
+    }
+
+
+    // Function to render products on the page
+    function renderProducts() {
+      const productListDiv = document.getElementById('product-list');
+      productListDiv.innerHTML = ''; // Clear existing products
+      products.forEach(product => {
+        const productCard = document.createElement('div');
+        productCard.className = 'product-card';
+        // Make the entire card clickable (for product detail page, if you create one)
+        productCard.onclick = () => {
+          window.location.href = `product-detail.html?id=${product.id}`;
+        };
+        productCard.innerHTML = `
+          <div class="product-image-container">
+            <img src="${product.image}" alt="${product.name}" />
+          </div>
+          <h3 class="text-xl font-bold mt-3">${product.name}</h3>
+          <p class="text-sm mb-2">R ${product.price.toFixed(2)}</p>
+          <button class="add-to-cart-btn" onclick="event.stopPropagation(); handleAddToCart('${product.id}')">Add to Cart</button>
+        `;
+        productListDiv.appendChild(productCard);
+      });
+    }
+
+    /**
+     * Handles the click on "Add to Cart" button, showing modal if variants exist.
+     * @param {string} productId The ID of the product to add.
+     */
+    function handleAddToCart(productId) {
+        const productToAdd = products.find(p => p.id === productId);
+        if (!productToAdd) {
+            console.error('Product not found:', productId);
+            return;
+        }
+
+        // If product has variants, show size/color selection modal
+        // This now applies to all products with a 'variants' array, including 'One Size' products
+        if (productToAdd.variants && productToAdd.variants.length > 0) {
+            showSizeSelectionModal(productToAdd);
+        } else if (productToAdd.shopifyVariantId) {
+            // If no variants array but has a direct shopifyVariantId (like MCGA Cap), add directly
+            addItemToCart(productToAdd, productToAdd.shopifyVariantId);
+        } else {
+            showCustomAlert('Error: Product cannot be added. Missing variant information.');
+            console.error('Product missing shopifyVariantId or variants array:', productToAdd);
+        }
+    }
+
+
+    // Marquee functionality - Consistent with homepage
+    const marqueeContentWrapper = document.querySelector('.marquee-content-wrapper');
+    const originalMarqueeText = document.querySelector('.marquee-text');
+
+    const updateMarquee = () => {
+        if (marqueeContentWrapper && originalMarqueeText) {
+            const originalContentHTML = originalMarqueeText.innerHTML;
+            marqueeContentWrapper.style.animation = 'none';
+            marqueeContentWrapper.innerHTML = '';
+            for (let i = 0; i < 4; i++) {
+                const copy = document.createElement('span');
+                copy.className = 'marquee-text';
+                copy.innerHTML = originalContentHTML;
+                marqueeContentWrapper.appendChild(copy);
+            }
+            requestAnimationFrame(() => {
+                const firstMarqueeTextElement = marqueeContentWrapper.firstElementChild;
+                if (firstMarqueeTextElement) {
+                    const singleSegmentWidth = firstMarqueeTextElement.offsetWidth;
+                    marqueeContentWrapper.style.setProperty('--marquee-distance', `-${singleSegmentWidth}px`);
+                    const pixelsPerSecond = 70;
+                    const calculatedSpeed = singleSegmentWidth / pixelsPerSecond;
+                    marqueeContentWrapper.style.setProperty('--marquee-speed', `${calculatedSpeed}s`);
+                    void marqueeContentWrapper.offsetWidth;
+                    marqueeContentWrapper.style.animation = `marquee var(--marquee-speed) linear infinite`;
+                }
+            });
+        }
+    };
+
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      // Handle ?ref= parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const ref = urlParams.get('ref');
+      if (ref) {
+        localStorage.setItem('awakenRef', ref);
+        refParam = ref;
+      } else {
+        refParam = localStorage.getItem('awakenRef') || '';
+      }
+
+      renderProducts();
+      updateCartDisplay(); // Initialize cart display
+      updateMarquee(); // Initialize marquee
+      window.addEventListener('resize', updateMarquee); // Update marquee on resize
+    });
+
+    // Global functions for HTML onclick
+    function toggleCart() {
+      if (cartOverlay) {
+        cartOverlay.classList.toggle('active');
+        // Update cart display every time it's opened to ensure fresh data
+        if (cartOverlay.classList.contains('active')) {
+            updateCartDisplay();
+        }
+      }
+    }
+  </script>
+</body>
+</html>

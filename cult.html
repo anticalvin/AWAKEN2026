@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CULT PICTURE EXCLUSIVE - AWAKEN</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <!-- Original AWAKEN Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;700&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet">
+    <!-- Roboto Mono for Supreme-like grid text (if desired, otherwise remove) -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet"/>
+
+    <style>
+        /* Custom font classes from original AWAKEN site */
+        .font-anton { font-family: 'Anton', sans-serif; }
+        .font-roboto-condensed { font-family: 'Roboto Condensed', sans-serif; }
+        .font-roboto-slab { font-family: 'Roboto Slab', serif; }
+        .font-tattler {
+            font-family: 'Anton', sans-serif;
+            letter-spacing: -0.05em;
+        }
+        .font-national {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+        }
+
+        html {
+            /* Prevent horizontal scrolling on all devices */
+            overflow-x: hidden;
+        }
+
+        body {
+            background-color: #f3f0e7; /* Light newspaper-like background */
+            color: #000; /* Black text */
+            font-family: 'Roboto Mono', monospace; /* Default for new sections, can be changed */
+            line-height: 1.5;
+            margin: 0;
+            padding: 0;
+            /* Only allow vertical scrolling on mobile */
+            overflow-y: auto;
+        }
+
+        @media (min-width: 768px) {
+            body {
+                /* Disable vertical scrolling on desktop, if content fits */
+                overflow-y: hidden;
+            }
+        }
+
+
+        /* Original AWAKEN Header Styles */
+        header {
+            background-color: #d94a44; /* Original AWAKEN red */
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            box-sizing: border-box;
+            position: sticky;
+            top: 0;
+            z-index: 99;
+        }
+        .header-top-row {
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        header .header-logo {
+            font-family: 'Anton', sans-serif; /* Keep original logo font */
+            font-size: 4rem;
+            color: #f3f0e7;
+            line-height: 1;
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.2s;
+            margin-left: 1rem;
+        }
+        header .header-logo:hover {
+            color: #fff;
+        }
+        header nav {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            margin-right: 1rem;
+        }
+        header nav a {
+            color: #f3f0e7;
+            font-family: 'Roboto Condensed', sans-serif; /* Original nav font */
+            font-size: 0.875rem;
+            text-decoration: none;
+            margin-left: 1.5rem;
+            transition: underline 0.2s;
+        }
+        header nav a:hover {
+            text-decoration: underline;
+        }
+        .cart-icon-container {
+            position: relative;
+            cursor: pointer;
+            color: #f3f0e7;
+            font-size: 1.5rem;
+            margin-left: 1.5rem;
+        }
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: black;
+            color: white;
+            border-radius: 50%;
+            padding: 0.1rem 0.4rem;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        /* Marquee animation - kept as is */
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(var(--marquee-distance)); }
+        }
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            background-color: black;
+            color: white;
+            font-family: 'Roboto Condensed', sans-serif;
+            padding: 0.25rem 0;
+        }
+        .marquee-content-wrapper {
+            display: flex;
+            width: max-content;
+            animation: marquee var(--marquee-speed) linear infinite;
+        }
+        .marquee-text {
+            white-space: nowrap;
+            padding-right: 2rem;
+            flex-shrink: 0;
+        }
+
+        /* Main Content Area - Supreme-like layout */
+        .main-content-wrapper {
+            max-width: 800px; /* Max width for the grid */
+            margin: 40px auto 20px auto; /* Top margin, auto horizontal, bottom margin */
+            padding: 0 10px; /* Small padding for edges on smaller screens */
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Responsive grid */
+            gap: 2px; /* Thin gaps between images */
+        }
+
+        .gallery-item {
+            width: 100%;
+            height: 120px; /* Fixed height for consistency, adjust as needed */
+            overflow: hidden;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+        }
+
+        .gallery-item:hover {
+            opacity: 0.8;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures images cover the area without distortion */
+            display: block;
+        }
+
+        .view-all-link {
+            text-align: right;
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            margin-top: 2px;
+            padding-right: 2px; /* Align with grid if gap is 2px */
+        }
+
+        /* Specific styles for Cult Picture Exclusive Header (Grid View) */
+        .cult-picture-header {
+            text-align: center;
+            margin-bottom: 20px; /* Space below the header block */
+            border-bottom: 1px solid black; /* Thin line under cult picture exclusive */
+            padding-bottom: 10px; /* Space between text and line */
+        }
+
+        .cult-picture-header .eye-logo {
+            height: 40px; /* Consistent with Supreme logo height */
+            width: auto;
+            object-fit: contain;
+            display: block; /* Center the image */
+            margin: 0 auto 5px auto; /* Center with some bottom margin */
+        }
+
+        .cult-picture-header .title-text {
+            font-family: 'Roboto Mono', monospace; /* Supreme-like font for this text */
+            font-size: 12px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        /* Footer adjustments - kept original AWAKEN footer */
+        footer {
+            border-top: 1px solid black;
+            padding: 1.5rem 1rem;
+            font-size: 0.75rem;
+            text-align: center;
+            margin-top: 40px; /* Add margin to separate from content */
+        }
+        footer a {
+            text-decoration: underline;
+            color: inherit;
+        }
+        footer .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 0.75rem;
+            font-size: 1.25rem;
+        }
+
+        /* Cart Overlay - Kept as is */
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 350px;
+            height: 100%;
+            background-color: #f3f0e7;
+            border-left: 2px solid black;
+            box-shadow: -4px 0 8px rgba(0,0,0,0.2);
+            z-index: 999;
+            transition: right 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+        }
+        .cart-overlay.active {
+            right: 0;
+        }
+        .cart-header {
+            background-color: black;
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Anton', sans-serif;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+        }
+        .cart-close-button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        .cart-items {
+            flex-grow: 1;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+        .cart-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            border-bottom: 1px dashed #ccc;
+            padding-bottom: 0.5rem;
+        }
+        .cart-item-image {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            margin-right: 0.75rem;
+            border: 1px solid #eee;
+        }
+        .cart-item-details {
+            flex-grow: 1;
+            text-align: left;
+        }
+        .cart-item-details h4 {
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+        .cart-item-details p {
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .cart-item-remove {
+            background-color: #d94a44;
+            color: white;
+            border: none;
+            padding: 0.3rem 0.6rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            border-radius: 0;
+        }
+        .cart-checkout-btn {
+            background-color: #d94a44;
+            color: white;
+            padding: 1rem;
+            width: 100%;
+            text-align: center;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border-radius: 0;
+        }
+        .cart-checkout-btn:hover {
+            background-color: #b92a1e;
+        }
+        .empty-cart-message {
+            text-align: center;
+            padding: 2rem;
+            color: #777;
+        }
+        @media (max-width: 767px) {
+            .cart-overlay {
+                width: 100%;
+                right: -100vw;
+            }
+            .cart-overlay.active {
+                right: 0;
+            }
+        }
+
+        /* Styles for the detail view (replaces modal) */
+        .detail-view-container {
+            max-width: 800px;
+            margin: 40px auto 20px auto;
+            padding: 0 10px;
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .detail-view-container.active {
+            display: flex; /* Show when active */
+        }
+
+        .detail-header-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end; /* Align items to the bottom for precise control */
+            width: 100%;
+            padding: 10px 0; /* Padding above and below details */
+            border-bottom: 1px solid black; /* Thin line below details */
+            margin-bottom: 10px; /* Space between details and image */
+        }
+
+        .detail-header-details .awaken-logo-small {
+            height: 40px; /* Same size as main grid eye logo */
+            width: auto;
+            object-fit: contain;
+            filter: none; /* Remove red filter, make it black */
+            /* No vertical alignment needed here, as flex-end on parent handles it */
+        }
+
+        .detail-header-details .image-details-text {
+            font-family: 'Roboto Mono', monospace; /* Reverted to Roboto Mono */
+            font-size: 12px; /* Reverted to original size */
+            letter-spacing: 0.1em; /* Reverted to original spacing */
+            text-transform: uppercase;
+            text-align: right; /* Align text to the right */
+            font-weight: bold; /* Reverted to original font weight */
+            line-height: 1.2; /* Reverted to original line height */
+            position: relative; /* Allow for fine-tuning with top */
+            top: -2px; /* Adjusted this value to align perfectly with the eye logo */
+        }
+
+        .detail-image {
+            max-width: 100%;
+            max-height: 80vh; /* Limit height to 80% of viewport height */
+            height: auto; /* Maintain aspect ratio */
+            object-fit: contain;
+            display: block;
+            margin-bottom: 20px; /* Space below the image */
+        }
+
+        .detail-nav {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding: 10px 0;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 0.1em;
+        }
+
+        .detail-nav a {
+            text-decoration: none;
+            color: inherit;
+            transition: underline 0.2s;
+        }
+
+        .detail-nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive adjustments for header (Mobile/Tablet view) */
+        @media (max-width: 1023px) {
+            .header-top-row {
+                flex-direction: column;
+                padding: 0.5rem 1rem;
+            }
+            header .header-logo {
+                font-size: 4rem;
+                margin-left: 0;
+                margin-bottom: 0.5rem;
+            }
+            header nav {
+                text-align: center;
+                width: 100%;
+                margin-top: 0.5rem;
+                margin-right: 0;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            header nav a {
+                font-size: 0.875rem;
+                margin: 0 0.5rem;
+            }
+            .cart-icon-container {
+                font-size: 1.2rem;
+                margin-left: 0.5rem;
+            }
+            .marquee-container {
+                top: auto;
+                position: relative;
+            }
+
+            /* General mobile/tablet adjustments for sections */
+            /* Reverted these specific size adjustments to let the original styles apply */
+            .cult-picture-header .eye-logo {
+                height: 40px; /* Keep original size for mobile as well */
+            }
+            .cult-picture-header .title-text {
+                font-size: 12px; /* Keep original size for mobile as well */
+            }
+            .detail-header-details .awaken-logo-small {
+                height: 40px; /* Keep original size for mobile as well */
+            }
+            .detail-header-details .image-details-text {
+                font-size: 12px; /* Keep original size for mobile as well */
+            }
+        }
+
+        /* Responsive adjustments for header (Desktop view) */
+        @media (min-width: 1024px) {
+            header .header-logo {
+                font-size: 6rem;
+            }
+            header nav a {
+                font-size: 1rem;
+                margin-left: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Original AWAKEN Header -->
+    <header>
+        <div class="header-top-row">
+            <a href="/" class="header-logo">AWAKEN</a>
+            <nav>
+                <a href="shop.html">Shop</a>
+                <a href="manifesto.html">Manifesto</a>
+                <a href="join-us.html">Join Us</a>
+                <a href="archives.html">Archive</a>
+                <a href="#about">About</a>
+                <div class="cart-icon-container" onclick="toggleCart()">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cart-count">0</span>
+                </div>
+            </nav>
+        </div>
+        <!-- Top Scrolling Bar -->
+        <div class="marquee-container">
+            <div class="marquee-content-wrapper">
+                <span class="marquee-text">ENLIGHTENMENT IS A CHOICE • JOIN THE CULT • AWAKEN • THE NEW WORLD ORDER IS HERE • BUY THE MESSAGE • BURN THE MASK • REVEAL THE TRUTH •</span>
+            </div>
+        </div>
+    </header>
+
+    <main id="mainContent">
+        <!-- Grid View Content -->
+        <div id="gridView" class="main-content-wrapper">
+            <div class="cult-picture-header">
+                <img src="https://i.ibb.co/23z6psTD/NEW-EYE-LOGO_BLACK_VEC.png" alt="AWAKEN Eye Logo" class="eye-logo" />
+                <p class="title-text">CULT PICTURE EXCLUSIVE</p>
+            </div>
+
+            <!-- Main text and quote from original page, adapted for this layout -->
+            <h3 class="font-anton main-headline uppercase text-center text-4xl lg:text-5xl leading-none mb-4">THE VEIL IS THINNING</h3>
+            <p class="font-roboto-slab italic text-center text-lg mb-8">Unveiling the unseen. Click on the thumbnails to reveal more.</p>
+
+
+            <div class="gallery-grid">
+                <!-- Only 3 rows of photos (18 total) -->
+                <div class="gallery-item" onclick="showDetail(0)">
+                    <img src="https://i.ibb.co/jvNvM8wX/riot.webp" alt="Cult Image 1" />
+                </div>
+                <div class="gallery-item" onclick="showDetail(1)">
+                    <img src="https://i.ibb.co/hJDT4hvS/SHOP-NOW.webp" alt="Cult Image 2" />
+                </div>
+                <div class="gallery-item" onclick="showDetail(2)">
+                    <img src="https://i.ibb.co/v6ZCYNhD/gamble.webp" alt="Cult Image 3" />
+                </div>
+                <div class="gallery-item" onclick="showDetail(3)">
+                    <img src="https://i.ibb.co/4Z5NBTMX/uggiyuguiyi.webp" alt="Cult Image 4" />
+                </div>
+                <div class="gallery-item" onclick="showDetail(4)">
+                    <img src="https://i.ibb.co/pBkmwTyG/money-burn.webp" alt="Cult Image 5" />
+                </div>
+                <div class="gallery-item" onclick="showDetail(5)">
+                    <img src="https://placehold.co/120x120/cccccc/ffffff?text=Thumb+6" alt="Cult Image 6" />
+                </div>
+                <div class="gallery-item" onclick="showDetail(6)">
+                    <img src="https://placehold.co/120x120/dddddd/ffffff?text=Thumb+7" alt="Cult Image 7" />
+                </div>
+                <div class="gallery-item" onclick="showDetail(7)">
+                    <img src="https://placehold.co/120x120/eeeeee/000000?text=Thumb+8" alt="Cult Image 8" />
+                </div>
+                <div class="gallery-item" onclick="showDetail(8)">
+                    <img src="https://placehold.co/120x120/111111/ffffff?text=Thumb+9" alt="Cult Image 9" />
+                </div>
+                <div class="gallery-item" onclick="showDetail(9)">
+                    <img src="https://placehold.co/120x120/333333/ffffff?text=Thumb+10" alt="Cult Image 10" />
+                </div>
+                <div class="gallery-item" onclick="showDetail(10)">
+                    <img src="https://placehold.co/120x120/555555/ffffff?text=Thumb+11" alt="Cult Image 11" />
+                </div>
+                <div class="gallery-item" onclick="showDetail(11)">
+                    <img src="https://placehold.co/120x120/777777/ffffff?text=Thumb+12" alt="Cult Image 12" />
+                </div>
+                <div class="gallery-item" onclick="showDetail(12)">
+                    <img src="https://placehold.co/120x120/999999/ffffff?text=Thumb+13" alt="Cult Image 13" />
+                </div>
+                <div class="gallery-item" onclick="showDetail(13)">
+                    <img src="https://placehold.co/120x120/aaaaaa/000000?text=Thumb+14" alt="Cult Image 14" />
+                </div>
+                <div class="gallery-item" onclick="showDetail(14)">
+                    <img src="https://placehold.co/120x120/bbbbbb/000000?text=Thumb+15" alt="Cult Image 15" />
+                </div>
+                <div class="gallery-item" onclick="showDetail(15)">
+                    <img src="https://placehold.co/120x120/cccccc/000000?text=Thumb+16" alt="Cult Image 16" />
+                </div>
+                <div class="gallery-item" onclick="showDetail(16)">
+                    <img src="https://placehold.co/120x120/dddddd/000000?text=Thumb+17" alt="Cult Image 17" />
+                </div>
+                <div class="gallery-item" onclick="showDetail(17)">
+                    <img src="https://placehold.co/120x120/eeeeee/000000?text=Thumb+18" alt="Cult Image 18" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Detail View Content (hidden by default) -->
+        <div id="detailView" class="detail-view-container">
+            <div class="detail-header-details">
+                <img src="https://i.ibb.co/23z6psTD/NEW-EYE-LOGO_BLACK_VEC.png" alt="AWAKEN Eye Logo" class="awaken-logo-small" />
+                <div class="image-details-text">
+                    <span id="detailImageTitle">CULT PICTURE EXCLUSIVE</span><br/>
+                    <span id="detailImageDescription"></span>
+                </div>
+            </div>
+            <img id="detailImage" src="" alt="Full Exclusive Image" class="detail-image" />
+            <div class="detail-nav">
+                <a href="#" class="hover:underline" onclick="showGrid()">back</a>
+                <span id="detailImageCounter">1 of 18</span>
+                <a href="#" class="hover:underline" onclick="navigateDetail(1)"><i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+
+        <!-- Removed bottom-nav as per user request -->
+    </main>
+
+    <!-- Cart Overlay -->
+    <div class="cart-overlay" id="cartOverlay">
+        <div class="cart-header">
+            <span>Your Cart</span>
+            <button class="cart-close-button" onclick="toggleCart()">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <p class="empty-cart-message">Your cart is empty.</p>
+        </div>
+        <div class="cart-summary">
+            <p>Total: <span id="cartTotal">R 0.00</span></p>
+            <button class="cart-checkout-btn">Checkout</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-f3f0e7 text-black">
+        <p>&copy; 2025 AWAKEN. All Rights Reserved. <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        <div class="social-icons">
+            <a href="https://instagram.com/awakencult" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+    </footer>
+
+    <script>
+        // Marquee Script
+        document.addEventListener('DOMContentLoaded', function() {
+            const marqueeContent = document.querySelector('.marquee-content-wrapper');
+            if (marqueeContent) {
+                const marqueeText = marqueeContent.querySelector('.marquee-text');
+                if (marqueeText) {
+                    const originalContent = marqueeText.textContent;
+                    marqueeContent.innerHTML = '';
+                    for (let i = 0; i < 5; i++) {
+                        const span = document.createElement('span');
+                        span.className = 'marquee-text';
+                        span.textContent = originalContent;
+                        marqueeContent.appendChild(span);
+                    }
+                    const totalContentWidth = marqueeContent.scrollWidth / 5;
+                    marqueeContent.style.setProperty('--marquee-distance', `-${totalContentWidth}px`);
+                    const speed = (totalContentWidth / 50) + 's';
+                    marqueeContent.style.setProperty('--marquee-speed', speed);
+                }
+            }
+        });
+
+        // Cart functionality (simplified for this page)
+        let cart = [];
+        const cartOverlay = document.getElementById('cartOverlay');
+        const cartCountSpan = document.getElementById('cart-count');
+        const cartItemsContainer = document.getElementById('cartItems');
+        const cartTotalSpan = document.getElementById('cartTotal');
+
+        function toggleCart() {
+            cartOverlay.classList.toggle('active');
+        }
+
+        function updateCartDisplay() {
+            cartItemsContainer.innerHTML = '';
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p class="empty-cart-message">Your cart is empty.</p>';
+                cartTotalSpan.textContent = 'R 0.00';
+                cartCountSpan.textContent = '0';
+                return;
+            }
+
+            let total = 0;
+            cart.forEach((item, index) => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'cart-item';
+                itemElement.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                    <div class="cart-item-details">
+                        <h4>${item.name}</h4>
+                        <p>R ${item.price.toFixed(2)} x ${item.quantity}</p>
+                    </div>
+                    <button class="cart-item-remove" onclick="removeFromCart(${index})">Remove</button>
+                `;
+                cartItemsContainer.appendChild(itemElement);
+                total += item.price * item.quantity;
+            });
+
+            cartTotalSpan.textContent = `R ${total.toFixed(2)}`;
+            cartCountSpan.textContent = cart.length;
+        }
+
+        function addToCart(product) {
+            const existingItem = cart.find(item => item.id === product.id);
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            updateCartDisplay();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartDisplay();
+        }
+
+        document.addEventListener('DOMContentLoaded', updateCartDisplay);
+
+        // --- Dynamic View Functionality ---
+        const gridView = document.getElementById('gridView');
+        const detailView = document.getElementById('detailView');
+        const detailImage = document.getElementById('detailImage');
+        const detailImageTitle = document.getElementById('detailImageTitle');
+        const detailImageDescription = document.getElementById('detailImageDescription');
+        const detailImageCounter = document.getElementById('detailImageCounter');
+
+        // Array to hold all image data for detail view navigation
+        const imageData = [
+            { src: 'https://i.ibb.co/jvNvM8wX/riot.webp', title: 'The First Revelation', description: 'A glimpse into the awakening.' },
+            { src: 'https://i.ibb.co/hJDT4hvS/SHOP-NOW.webp', title: 'Whispers in the Dark', description: 'Secrets shared among the initiated.' },
+            { src: 'https://i.ibb.co/v6ZCYNhD/gamble.webp', title: 'The Gaze of Truth', description: 'Unveiling hidden realities.' },
+            { src: 'https://i.ibb.co/4Z5NBTMX/uggiyuguiyi.webp', title: 'Shadows of Doubt', description: 'Where reality begins to fray.' },
+            { src: 'https://i.ibb.co/pBkmwTyG/money-burn.webp', title: 'The Collective Mind', description: 'Unity in the pursuit of knowledge.' },
+            { src: 'https://placehold.co/600x600/cccccc/ffffff?text=Cult+Image+6', title: 'Echoes of the Past', description: 'Ancient wisdom rediscovered.' },
+            { src: 'https://placehold.co/600x600/dddddd/ffffff?text=Cult+Image+7', title: 'The Unseen Hand', description: 'Guidance from beyond the veil.' },
+            { src: 'https://placehold.co/600x600/eeeeee/000000?text=Cult+Image+8', title: 'Silent Communion', description: 'A sacred bond formed.' },
+            { src: 'https://placehold.co/600x600/111111/ffffff?text=Cult+Image+9', title: 'The Path Forward', description: 'Illuminating the way to enlightenment.' },
+            { src: 'https://placehold.co/600x600/333333/ffffff?text=Cult+Image+10', title: 'Veiled Figures', description: 'Those who walk among us, yet are hidden.' },
+            { src: 'https://placehold.co/600x600/555555/ffffff?text=Cult+Image+11', title: 'The Symbol Emerges', description: 'A sign of the coming change.' },
+            { src: 'https://placehold.co/600x600/777777/ffffff?text=Cult+Image+12', title: 'Ritual of Awakening', description: 'Ancient practices for a new era.' },
+            { src: 'https://placehold.co/600x600/999999/ffffff?text=Cult+Image+13', title: 'The Hidden Truth', description: 'What lies beneath the surface.' },
+            { src: 'https://placehold.co/600x600/aaaaaa/000000?text=Cult+Image+14', title: 'Prophecies Unfolding', description: 'The future is now.' },
+            { src: 'https://placehold.co/600x600/bbbbbb/000000?text=Cult+Image+15', title: 'The Inner Circle', description: 'Guardians of the secret knowledge.' },
+            { src: 'https://placehold.co/600x600/cccccc/000000?text=Cult+Image+16', title: 'The Great Unmasking', description: 'Revealing what was once concealed.' },
+            { src: 'https://placehold.co/600x600/dddddd/000000?text=Cult+Image+17', title: 'Beyond Perception', description: 'Seeing what others cannot.' },
+            { src: 'https://placehold.co/600x600/eeeeee/000000?text=Cult+Image+18', title: 'The Dawn of a New Age', description: 'The world will never be the same.' }
+        ];
+
+        let currentImageIndex = 0; // Track the currently displayed image index
+
+        function showDetail(index) {
+            currentImageIndex = index;
+            const image = imageData[currentImageIndex];
+            detailImage.src = image.src;
+            detailImageDescription.textContent = image.description; // Display the description
+            detailImageTitle.textContent = 'CULT PICTURE EXCLUSIVE'; // Set title as requested
+            updateDetailImageCounter();
+
+            gridView.classList.remove('active');
+            gridView.style.display = 'none'; // Hide grid view
+            detailView.classList.add('active');
+            detailView.style.display = 'flex'; // Show detail view
+            window.scrollTo(0, 0); // Scroll to top of the page
+        }
+
+        function showGrid() {
+            detailView.classList.remove('active');
+            detailView.style.display = 'none'; // Hide detail view
+            gridView.classList.add('active');
+            gridView.style.display = 'block'; // Show grid view
+            window.scrollTo(0, 0); // Scroll to top of the page
+        }
+
+        function updateDetailImageCounter() {
+            if (imageData.length > 0) {
+                detailImageCounter.textContent = `${currentImageIndex + 1} of ${imageData.length}`;
+            } else {
+                detailImageCounter.textContent = '';
+            }
+        }
+
+        // Optional: Add keyboard navigation for detail view (left/right arrows)
+        document.addEventListener('keydown', function(event) {
+            if (detailView.classList.contains('active')) {
+                if (event.key === 'ArrowLeft') {
+                    navigateDetail(-1); // Previous image
+                } else if (event.key === 'ArrowRight') {
+                    navigateDetail(1); // Next image
+                } else if (event.key === 'Escape') {
+                    showGrid(); // Go back to grid on Escape key
+                }
+            }
+        });
+
+        function navigateDetail(direction) {
+            currentImageIndex += direction;
+            if (currentImageIndex < 0) {
+                currentImageIndex = imageData.length - 1; // Loop to end
+            } else if (currentImageIndex >= imageData.length) {
+                currentImageIndex = 0; // Loop to beginning
+            }
+            const newImage = imageData[currentImageIndex];
+            detailImage.src = newImage.src;
+            detailImageDescription.textContent = newImage.description; // Display the description
+            detailImageTitle.textContent = 'CULT PICTURE EXCLUSIVE'; // Set title as requested
+            updateDetailImageCounter();
+        }
+
+        // Initialize to show grid view on load
+        document.addEventListener('DOMContentLoaded', function() {
+            showGrid();
+        });
+    </script>
+</body>
+</html>

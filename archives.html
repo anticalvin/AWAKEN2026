@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AWAKEN Archives</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Anton&family=Playfair+Display:ital,wght@1,700&family=Roboto+Slab:wght@700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap'); /* Consistent with other pages */
+
+    .font-anton { font-family: 'Anton', sans-serif; }
+    .font-playfair { font-family: 'Playfair Display', serif; }
+    .font-robotoslab { font-family: 'Roboto Slab', serif; }
+    .font-roboto-condensed { font-family: 'Roboto Condensed', sans-serif; } /* Added for consistency */
+
+    body {
+      background-color: #f7f0d6; /* Changed to warm color for entire background */
+      color: #000;
+      font-family: 'Roboto Condensed', sans-serif; /* Default body font */
+      line-height: 1.6;
+      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Main content area styling */
+    .content-section {
+      padding: 3rem 1rem;
+      max-width: 1280px;
+      margin-left: auto;
+      margin-right: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh; /* Full viewport height now that header is removed */
+    }
+
+    /* Archive container */
+    .archive-container {
+      max-width: 500px; /* Increased max-width for better layout */
+      width: 100%;
+      background-color: #f7f0d6; /* Original background for the tabloid content */
+      padding: 1rem; /* Added padding to the container */
+      text-align: center; /* Center block elements */
+    }
+
+    /* Individual headline/text blocks */
+    .archive-block {
+      display: block; /* Changed to block to force new lines */
+      background-color: transparent;
+      color: black;
+      padding: 0.25rem 0.5rem;
+      margin-bottom: 0.25rem;
+      cursor: pointer;
+      transition: font-style 0.2s ease-in-out; /* Only transition font-style */
+      margin-left: auto; /* Center block elements */
+      margin-right: auto; /* Center block elements */
+      width: fit-content; /* Allow width to fit content for centering */
+    }
+
+    /* Hover effect for italic text - specifically target spans within archive-block */
+    .archive-block span {
+      font-style: italic; /* Default to italic */
+      transition: font-style 0.2s ease-in-out; /* Smooth transition */
+    }
+
+    .archive-block:hover span {
+      font-style: normal !important; /* Remove italic on hover */
+    }
+
+    /* Specific headline styles */
+    .headline-large {
+      font-family: 'Anton', sans-serif;
+      font-size: 3.5rem;
+      line-height: 1.1; /* Adjusted for better spacing */
+      letter-spacing: -0.05em;
+      white-space: normal; /* Allow text to wrap */
+      overflow: visible; /* Ensure text is not clipped */
+      text-overflow: unset; /* Prevent ellipsis */
+    }
+    .headline-medium {
+      font-family: 'Roboto Slab', serif;
+      font-size: 3.5rem;
+      line-height: 1.1; /* Adjusted for better spacing */
+      letter-spacing: -0.05em;
+      white-space: normal; /* Allow text to wrap */
+      overflow: visible;
+      text-overflow: unset;
+    }
+    .headline-small-italic {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.75rem;
+      line-height: 1.2; /* Adjusted for better spacing */
+      letter-spacing: 0.025em;
+      white-space: normal; /* Allow text to wrap */
+      overflow: visible;
+      text-overflow: unset;
+    }
+    .headline-awaken {
+      font-family: 'Anton', sans-serif;
+      font-size: 5.5rem;
+      line-height: 1.0; /* Adjusted for better spacing */
+      letter-spacing: -0.025em;
+      color: #e94e1b;
+      white-space: normal; /* Allow text to wrap */
+      overflow: visible; /* Ensure text is not clipped */
+      text-overflow: unset; /* Prevent ellipsis */
+    }
+    .headline-love-story {
+      font-family: 'Roboto Slab', serif;
+      font-size: 0.9rem;
+      line-height: 1.2; /* Adjusted for better spacing */
+      letter-spacing: 0.1em;
+      white-space: normal; /* Allow text to wrap */
+      overflow: visible;
+      text-overflow: unset;
+    }
+    .headline-love-story .font-playfair {
+      font-family: 'Playfair Display', serif;
+      font-style: italic; /* This will be overridden by the general hover if it's a direct child of archive-block */
+    }
+
+    /* Quote blocks */
+    .quote-block {
+      display: flex;
+      justify-content: space-between;
+      font-family: 'Roboto Slab', serif;
+      font-size: 0.6rem;
+      line-height: 1.2;
+      padding: 0.5rem 0;
+      margin-top: 0.5rem;
+      border-top: 1px dashed black;
+      border-bottom: 1px dashed black;
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .quote-block > div {
+      max-width: 48%;
+      text-align: left;
+    }
+    .quote-block > div:last-child {
+      text-align: right;
+    }
+    .quote-block span {
+      font-style: italic; /* Default italic for quotes */
+      transition: font-style 0.2s ease-in-out; /* Smooth transition */
+    }
+    .quote-block:hover span {
+      font-style: normal !important; /* Remove italic on hover for quotes */
+    }
+    .quote-block .not-italic {
+      font-style: normal;
+      font-weight: bold;
+    }
+
+    /* Bottom credits */
+    .credits-block {
+      font-family: 'Roboto Slab', serif;
+      font-size: 0.5rem;
+      line-height: 1.2;
+      letter-spacing: 0.05em;
+      padding: 0.5rem 0;
+      margin-top: 0.5rem;
+      border-top: 1px dashed black;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Footer styles (consistent with other pages) */
+    footer {
+      border-top: 1px solid black;
+      padding: 1.5rem 1rem;
+      font-size: 0.75rem;
+      text-align: center;
+      background-color: #f3f0e7;
+    }
+    footer a {
+      text-decoration: underline;
+      color: inherit;
+    }
+    footer .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 0.75rem;
+      font-size: 1.25rem;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 767px) {
+      .archive-container {
+        max-width: 100%;
+        padding: 0.5rem;
+      }
+      .archive-block {
+        padding: 0.15rem 0.3rem;
+        margin-bottom: 0.1rem;
+      }
+      .headline-large, .headline-medium {
+        font-size: 2.5rem;
+        line-height: 1.1;
+      }
+      .headline-small-italic {
+        font-size: 1.2rem;
+        line-height: 1.2;
+      }
+      .headline-awaken {
+        font-size: 4rem;
+        line-height: 1.0;
+      }
+      .headline-love-story {
+        font-size: 0.7rem;
+        line-height: 0.8;
+      }
+      .quote-block {
+        font-size: 0.5rem;
+      }
+      .credits-block {
+        font-size: 0.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="content-section">
+    <div class="archive-container">
+      <!-- OBSESSED -->
+      <div class="archive-block headline-large" onclick="window.location.href='archive-detail.html?id=new_world_order'">
+        <span>NEW WORLD ORDER</span>
+      </div>
+
+      <!-- NOISE -->
+      <div class="archive-block headline-medium" onclick="window.location.href='archive-detail.html?id=noise'">
+        <span>NOISE</span>
+      </div>
+
+      <!-- “ STATE OF MIND ” - Updated text -->
+      <div class="archive-block headline-small-italic" onclick="window.location.href='archive-detail.html?id=state_of_mind'">
+        <span>“ STATE OF MIND ”</span>
+      </div>
+
+      <!-- AWAKEN - Now links to homepage -->
+      <div class="archive-block headline-awaken" onclick="window.location.href='index.html'">
+        <span>AWAKEN</span>
+      </div>
+
+      <!-- Two quotes with text - MOVED UNDER AWAKEN -->
+      <div class="quote-block">
+        <div>
+          <span>
+            “THE VEIL IS THINNING. THE TRUTH IS UNBEARABLE, YET NECESSARY.”<br />
+            <span class="not-italic font-bold">THE AWAKENED OBSERVER</span>
+          </span>
+        </div>
+        <div>
+          <span>
+            “THEY CALL IT MADNESS. WE CALL IT CLARITY.”<br />
+            <span class="not-italic font-bold">THE COLLECTIVE CONSCIOUSNESS</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- A CULT LOVE STORY -->
+      <div class="archive-block headline-love-story" onclick="window.location.href='archive-detail.html?id=cult_love_story'">
+        <span>A CULT <span class="font-playfair italic">LOVE STORY</span></span>
+      </div>
+
+      <!-- HATED -->
+      <div class="archive-block headline-medium" onclick="window.location.href='archive-detail.html?id=hated'">
+        <span>HATED</span>
+      </div>
+
+      <!-- WASTED YOUTH - Moved below Hated -->
+      <div class="archive-block headline-small-italic" onclick="window.location.href='archive-detail.html?id=wasted_youth'">
+        <span>WASTED YOUTH</span>
+      </div>
+
+      <!-- WIDE SHUT! - Updated text -->
+      <div class="archive-block headline-large" onclick="window.location.href='archive-detail.html?id=wide_shut'">
+        <span>WIDE SHUT!</span>
+      </div>
+
+      <!-- Bottom credits -->
+      <div class="archive-block credits-block" onclick="window.location.href='archive-detail.html?id=credits'">
+        <span>
+          ARCHIVAL DATA: CLASSIFIED DISPATCHES FROM THE AWAKEN CULT. ALL INTEL PROPERTY OF THE NEW WORLD ORDER. UNAUTHORIZED REPRODUCTION FORBIDDEN.
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer - Consistent with main site -->
+  <footer class="bg-[#f3f0e7] border-t border-black text-xs font-roboto-condensed text-center py-4">
+    <div class="max-w-6xl mx-auto px-4">
+      <p class="mb-2">© 2025 AWAKEN CULT. Contact: <a href="mailto:info@awakencult.com" class="underline">info@awakencult.com</a></p>
+      <div class="social-icons">
+        <a href="https://instagram.com/awakencult" class="hover:text-gray-600" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://x.com/awakencult" class="hover:text-gray-600" target="_blank"><i class="fab fa-twitter"></i></a>
+        <a href="https://youtube.com/@awakencult" target="_blank"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Cart functionality (placeholder, not active on this page)
+    let cart = JSON.parse(localStorage.getItem('awakenCart')) || [];
+
+    function updateCartDisplay() { /* Not used on this page */ }
+    function toggleCart() { /* Not used on this page */ }
+    function removeFromCart(index) { /* Not used on this page */ }
+    function proceedToCheckout() { /* Not used on this page */ }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Any specific JS for this archives page would go here.
+      // Currently, the main functionality is handled by the onclick events.
+    });
+  </script>
+</body>
+</html>
+<script>
+    // Tailwind CSS configuration for custom styles
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'primary': '#e94e1b',
+            'secondary': '#f3f0e7',
+          },
+          fontFamily: {
+            'anton': ['Anton', 'sans-serif'],
+            'playfair': ['Playfair Display', 'serif'],
+            'robotoslab': ['Roboto Slab', 'serif'],
+            'roboto-condensed': ['Roboto Condensed', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>

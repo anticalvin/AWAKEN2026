@@ -1,0 +1,1785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AWAKEN Cult Newspaper + Shop</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+  <style>
+    /* Import Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;700&display=swap');
+    /* New fonts for newsletter section */
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap');
+
+
+    /* Custom font classes */
+    .font-anton { font-family: 'Anton', sans-serif; }
+    .font-roboto-condensed { font-family: 'Roboto Condensed', sans-serif; }
+    .font-roboto-slab { font-family: 'Roboto Slab', serif; }
+    .font-tattler {
+      font-family: 'Anton', sans-serif;
+      letter-spacing: -0.05em;
+    }
+    .font-national {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+    }
+
+
+    /* Basic body styles */
+    body {
+      background-color: #f3f0e7; /* Light newspaper-like background */
+      color: #000; /* Black text */
+      font-family: 'Roboto Condensed', sans-serif; /* Default font for body */
+      line-height: 1.5;
+      overflow-x: hidden; /* Prevent horizontal scrolling */
+      margin: 0; /* Ensure no default body margin */
+      padding: 0; /* Ensure no default body padding */
+    }
+
+    /* Marquee animation */
+    /* The animation now moves the content by the exact width of one original marquee-text element,
+       which is crucial for seamless looping when content is duplicated multiple times. */
+    @keyframes marquee {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(var(--marquee-distance)); } /* Move by dynamic distance */
+    }
+    .marquee-container {
+        width: 100%; /* Take full width of its parent (header) */
+        overflow: hidden;
+        background-color: black;
+        color: white;
+        font-family: 'Roboto Condensed', sans-serif;
+        padding: 0.25rem 0;
+    }
+    .marquee-content-wrapper { /* New wrapper for seamless animation */
+        display: flex;
+        width: max-content; /* Allow content to dictate width */
+        animation: marquee var(--marquee-speed) linear infinite; /* Speed dynamically set by JS */
+    }
+    .marquee-text {
+        white-space: nowrap; /* Keep content on one line */
+        padding-right: 2rem; /* Small gap between duplicated content */
+        flex-shrink: 0; /* Prevent text from shrinking */
+    }
+
+
+    /* General section padding and max-width */
+    .content-section { /* New class for sections that should be max-width and centered */
+      padding: 3rem 1rem; /* Default vertical padding for sections */
+      max-width: 1400px; /* Increased max-width for consistency with hero-news-section */
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Full-width sections (for marquee and video) */
+    .video-section { /* Renamed for clarity and specific styling */
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      padding: 0;
+    }
+    /* Video object-fit adjustment for mobile */
+    .video-section video {
+        object-fit: cover; /* Always cover to prevent black bars */
+    }
+
+
+    /* Header specific styles */
+    header {
+        background-color: #d94a44;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        box-sizing: border-box;
+        position: sticky;
+        top: 0;
+        z-index: 99;
+    }
+    .header-top-row {
+        padding: 0.5rem 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    header .header-logo {
+        font-family: 'Anton', sans-serif;
+        font-size: 4rem; /* Default size for mobile */
+        color: #f3f0e7;
+        line-height: 1;
+        text-decoration: none;
+        cursor: pointer;
+        transition: color 0.2s;
+        margin-left: 1rem; /* Space from left edge */
+    }
+    header .header-logo:hover {
+        color: #fff;
+    }
+    header nav {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        margin-right: 1rem; /* Space from right edge */
+    }
+    header nav a {
+        color: #f3f0e7;
+        font-family: 'Roboto Condensed', sans-serif;
+        font-size: 0.875rem;
+        text-decoration: none;
+        margin-left: 1.5rem;
+        transition: underline 0.2s;
+    }
+    header nav a:hover {
+        text-decoration: underline;
+    }
+    .cart-icon-container {
+      position: relative;
+      cursor: pointer;
+      color: #f3f0e7;
+      font-size: 1.5rem;
+      margin-left: 1.5rem;
+    }
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: black;
+      color: white;
+      border-radius: 50%;
+      padding: 0.1rem 0.4rem;
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+
+
+    /* Specific styles for the Hero News Story section */
+    .hero-news-grid {
+      display: grid;
+      grid-template-columns: 1fr; /* Single column by default for all mobile/tablet */
+      gap: 1.5rem; /* Gap between columns/rows */
+      border: 1px solid black; /* Main border for the section */
+      padding: 1.5rem; /* Inner padding */
+    }
+
+    @media (min-width: 1024px) { /* Desktop screens and up */
+      .hero-news-grid {
+        grid-template-columns: 1fr 2.5fr 1fr; /* Multi-column for desktop */
+        gap: 2rem; /* Increased gap for better spacing */
+      }
+    }
+    /* Increased max-width for the hero news grid section */
+    @media (min-width: 1024px) { /* Adjust for larger screens */
+      .content-section.hero-news-section { /* Apply to the specific hero section */
+        max-width: 1400px; /* Increased max-width */
+      }
+    }
+
+
+    .hero-news-column {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem; /* Space between elements in a column */
+      justify-content: space-between; /* Distribute space to align items */
+    }
+
+    .news-card {
+      border: 1px solid black;
+      font-size: 0.75rem; /* Default font for news card content */
+      line-height: 1.3;
+      transition: background-color 0.3s ease; /* Smooth transition for hover */
+    }
+    .news-card:hover {
+      background-color: #e0e0e0; /* Light gray highlight */
+      cursor: pointer;
+    }
+    .news-card img {
+      width: 100%;
+      height: auto;
+      display: block; /* Ensure image behaves as block for full width */
+    }
+    .news-card-content { /* New class for the content inside the news card */
+      padding: 0.75rem; /* Apply padding only to the text content */
+      padding-top: 0.5rem; /* Add a small top padding to separate from image */
+    }
+
+
+    .main-headline {
+      font-size: 4rem; /* Large headline */
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .sub-headline {
+      font-size: 0.875rem; /* Smaller sub-headline */
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    .article-body {
+      font-size: 1.1rem; /* Increased font size for readability */
+      line-height: 1.8; /* Increased line height for readability */
+    }
+
+    .cult-exclusive-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid black;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .cult-exclusive-header a {
+      display: flex; /* Make links flexible containers */
+      align-items: center; /* Vertically align content */
+      text-decoration: none; /* Remove default underline */
+      color: inherit; /* Inherit color */
+      transition: color 0.3s ease; /* Smooth transition for text color */
+      position: relative; /* Added for pseudo-element positioning */
+      overflow: hidden; /* Ensures pseudo-element doesn't overflow */
+    }
+    .cult-exclusive-header a:hover {
+      color: #d94a44; /* Red text on hover */
+    }
+    
+    /* Container for the eye logo image and its overlay */
+    .eye-logo-container {
+      position: relative; /* For absolute positioning of pseudo-element */
+      height: 2rem; /* Matches h-8 from Tailwind */
+      width: auto; /* Allow width to adjust based on content */
+      display: inline-block; /* Allows width to shrink-wrap content */
+      vertical-align: middle; /* To align with text if needed */
+      margin-right: 0.5rem; /* Matches mr-2 from Tailwind */
+      flex-shrink: 0; /* Prevent it from shrinking in flex container */
+    }
+
+    .eye-logo-container img {
+      /* These properties will make the image fill the inline-block container's height and auto-scale width */
+      height: 100%;
+      width: auto; /* Allow width to scale proportionally */
+      object-fit: contain; /* Ensure the image fits within its bounds */
+      display: block;
+      z-index: 1; /* Ensure original image is below the overlay */
+      transition: opacity 0.3s ease; /* Smooth transition for hiding original image */
+    }
+
+    .eye-logo-container:hover img {
+      opacity: 0; /* Hide the black image to reveal the red masked pseudo-element */
+    }
+
+    /* Pseudo-element for the red overlay */
+    .eye-logo-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%; /* Will match the auto-calculated width of the container */
+      background-color: #d94a44; /* The desired red color */
+      /* Use the original black logo as a mask */
+      mask-image: url('https://i.ibb.co/23z6psTD/NEW-EYE-LOGO_BLACK_VEC.png');
+      mask-size: contain;
+      mask-repeat: no-repeat;
+      mask-position: center;
+      opacity: 0; /* Hidden by default */
+      transition: opacity 0.3s ease; /* Smooth transition for overlay */
+      pointer-events: none; /* Allow clicks to pass through */
+      z-index: 2; /* Above the image */
+      /* For WebKit browsers */
+      -webkit-mask-image: url('https://i.ibb.co/23z6psTD/NEW-EYE-LOGO_BLACK_VEC.png');
+      -webkit-mask-size: contain;
+      -webkit-mask-repeat: no-repeat;
+      -webkit-mask-position: center;
+    }
+
+    .eye-logo-container:hover::before {
+      opacity: 1; /* Show red overlay on hover */
+    }
+
+    .cult-exclusive-header a span {
+      transition: color 0.3s ease, text-decoration 0.3s ease; /* Smooth transition for text */
+    }
+    .cult-exclusive-header a:hover span {
+      text-decoration: none; /* Removed underline from text on hover */
+    }
+
+    .icon-text-block {
+      display: flex;
+      align-items: center;
+      margin-top: 1.5rem;
+      font-size: 0.75rem;
+      border: 1px solid black;
+      padding: 0.75rem;
+      flex-grow: 1;
+      margin-bottom: 0;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .icon-text-block:hover {
+      background-color: #e0e0e0;
+    }
+    .icon-text-block img {
+      width: 3rem;
+      height: 3rem;
+      margin-right: 0.5rem;
+    }
+
+    /* Shop Section product card adjustments */
+    .shop-product-card {
+      border: 1px solid black;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    /* Apply aspect-square only on large screens and up */
+    @media (min-width: 1024px) {
+      .shop-product-card {
+        aspect-ratio: 1 / 1;
+      }
+    }
+
+    .shop-product-card .product-image-container {
+      width: 100%;
+      height: auto;
+      min-height: 12rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-grow: 1;
+    }
+
+    @media (min-width: 1024px) {
+      .shop-product-card .product-image-container {
+        height: 16rem;
+        min-height: unset;
+      }
+    }
+
+    .shop-product-card img {
+      max-width: 100%;
+      max-height: 100%;
+      height: auto;
+      object-fit: contain;
+      margin: 0 auto;
+    }
+
+    .shop-product-card h3 {
+        font-family: 'Roboto Slab', serif;
+        font-size: 1.25rem;
+        font-weight: bold;
+        margin-top: 0.75rem;
+        margin-bottom: 0.25rem;
+    }
+    .shop-product-card p.price {
+        font-family: 'Roboto Condensed', sans-serif;
+        font-size: 1rem;
+        font-weight: bold;
+        margin-bottom: 0.75rem;
+    }
+
+    /* Custom Add to Cart Button Styling */
+    .add-to-cart-btn {
+        background-color: black;
+        color: white;
+        border-radius: 0px;
+        font-family: 'Oswald', sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        white-space: nowrap;
+        width: calc(100% - 2rem);
+        max-width: 150px;
+        display: block;
+        margin: 0.5rem auto 0 auto;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    .add-to-cart-btn:hover {
+        background-color: #333;
+    }
+
+
+    /* Editorial Shots Section */
+    .editorial-shot-card {
+      border: 1px solid black;
+      text-align: center;
+      transition: background-color 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .editorial-shot-card:hover {
+      background-color: #e0e0e0;
+      cursor: pointer;
+    }
+
+    .editorial-shot-card .editorial-image-container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .editorial-shot-card .editorial-image-container img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    .editorial-shot-card .editorial-text-content {
+      padding: 0.75rem;
+      padding-top: 0.5rem;
+    }
+
+    .editorial-shot-card p {
+      font-size: 0.75rem;
+      line-height: 1.3;
+      margin-bottom: 0;
+    }
+
+    /* Newsletter Section */
+    .newsletter-section {
+      border-bottom: 1px solid black;
+      padding: 0rem 2rem 1.5rem 2rem;
+      text-align: center;
+      max-width: 800px;
+      margin: 3rem auto;
+      background-color: #f3f0e7;
+    }
+
+    .newsletter-masthead-container {
+      position: relative;
+      width: 100%;
+      padding-top: 1rem;
+    }
+
+    .newsletter-masthead {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid black;
+      margin-bottom: 1.5rem;
+      width: 100%;
+    }
+
+    .newsletter-masthead-left {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      line-height: 1;
+    }
+
+    .newsletter-masthead-left .font-national {
+      font-size: 1.25rem;
+      margin-bottom: 0.1rem;
+    }
+
+    .newsletter-masthead-left .font-tattler {
+      font-size: 4.5rem;
+      margin-top: -0.5rem;
+    }
+
+    .newsletter-masthead-right {
+      text-align: right;
+      font-weight: bold;
+      text-transform: uppercase;
+      line-height: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+    .newsletter-masthead-right .stars span {
+      display: inline-block;
+      margin-right: 0.1rem;
+      font-size: 0.85rem;
+    }
+    .newsletter-masthead-right .special-weekly {
+      font-size: 0.85rem;
+      margin-top: 0.25rem;
+    }
+    .newsletter-masthead-right .price {
+      font-size: 1.5rem;
+      margin-top: 0.25rem;
+    }
+
+    .newsletter-headline-main {
+      font-family: 'Anton', sans-serif;
+      font-size: 7.5rem;
+      line-height: 1;
+      letter-spacing: -0.05em;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+    }
+
+    .newsletter-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    .newsletter-form input[type="email"] {
+      border: 1px solid black;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      background-color: #f3f0e7;
+    }
+    .newsletter-form button {
+      background-color: black;
+      color: white;
+      padding: 0.75rem 1rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .newsletter-form button:hover {
+      background-color: #333;
+    }
+
+    /* Quote above video section */
+    .video-quote {
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto 2rem auto;
+        font-family: 'Roboto Slab', serif;
+        font-style: italic;
+        font-size: 1.5rem;
+        line-height: 1.4;
+        padding: 0 1rem;
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
+    .video-quote:hover {
+        color: #d94a44;
+    }
+    .video-quote strong {
+        font-weight: bold;
+        color: inherit;
+    }
+
+
+    /* Footer adjustments */
+    footer {
+      border-top: 1px solid black;
+      padding: 1.5rem 1rem;
+      font-size: 0.75rem;
+      text-align: center;
+    }
+    footer a {
+      text-decoration: underline;
+      color: inherit;
+    }
+    footer .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 0.75rem;
+      font-size: 1.25rem;
+    }
+
+    /* Responsive adjustments for header (Mobile/Tablet view) */
+    @media (max-width: 1023px) {
+      .header-top-row {
+        flex-direction: column;
+        padding: 0.5rem 1rem;
+      }
+      header .header-logo {
+        font-size: 4rem;
+        margin-left: 0;
+        margin-bottom: 0.5rem;
+      }
+      header nav {
+        text-align: center;
+        width: 100%;
+        margin-top: 0.5rem;
+        margin-right: 0;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      header nav a {
+        font-size: 0.875rem;
+        margin: 0 0.5rem;
+      }
+      .cart-icon-container {
+        font-size: 1.2rem;
+        margin-left: 0.5rem;
+      }
+      /* Marquee container now inside header, so its top is relative to header's top */
+      .marquee-container {
+        top: auto;
+        position: relative;
+      }
+
+      /* General mobile/tablet adjustments for sections */
+      .newsletter-section {
+        padding: 1rem;
+      }
+      .newsletter-masthead-left .font-national {
+        font-size: 1rem;
+      }
+      .newsletter-masthead-left .font-tattler {
+        font-size: 3rem;
+      }
+      .newsletter-masthead-right .stars span,
+      .newsletter-masthead-right .special-weekly {
+        font-size: 0.7rem;
+      }
+      .newsletter-masthead-right .price {
+        font-size: 1.2rem;
+      }
+      .newsletter-headline-main {
+        font-size: 4rem;
+      }
+      .video-quote {
+        font-size: 1.2rem;
+      }
+      .article-body {
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+      /* Ensure shop and editorial grids are single column on mobile/tablet */
+      .shop-section .grid, .editorial-shots-grid .grid {
+        grid-template-columns: 1fr !important;
+      }
+      .shop-product-card, .editorial-shot-card {
+        aspect-ratio: auto !important;
+        min-height: auto !important;
+      }
+      .shop-product-card .product-image-container {
+        height: auto !important;
+        min-height: 12rem;
+      }
+    }
+
+    /* Responsive adjustments for header (Desktop view) */
+    @media (min-width: 1024px) {
+      header .header-logo {
+        font-size: 6rem;
+      }
+      header nav a {
+        font-size: 1rem;
+        margin-left: 2.5rem;
+      }
+    }
+
+    /* Styles for the new Ad Section */
+    .background-image-cover-adjusted {
+      background-size: cover;
+      background-position: 50% 20%;
+      background-repeat: no-repeat;
+    }
+
+    .mobile-full-height {
+      height: 100vh;
+    }
+
+    @media (min-width: 768px) {
+      .md\:h-screen {
+        height: 100vh;
+      }
+    }
+
+    /* Cart Overlay - Consistent with shop.html */
+    .cart-overlay {
+      position: fixed;
+      top: 0;
+      right: -400px;
+      width: 350px;
+      height: 100%;
+      background-color: #f3f0e7;
+      border-left: 2px solid black;
+      box-shadow: -4px 0 8px rgba(0,0,0,0.2);
+      z-index: 999;
+      transition: right 0.3s ease-in-out;
+      display: flex;
+      flex-direction: column;
+    }
+    .cart-overlay.active {
+      right: 0;
+    }
+    .cart-header {
+      background-color: black;
+      color: white;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Anton', sans-serif;
+      font-size: 1.5rem;
+      text-transform: uppercase;
+    }
+    .cart-close-button {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: white;
+      line-height: 1;
+    }
+    .cart-items {
+      flex-grow: 1;
+      padding: 1rem;
+      overflow-y: auto;
+    }
+    .cart-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+      border-bottom: 1px dashed #ccc;
+      padding-bottom: 0.5rem;
+    }
+    .cart-item-image {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      margin-right: 0.75rem;
+      border: 1px solid #eee;
+    }
+    .cart-item-details {
+      flex-grow: 1;
+      text-align: left;
+    }
+    .cart-item-details h4 {
+      font-weight: bold;
+      font-size: 0.95rem;
+    }
+    .cart-item-details p {
+      font-size: 0.85rem;
+      color: #555;
+    }
+    .cart-item-remove {
+      background-color: #d94a44;
+      color: white;
+      border: none;
+      padding: 0.3rem 0.6rem;
+      font-size: 0.75rem;
+      cursor: pointer;
+      border-radius: 0;
+    }
+    .cart-item-remove:hover {
+      background-color: #b92a1e;
+    }
+    .cart-summary {
+      padding: 1rem;
+      border-top: 2px solid black;
+      font-family: 'Roboto Slab', serif;
+    }
+    .cart-summary p {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+    .cart-checkout-btn {
+      background-color: #d94a44;
+      color: white;
+      padding: 1rem;
+      width: 100%;
+      text-align: center;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      border-radius: 0;
+    }
+    .cart-checkout-btn:hover {
+      background-color: #b92a1e;
+    }
+    .empty-cart-message {
+      text-align: center;
+      padding: 2rem;
+      color: #777;
+    }
+    /* New style for ASCII art */
+    .empty-cart-ascii {
+        font-family: 'monospace', 'Courier New', Courier, monospace;
+        white-space: pre;
+        font-size: 0.8rem;
+        line-height: 1;
+        margin: 1rem auto;
+        color: #555;
+    }
+    @media (max-width: 767px) {
+      .cart-overlay {
+        width: 100%;
+        right: -100vw;
+      }
+      .cart-overlay.active {
+        right: 0;
+      }
+    }
+
+    /* General Modal Overlay */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-content-small {
+      background-color: #f3f0e7;
+      padding: 1.5rem;
+      border: 2px solid black;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      max-width: 400px;
+      width: 90%;
+      transform: translateY(-20px);
+      transition: transform 0.3s ease-in-out;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-overlay.active .modal-content-small {
+      transform: translateY(0);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid black;
+      padding-bottom: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .modal-header h3 {
+      font-family: 'Anton', sans-serif;
+      font-size: 1.8rem;
+      text-transform: uppercase;
+    }
+
+    .modal-close-button {
+      background: none;
+      border: none;
+      font-size: 2rem;
+      cursor: pointer;
+      color: #000;
+      line-height: 1;
+    }
+
+    .modal-body {
+      text-align: center;
+    }
+
+    .size-option-btn {
+      background-color: #eee;
+      border: 1px solid #ccc;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      transition: background-color 0.2s, border-color 0.2s;
+      border-radius: 4px;
+      font-family: 'Roboto Condensed', sans-serif;
+    }
+
+    .size-option-btn:hover {
+      background-color: #ddd;
+    }
+
+    .size-option-btn.selected {
+      background-color: #d94a44;
+      color: white;
+      border-color: #d94a44;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="header-top-row">
+      <a href="/" class="header-logo">AWAKEN</a>
+      <nav>
+        <a href="shop.html">Shop</a>
+        <a href="manifesto.html">Manifesto</a>
+        <a href="join-us.html">Join Us</a>
+        <a href="archives.html">Archive</a>
+        <a href="#about">About</a>
+        <div class="cart-icon-container" onclick="toggleCart()">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-count" id="cart-count">0</span>
+        </div>
+      </nav>
+    </div>
+    <!-- Top Scrolling Bar -->
+    <div class="marquee-container">
+      <div class="marquee-content-wrapper">
+        <span class="marquee-text">ENLIGHTENMENT IS A CHOICE • JOIN THE CULT • AWAKEN • THE NEW WORLD ORDER IS HERE • BUY THE MESSAGE • BURN THE MASK • REVEAL THE TRUTH •</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero News Grid Section -->
+  <section class="content-section hero-news-section">
+    <div class="hero-news-grid">
+      <div class="lg:col-span-1 flex flex-col justify-between lg:order-2">
+        <div class="cult-exclusive-header">
+          <a href="eye.html">
+            <div class="eye-logo-container">
+              <img src="https://i.ibb.co/23z6psTD/NEW-EYE-LOGO_BLACK_VEC.png" alt="The Sun Logo" />
+            </div>
+          </a>
+          <a href="cult.html">
+            <span class="font-roboto-condensed text-xs font-bold uppercase">Cult Picture Exclusive</span>
+          </a>
+        </div>
+        <div>
+          <h3 class="font-anton main-headline uppercase">THE VEIL IS THINNING</h3>
+          <p class="font-roboto-condensed sub-headline">Are You Ready For The Truth?</p>
+          <p class="font-roboto-condensed article-body">
+            Whispers of a New World Order are spreading like wildfire, fueled by cryptic messages and unsettling imagery appearing across the metropolis. Citizens report a growing unease, a sense that the reality they know is merely a carefully constructed illusion. The AWAKEN cult claims to hold the key to true enlightenment, promising liberation from the 'cage' of modern existence. Are these just fringe theories, or is there a deeper, more profound truth waiting to be uncovered? The time to question everything is now.
+          </p>
+        </div>
+        <div class="icon-text-block mt-4" onclick="window.location.href='game.html'">
+          <img src="https://i.ibb.co/M5xjjWqM/3rd-eye-smiley.png" alt="Smiley" />
+          <p class="font-roboto-condensed text-xs"><strong>Smile Surveillance Live</strong><br/>Witnesses report sightings of this icon throughout the city. Stay aware.</p>
+        </div>
+        <a href="breaking-news.html" class="news-card mt-4 block no-underline text-black">
+          <div class="news-card-content">
+            <strong class="uppercase">Breaking News:</strong><br/>
+            Unexplained energy surges reported near the city's ancient monolith. Coincidence or a sign? More details to follow.
+          </div>
+        </a>
+      </div>
+
+      <div class="hero-news-column lg:order-1">
+        <a href="https://instagram.com/awakencult" target="_blank" class="news-card block no-underline text-black">
+          <img src="https://i.ibb.co/fYLGm3Cy/mcga.png" alt="Make Cults Great Again Poster" class="w-full h-auto" />
+          <div class="news-card-content">
+            <strong class="uppercase">The Smile is Watching:</strong><br/>
+            New cult recruitment posters are flooding the city, urging citizens to 'AWAKEN' and 'Make Cults Great Again'. Authorities are baffled.
+          </div>
+        </a>
+        <a href="shop.html" class="news-card block no-underline text-black">
+          <div class="news-card-content">
+            <strong class="uppercase">Easter Egg:</strong><br/>
+            Enter code “TRUTH23” at checkout for a mysterious bonus.
+          </div>
+        </a>
+      </div>
+
+      <div class="hero-news-column lg:order-3">
+        <a href="shop.html" class="news-card block no-underline text-black">
+          <div class="news-card-content">
+            <strong class="uppercase">Limited Coupon:</strong><br/>
+            FREE ENLIGHTENMENT with every hoodie purchase. Only valid in Sector 7.
+          </div>
+        </a>
+        <a href="https://instagram.com/awakencult" target="_blank" class="news-card block no-underline text-black">
+          <img src="https://i.ibb.co/TMszwwZ3/nwo-awaken-needs-you.png" alt="Additional Poster" class="w-full h-auto" />
+          <div class="news-card-content">
+            <strong class="uppercase">Cult Propaganda on the Rise:</strong><br/>
+            Posters flood city streets as the AWAKEN movement continues its bold public displays.
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Shop Section -->
+  <section id="shop" class="content-section">
+    <h2 class="text-3xl font-anton text-center mb-8 uppercase">Underground Market</h2>
+    <div id="product-grid" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Product 1: MCGA Cap -->
+      <div class="shop-product-card lg:aspect-square group">
+        <a href="product-detail.html?id=p6" class="product-image-container block">
+          <img src="https://i.ibb.co/GvhVTBTc/MCGA-CAP.webp" alt="MCGA Cap" />
+        </a>
+        <h3 class="text-xl font-bold mt-3">MCGA Cap</h3>
+        <p class="text-sm mb-2">R 250.00</p>
+        <button class="add-to-cart-btn" data-product-index="0">Add to cart</button>
+      </div>
+
+      <!-- Product 2: Fake News Hoodie -->
+      <div class="shop-product-card lg:aspect-square group">
+        <a href="product-detail.html?id=p2" class="product-image-container block">
+          <img src="https://i.ibb.co/mrTy6Mhw/fake-news-hoodie.webp" alt="Fake News Hoodie" />
+        </a>
+        <h3 class="text-xl font-bold mt-3">Fake News Hoodie</h3>
+        <p class="text-sm mb-2">R 550.00</p>
+        <button class="add-to-cart-btn" data-product-index="1">Add to cart</button>
+      </div>
+
+      <!-- Product 3: XTCY Tee -->
+      <div class="shop-product-card lg:aspect-square group">
+        <a href="product-detail.html?id=p1" class="product-image-container block">
+          <img src="https://i.ibb.co/twNrP2xF/XTCYYYY.webp" alt="XTCY Tee" />
+        </a>
+        <h3 class="text-xl font-bold mt-3">XTCY Tee</h3>
+        <p class="text-sm mb-2">R 300.00</p>
+        <button class="add-to-cart-btn" data-product-index="2">Add to cart</button>
+      </div>
+
+      <!-- Product 4: Vision Jacket -->
+      <div class="shop-product-card lg:aspect-square group">
+        <a href="product-detail.html?id=p4" class="product-image-container block">
+          <img src="https://i.ibb.co/JFyXsdVv/vzn-jacket.webp" alt="Vision Jacket" />
+        </a>
+        <h3 class="text-xl font-bold mt-3">Vision Jacket</h3>
+        <p class="text-sm mb-2">R 800.00</p>
+        <button class="add-to-cart-btn" data-product-index="3">Add to cart</button>
+      </div>
+
+      <!-- Product 5: Obey Sweater -->
+      <div class="shop-product-card lg:aspect-square group">
+        <a href="product-detail.html?id=p5" class="product-image-container block">
+          <img src="https://i.ibb.co/V0FTWqC1/oberyyy.webp" alt="Obey Sweater" />
+        </a>
+        <h3 class="text-xl font-bold mt-3">Obey Sweater</h3>
+        <p class="text-sm mb-2">R 350.00</p>
+        <button class="add-to-cart-btn" data-product-index="4">Add to cart</button>
+      </div>
+
+      <!-- Product 6: Third Eye Balaclava -->
+      <div class="shop-product-card lg:aspect-square group">
+        <a href="product-detail.html?id=p3" class="product-image-container block">
+          <img src="https://i.ibb.co/JRsBZr2d/BURN-BALACLAVAAA.webp" alt="Third Eye Balaclava" />
+        </a>
+        <h3 class="text-xl font-bold mt-3">Third Eye Balaclava</h3>
+        <p class="text-sm mb-2">R 280.00</p>
+        <button class="add-to-cart-btn" data-product-index="5">Add to cart</button>
+      </div>
+    </div>
+    <div class="text-center mt-16 mb-4">
+      <a href="shop.html" class="inline-block bg-[#d94a44] text-white px-8 py-4 font-bold uppercase text-lg hover:bg-[#b92a1e] transition-colors">Shop All Artifacts</a>
+    </div>
+  </section>
+
+  <!-- Quote above video section -->
+  <section class="video-quote content-section">
+      <a href="manifesto.html" class="block text-inherit no-underline">
+        <p>"The flesh is weak. The mind is moldable. <strong>Awaken is the path.</strong>"</p>
+      </a>
+  </section>
+
+  <!-- Fullscreen Video Section -->
+  <div class="video-section" onclick="window.open('https://www.youtube.com/@awakencult', '_blank')" style="cursor: pointer;">
+    <video id="backgroundVideo" autoplay loop muted playsinline class="w-full h-full object-cover">
+      <source src="https://raw.githubusercontent.com/junokira/NWO/main/nwo%20web%20w-2.mp4" type="video/mp4" media="(min-width: 768px)" />
+      <source src="YOUR_MOBILE_VERTICAL_VIDEO_URL_HERE.mp4" type="video/mp4" media="(max-width: 767px)" />
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <!-- New Ad Section -->
+  <section id="campaign" class="w-full h-screen relative overflow-hidden">
+    <div class="flex flex-col lg:flex-row w-full h-full">
+      <!-- Left side with woman -->
+      <div class="w-full lg:w-1/2 relative flex-shrink-0 background-image-cover-adjusted mobile-full-height">
+        <!-- Background image for the woman's side -->
+        <div class="absolute inset-0 background-image-cover-adjusted"
+             style="background-image: url('https://i.ibb.co/7txpq4xQ/43435.png'); background-color: #b92a1e;">
+        </div>
+        <!-- Text overlay for the woman's side -->
+        <p class="absolute right-6 bottom-20 text-white text-lg font-serif leading-relaxed max-w-xs z-10" style="line-height:1.4;">
+          “Won’t
+          <br/>
+          anybody
+          <br/>
+          AWAKEN
+          <br/>
+          me?”
+        </p>
+      </div>
+
+      <!-- Right side with cowboy and AWAKEN -->
+      <div class="w-full lg:w-1/2 relative flex-shrink-0 background-image-cover-adjusted mobile-full-height">
+        <!-- Background image for the cowboy's side -->
+        <div class="absolute inset-0 background-image-cover-adjusted"
+             style="background-image: url('https://i.ibb.co/jv3BthpX/3oj3434.png'); background-color: #7a3f2a;">
+        </div>
+        <!-- AWAKEN text moved above product images -->
+        <div class="absolute left-10 bottom-[55vh] lg:bottom-[33vh] text-white font-serif font-extrabold text-6xl leading-none select-none z-10">
+          AWAKEN
+        </div>
+        <!-- Product images (cigarette packs) overlay - Adjusted for mobile stacking -->
+        <div class="absolute left-10 bottom-[15vh] lg:bottom-[10vh] flex flex-col space-y-4 lg:flex-row lg:space-x-4 z-10">
+          <img alt="Red cigarette pack with two cigarettes" class="h-44 w-auto rounded-md shadow-lg" src="https://i.ibb.co/S49t2Jm8/ballsl.png" />
+          <img alt="Gold cigarette pack with two cigarettes" class="h-44 w-auto rounded-md shadow-lg" src="https://i.ibb.co/nN3JW0tz/CREAM-BALLY.png" />
+        </div>
+        <!-- Bottom text overlay -->
+        <p class="absolute left-10 bottom-[5vh] lg:bottom-10 text-white text-xs font-serif max-w-xs z-10" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.7);">
+          Red or Lightsm 100’s — just get a lot to like.
+        </p>
+      </div>
+    </div>
+  </section>
+  <!-- End New Ad Section -->
+
+  <!-- Newsletter Section -->
+  <section class="newsletter-section content-section">
+    <div class="newsletter-masthead-container">
+      <div class="newsletter-masthead">
+        <div class="newsletter-masthead-left">
+          <span class="font-national uppercase">The Daily</span>
+          <h2 class="font-tattler uppercase">AWAKEN</h2>
+        </div>
+        <div class="newsletter-masthead-right">
+          <div class="stars">
+            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+          </div>
+          <div class="special-weekly">SPECIAL WEEKLY</div>
+          <div class="price">15¢</div>
+        </div>
+      </div>
+    </div>
+
+    <a href="join-us.html" class="block no-underline">
+      <h2 class="newsletter-headline-main font-tattler uppercase">OPEN YOUR EYES</h2>
+    </a>
+    
+    <!-- MailerLite Form Integration -->
+    <form action="https://assets.mailerlite.com/jsonp/1660429/forms/159738966717761336/subscribe" method="post" target="_blank" class="newsletter-form">
+      <input type="email" name="fields[email]" placeholder="Enter your email" required class="newsletter-form-input" />
+      <input type="hidden" name="ml-submit" value="1">
+      <input type="hidden" name="anticsrf" value="true">
+      <button type="submit" class="newsletter-form-button">Subscribe</button>
+    </form>
+    <!-- End MailerLite Form Integration -->
+  </section>
+
+  <!-- Editorial Shots Section -->
+  <section class="editorial-shots-grid content-section">
+    <h2 class="text-3xl font-anton text-center mb-8">Dispatches from the Archives</h2>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <a href="https://instagram.com/awakencult" target="_blank" class="editorial-shot-card block no-underline text-black">
+        <div class="editorial-image-container">
+          <img src="https://i.ibb.co/fVC0cbZ6/snsb.png" alt="The Silent Observer" />
+        </div>
+        <div class="editorial-text-content">
+          <p>The Silent Observer: Encrypted messages found in Sector 4, hinting at a pervasive surveillance network.</p>
+        </div>
+      </a>
+      <a href="https://instagram.com/awakencult" target="_blank" class="editorial-shot-card block no-underline text-black">
+        <div class="editorial-image-container">
+          <img src="https://i.ibb.co/DPKd5pY6/jhbhjb.png" alt="The Unseen Architect" />
+        </div>
+        <div class="editorial-text-content">
+          <p>The Unseen Architect: Unraveling the blueprints of control embedded in everyday life. A new perspective.</p>
+        </div>
+      </a>
+      <a href="https://instagram.com/awakencult" target="_blank" class="editorial-shot-card block no-underline text-black">
+        <div class="editorial-image-container">
+          <img src="https://i.ibb.co/xS6j3cSs/otis-grade.png" alt="The Awakening Gaze" />
+        </div>
+        <div class="editorial-text-content">
+          <p>The Awakening Gaze: Rare footage of an initiate's first moments of clarity. Profound and unsettling.</p>
+        </div>
+      </a>
+    </div>
+    <div class="text-center mt-16 mb-4">
+      <a href="archives.html" class="inline-block bg-[#d94a44] text-white px-8 py-4 font-bold uppercase text-lg hover:bg-[#b92a1e] transition-colors">View All Archives</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-[#f3f0e7] border-t border-black text-xs font-roboto-condensed text-center py-4">
+    <div class="max-w-6xl mx-auto px-4">
+      <p class="mb-2">© 2025 AWAKEN CULT. Contact: <a href="mailto:info@awakencult.com" class="underline">info@awakencult.com</a></p>
+      <div class="social-icons">
+        <a href="https://instagram.com/awakencult" class="hover:text-gray-600" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://x.com/awakencult" class="hover:text-gray-600" target="_blank"><i class="fab fa-twitter"></i></a>
+        <a href="https://youtube.com/@awakencult" target="_blank"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Fullscreen Modal Structure -->
+  <div id="fullscreenModal" class="modal-overlay">
+    <div class="modal-content">
+      <img id="fullscreenImage" src="" alt="Full Screen Poster">
+    </div>
+  </div>
+
+  <!-- Shopping Cart Overlay -->
+  <div id="cart-overlay" class="cart-overlay">
+    <div class="cart-header">
+      <span>Your Artifacts</span>
+      <button class="cart-close-button" onclick="toggleCart()">&times;</button>
+    </div>
+    <div id="cart-items" class="cart-items">
+      <p class="empty-cart-message" id="empty-cart-message">
+        <pre class="empty-cart-ascii">
+  .------.
+ /  o   o \
+|    ---   |
+ \  '---'  /
+  `------'
+  NO ITEMS
+  IN CART
+        </pre>
+      </p>
+    </div>
+    <div class="cart-summary">
+      <p>Total: <span id="cart-total">$0.00</span></p>
+      <button class="cart-checkout-btn" onclick="proceedToShopifyCheckout()">Proceed to Checkout</button>
+    </div>
+  </div>
+
+  <!-- Size Selection Modal -->
+  <div id="size-selection-modal" class="modal-overlay hidden">
+    <div class="modal-content-small">
+      <div class="modal-header">
+        <h3 id="modal-product-name">Select Size</h3>
+        <button class="modal-close-button" onclick="hideSizeSelectionModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <img id="modal-product-image" src="" alt="Product Image" class="w-24 h-24 object-contain mx-auto mb-4 rounded" />
+        <p id="modal-product-price" class="text-lg font-bold mb-4"></p>
+        <div id="size-options" class="flex flex-wrap justify-center gap-2 mb-6">
+          <!-- Size buttons will be inserted here by JavaScript -->
+        </div>
+        <button id="add-to-cart-modal-btn" class="add-to-cart-btn w-full">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- Shopify API Configuration ---
+    const SHOPIFY_STORE_DOMAIN = 'awakencult.myshopify.com'; 
+    // IMPORTANT: If you regenerate your Shopify Storefront Access Token,
+    // make sure to update it here with the new value.
+    const SHOPIFY_STOREFRONT_ACCESS_TOKEN = 'af1c53acddd4c3e2499460673394c830'; 
+    // Updated API version to 2024-07 as the Checkout API was deprecated in older versions.
+    const SHOPIFY_GRAPHQL_ENDPOINT = `https://${SHOPIFY_STORE_DOMAIN}/api/2024-07/graphql.json`;
+
+    // Define product data with Shopify Variant IDs
+    // IMPORTANT: Ensure these 'shopifyVariantId' values are correct for your Shopify products.
+    const products = [
+        { id: 'p6', name: 'MCGA Cap', price: 250.00, image: 'https://i.ibb.co/GvhVTBTc/MCGA-CAP.webp', shopifyVariantId: 'gid://shopify/ProductVariant/41554201346151' }, // Updated with provided ID
+        {
+            id: 'p2',
+            name: 'Fake News Hoodie',
+            price: 550.00, // Base price, individual variant prices could be added to variants array if needed
+            image: 'https://i.ibb.co/mrTy6Mhw/fake-news-hoodie.webp',
+            variants: [ // This array will hold the variant details
+                { size: 'Small', shopifyVariantId: 'gid://shopify/ProductVariant/41554317279335' },
+                { size: 'Medium', shopifyVariantId: 'gid://shopify/ProductVariant/41554317312103' },
+                { size: 'Large', shopifyVariantId: 'gid://shopify/ProductVariant/41554317344871' },
+                { size: 'XL', shopifyVariantId: 'gid://shopify/ProductVariant/41554317377639' },
+                { size: 'XXL', shopifyVariantId: 'gid://shopify/ProductVariant/41554317410407' }
+            ]
+        },
+        {
+            id: 'p1',
+            name: 'XTCY Tee',
+            price: 300.00,
+            image: 'https://i.ibb.co/twNrP2xF/XTCYYYY.webp',
+            variants: [
+                { size: 'Small', shopifyVariantId: 'gid://shopify/ProductVariant/41554323144807' },
+                { size: 'Medium', shopifyVariantId: 'gid://shopify/ProductVariant/41554323177575' },
+                { size: 'Large', shopifyVariantId: 'gid://shopify/ProductVariant/41554323210343' },
+                { size: 'XL', shopifyVariantId: 'gid://shopify/ProductVariant/41554323243111' },
+                { size: 'XXL', shopifyVariantId: 'gid://shopify/ProductVariant/41554323275879' }
+            ]
+        },
+        {
+            id: 'p4',
+            name: 'Vision Jacket',
+            price: 800.00,
+            image: 'https://i.ibb.co/JFyXsdVv/vzn-jacket.webp',
+            variants: [
+                { size: 'Small', shopifyVariantId: 'gid://shopify/ProductVariant/41554326356071' },
+                { size: 'Medium', shopifyVariantId: 'gid://shopify/ProductVariant/41554326388839' },
+                { size: 'Large', shopifyVariantId: 'gid://shopify/ProductVariant/41554326421607' }
+            ]
+        },
+        {
+            id: 'p5',
+            name: 'Obey Sweater',
+            price: 350.00,
+            image: 'https://i.ibb.co/V0FTWqC1/oberyyy.webp',
+            variants: [
+                { size: 'Small', shopifyVariantId: 'gid://shopify/ProductVariant/41554328256615' },
+                { size: 'Medium', shopifyVariantId: 'gid://shopify/ProductVariant/41554328289383' },
+                { size: 'Large', shopifyVariantId: 'gid://shopify/ProductVariant/41554328322151' }
+            ]
+        },
+        { 
+          id: 'p3', name: 'Third Eye Balaclava', price: 280.00, 
+        image: 'https://i.ibb.co/JRsBZr2d/BURN-BALACLAVAAA.webp', 
+        variants: [
+                { color: 'Black', shopifyVariantId: 'gid://shopify/ProductVariant/41554330255463' },
+                { color: 'Cream', shopifyVariantId: 'gid://shopify/ProductVariant/41554330288231' },
+                { color: 'Green', shopifyVariantId: 'gid://shopify/ProductVariant/41554330320999' }
+            ]
+        }
+    ];
+
+    let cart = JSON.parse(localStorage.getItem('awakenCart')) || [];
+    let shopifyCartId = localStorage.getItem('shopifyCartId') || null; // Store Shopify cart ID
+    let refParam = ''; // For the ?ref= parameter
+    let currentProductForModal = null; // Stores the product object currently being viewed in the modal
+    let selectedVariantInModal = null; // Stores the selected variant object from the modal
+    let processingCheckout = false; // New flag to prevent multiple checkout attempts
+
+    // --- DOM Elements ---
+    const cartOverlay = document.getElementById('cart-overlay');
+    const cartCountSpan = document.getElementById('cart-count');
+    const cartItemsDiv = document.getElementById('cart-items');
+    const cartTotalSpan = document.getElementById('cart-total');
+    const emptyCartMessage = document.getElementById('empty-cart-message');
+    const checkoutButton = document.querySelector('.cart-checkout-btn'); // Get the checkout button
+
+    const sizeSelectionModal = document.getElementById('size-selection-modal');
+    const modalProductName = document.getElementById('modal-product-name');
+    const modalProductImage = document.getElementById('modal-product-image');
+    const modalProductPrice = document.getElementById('modal-product-price');
+    const sizeOptionsDiv = document.getElementById('size-options');
+    const addToCartModalBtn = document.getElementById('add-to-cart-modal-btn');
+
+
+    // --- Utility Functions ---
+    function showCustomAlert(message) {
+      const alertBox = document.createElement('div');
+      alertBox.style.cssText = `
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background-color: black;
+          color: white;
+          padding: 20px 30px;
+          border-radius: 8px;
+          box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+          z-index: 10000;
+          font-family: 'Roboto Condensed', sans-serif;
+          font-size: 1.1rem;
+          text-align: center;
+          opacity: 0;
+          transition: opacity 0.3s ease-in-out;
+      `;
+      alertBox.textContent = message;
+      document.body.appendChild(alertBox);
+
+      setTimeout(() => {
+          alertBox.style.opacity = 1;
+      }, 10);
+
+      setTimeout(() => {
+          alertBox.style.opacity = 0;
+          alertBox.addEventListener('transitionend', () => alertBox.remove());
+      }, 3000);
+    }
+
+    /**
+     * Adds an item to the local cart. This is the core logic.
+     * @param {object} product The product object.
+     * @param {string} selectedShopifyVariantId The Shopify variant ID to add.
+     * @param {number} quantity The quantity to add.
+     */
+    function addItemToCart(product, selectedShopifyVariantId, quantity = 1) {
+        console.log('Adding item to cart:', product.name, 'Variant ID:', selectedShopifyVariantId);
+        
+        // Specific check for MCGA Cap
+        if (product.id === 'p6') { // Assuming 'p6' is the ID for MCGA Cap
+            const existingMCGA = cart.find(item => item.id === 'p6');
+            if (existingMCGA) {
+                showCustomAlert('You can only add 1 MCGA Cap to the cart.');
+                return; // Prevent adding more
+            }
+        }
+
+        const itemToAdd = {
+            id: product.id,
+            name: product.name,
+            price: product.price, // Use base product price, or variant-specific price if available
+            image: product.image,
+            shopifyVariantId: selectedShopifyVariantId, // This will be merchandiseId for Cart API
+            quantity: quantity
+        };
+
+        // If the product has variants, we need to ensure the cart item reflects the selected size
+        if (product.variants && product.variants.length > 0) {
+            const selectedVariant = product.variants.find(v => v.shopifyVariantId === selectedShopifyVariantId);
+            if (selectedVariant) {
+                // Modify name to include size for display in cart
+                // Check if the variant has a 'size' property or a 'color' property
+                const variantOption = selectedVariant.size || selectedVariant.color;
+                itemToAdd.name = `${product.name} (${variantOption})`;
+                // If variants have different prices, update price here:
+                // itemToAdd.price = selectedVariant.price || product.price; 
+            }
+        }
+
+        const existingItemIndex = cart.findIndex(item => item.shopifyVariantId === itemToAdd.shopifyVariantId);
+
+        if (existingItemIndex > -1) {
+            cart[existingItemIndex].quantity += quantity;
+        } else {
+            cart.push(itemToAdd);
+        }
+        updateCartDisplay();
+        showCustomAlert(`${itemToAdd.name} added to cart!`);
+    }
+
+
+    /**
+     * Removes a product from the local cart.
+     * @param {number} index The index of the item in the local 'cart' array.
+     */
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCartDisplay();
+    }
+
+    /**
+     * Updates the visual display of the cart (count, total, and items).
+     */
+    function updateCartDisplay() {
+      if (!cartItemsDiv || !cartCountSpan || !cartTotalSpan || !emptyCartMessage) {
+        return;
+      }
+
+      cartItemsDiv.innerHTML = ''; 
+      let total = 0;
+
+      if (cart.length === 0) {
+        // Only append if it's not already there
+        if (!cartItemsDiv.querySelector('.empty-cart-message')) {
+            cartItemsDiv.appendChild(emptyCartMessage);
+            emptyCartMessage.style.display = 'block';
+        }
+      } else {
+        emptyCartMessage.style.display = 'none';
+        cart.forEach((item, index) => {
+          const cartItemDiv = document.createElement('div');
+          cartItemDiv.className = 'cart-item';
+          cartItemDiv.innerHTML = `
+            <img src="${item.image}" alt="${item.name}" class="cart-item-image rounded" />
+            <div class="cart-item-details">
+              <h4>${item.name}</h4>
+              <p>R ${item.price.toFixed(2)} x ${item.quantity}</p>
+            </div>
+            <button class="cart-item-remove" onclick="removeFromCart(${index})">Remove</button>
+          `;
+          cartItemsDiv.appendChild(cartItemDiv);
+          total += item.price * item.quantity;
+        });
+      }
+
+      cartTotalSpan.textContent = `R ${total.toFixed(2)}`;
+      cartCountSpan.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+      localStorage.setItem('awakenCart', JSON.stringify(cart));
+    }
+
+    /**
+     * Shows the size selection modal for a given product.
+     * @param {object} product The product object with variants.
+     */
+    function showSizeSelectionModal(product) {
+        console.log('Showing size selection modal for:', product.name);
+        currentProductForModal = product;
+        selectedVariantInModal = null; // Reset selection
+
+        modalProductName.textContent = product.name;
+        modalProductImage.src = product.image;
+        modalProductPrice.textContent = `R ${product.price.toFixed(2)}`; // Display base price initially
+
+        sizeOptionsDiv.innerHTML = ''; // Clear previous options
+
+        product.variants.forEach(variant => {
+            const button = document.createElement('button');
+            button.className = 'size-option-btn';
+            // Determine the text for the button based on whether it's a size or color variant
+            button.textContent = variant.size || variant.color;
+            button.dataset.shopifyVariantId = variant.shopifyVariantId;
+            button.addEventListener('click', () => {
+                // Remove 'selected' class from all buttons
+                document.querySelectorAll('.size-option-btn').forEach(btn => btn.classList.remove('selected'));
+                // Add 'selected' class to the clicked button
+                button.classList.add('selected');
+                selectedVariantInModal = variant; // Store the selected variant object
+            });
+            sizeOptionsDiv.appendChild(button);
+        });
+
+        // Add to cart button in modal logic
+        addToCartModalBtn.onclick = () => {
+            if (selectedVariantInModal) {
+                addItemToCart(currentProductForModal, selectedVariantInModal.shopifyVariantId);
+                hideSizeSelectionModal();
+            } else {
+                showCustomAlert('Please select an option.'); // Changed message to be more general
+            }
+        };
+        
+        // Ensure the modal is visible
+        sizeSelectionModal.classList.remove('hidden'); // Remove the hidden class
+        sizeSelectionModal.classList.add('active');
+        console.log('Modal active status:', sizeSelectionModal.classList.contains('active'));
+    }
+
+    /**
+     * Hides the size selection modal.
+     */
+    function hideSizeSelectionModal() {
+        console.log('Hiding size selection modal.');
+        sizeSelectionModal.classList.remove('active');
+        sizeSelectionModal.classList.add('hidden'); // Add the hidden class back
+        currentProductForModal = null;
+        selectedVariantInModal = null;
+    }
+
+
+    /**
+     * Creates a Shopify cart and redirects to its checkoutUrl.
+     */
+    async function proceedToShopifyCheckout() {
+      if (processingCheckout) {
+        console.log('Checkout already in progress. Ignoring multiple clicks.');
+        return;
+      }
+
+      if (cart.length === 0) {
+        showCustomAlert('Your cart is empty. Please add some artifacts before checking out.');
+        return;
+      }
+
+      processingCheckout = true; // Set flag to true
+      checkoutButton.disabled = true; // Disable the button
+      showCustomAlert('Preparing your checkout...');
+
+      const lines = cart.map(item => ({
+        merchandiseId: item.shopifyVariantId, // Use merchandiseId for Cart API
+        quantity: item.quantity
+      }));
+
+      console.log('Lines being sent to Shopify Cart API:', JSON.stringify(lines, null, 2));
+      console.log('Using Shopify Storefront Access Token:', SHOPIFY_STOREFRONT_ACCESS_TOKEN);
+
+      let query;
+      let variables;
+
+      if (shopifyCartId) {
+        // If cart exists, add lines to it
+        query = `
+          mutation cartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!) {
+            cartLinesAdd(cartId: $cartId, lines: $lines) {
+              cart {
+                id
+                checkoutUrl
+              }
+              userErrors {
+                field
+                message
+              }
+            }
+          }
+        `;
+        variables = {
+          cartId: shopifyCartId,
+          lines: lines
+        };
+      } else {
+        // If no cart, create a new one
+        query = `
+          mutation cartCreate($input: CartInput) {
+            cartCreate(input: $input) {
+              cart {
+                id
+                checkoutUrl
+              }
+              userErrors {
+                field
+                message
+              }
+            }
+          }
+        `;
+        variables = {
+          input: {
+            lines: lines
+          }
+        };
+      }
+
+      try {
+        const response = await fetch(SHOPIFY_GRAPHQL_ENDPOINT, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Shopify-Storefront-Access-Token': SHOPIFY_STOREFRONT_ACCESS_TOKEN, 
+          },
+          body: JSON.stringify({ query, variables }),
+        });
+
+        console.log('Shopify API response status:', response.status);
+
+        const data = await response.json();
+        console.log('Shopify API response data:', JSON.stringify(data, null, 2));
+
+        if (data.errors) {
+          console.error('Shopify GraphQL Errors:', data.errors);
+          const errorMessage = data.errors.map(err => err.message).join(', ') || 'Unknown GraphQL error.';
+          showCustomAlert('Error processing cart: ' + errorMessage);
+          return;
+        }
+
+        let cartResult;
+        let errors;
+
+        if (shopifyCartId) {
+            cartResult = data.data.cartLinesAdd?.cart;
+            errors = data.data.cartLinesAdd?.userErrors;
+        } else {
+            cartResult = data.data.cartCreate?.cart;
+            errors = data.data.cartCreate?.userErrors;
+        }
+        
+        if (errors && errors.length > 0) {
+          console.error('Shopify Cart User Errors:', errors);
+          const errorMessage = errors.map(err => `${err.field ? err.field + ': ' : ''}${err.message}`).join(', ') || 'Unknown cart error.';
+          showCustomAlert('Cart error: ' + errorMessage);
+          return;
+        }
+
+        if (cartResult && cartResult.checkoutUrl) {
+          shopifyCartId = cartResult.id; // Save the new cart ID
+          localStorage.setItem('shopifyCartId', shopifyCartId); // Persist cart ID
+          
+          let finalCheckoutUrl = cartResult.checkoutUrl;
+          if (refParam) {
+            const url = new URL(finalCheckoutUrl);
+            url.searchParams.set('ref', refParam);
+            finalCheckoutUrl = url.toString();
+          }
+          
+          // Clear local cart and storage after successful checkout creation
+          cart = [];
+          localStorage.removeItem('awakenCart');
+          // Also clear the Shopify cart ID from local storage so a new cart is created next time
+          localStorage.removeItem('shopifyCartId'); 
+          updateCartDisplay(); // Update UI to reflect empty cart
+
+          showCustomAlert('Redirecting to Shopify checkout...');
+          window.location.href = finalCheckoutUrl; // Redirect to Shopify
+        } else {
+          showCustomAlert('Failed to get Shopify checkout URL from cart. No cart object or checkoutUrl found.');
+        }
+
+      } catch (error) {
+        console.error('Network or unexpected error during Shopify cart operation:', error);
+        showCustomAlert('Network error or unexpected issue. Please check your connection and console for details.');
+      } finally {
+          processingCheckout = false; // Reset flag
+          checkoutButton.disabled = false; // Re-enable the button
+      }
+    }
+
+
+    // --- Event Listeners and Initial Load ---
+    document.addEventListener('DOMContentLoaded', () => {
+      // Handle ?ref= parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const ref = urlParams.get('ref');
+      if (ref) {
+        localStorage.setItem('awakenRef', ref);
+        refParam = ref;
+      } else {
+        refParam = localStorage.getItem('awakenRef') || '';
+      }
+
+      // Initialize marquee
+      const marqueeContentWrapper = document.querySelector('.marquee-container .marquee-content-wrapper');
+      const originalMarqueeText = document.querySelector('.marquee-container .marquee-text');
+
+      if (marqueeContentWrapper && originalMarqueeText) {
+        const originalContent = originalMarqueeText.outerHTML;
+        marqueeContentWrapper.innerHTML = '';
+        for (let i = 0; i < 3; i++) {
+            marqueeContentWrapper.innerHTML += originalContent;
+        }
+
+        requestAnimationFrame(() => {
+            const firstMarqueeTextElement = marqueeContentWrapper.firstElementChild;
+            if (firstMarqueeTextElement) {
+                const singleTextWidth = firstMarqueeTextElement.offsetWidth;
+                marqueeContentWrapper.style.setProperty('--marquee-distance', `-${singleTextWidth}px`);
+                const pixelsPerSecond = 150;
+                const calculatedSpeed = singleTextWidth / pixelsPerSecond;
+                marqueeContentWrapper.style.setProperty('--marquee-speed', `${calculatedSpeed}s`);
+                marqueeContentWrapper.style.animation = 'none';
+                void marqueeContentWrapper.offsetWidth;
+                marqueeContentWrapper.style.animation = `marquee var(--marquee-speed) linear infinite`;
+            }
+        });
+      }
+
+      // Autoplay video
+      const backgroundVideo = document.getElementById('backgroundVideo');
+      if (backgroundVideo) {
+          backgroundVideo.play().catch(error => {
+              // Autoplay was prevented. This is common if video is not muted or user hasn't interacted.
+              console.warn("Video autoplay prevented:", error);
+          });
+      }
+
+      // Attach event listeners to "Add to cart" buttons
+      document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+        button.addEventListener('click', (event) => {
+          const productIndex = parseInt(event.target.dataset.productIndex);
+          if (!isNaN(productIndex)) {
+            const product = products[productIndex];
+            console.log('Clicked product:', product.name, 'Variants:', product.variants); // Debugging log
+            if (product.variants && product.variants.length > 0) {
+                // If product has variants, show size selection modal
+                showSizeSelectionModal(product);
+            } else {
+                // If no variants, add directly to cart
+                addItemToCart(product, product.shopifyVariantId);
+            }
+          } else {
+            showCustomAlert('Error: Product index not found.');
+          }
+        });
+      });
+
+      // Initial cart display update based on local storage
+      updateCartDisplay(); 
+    });
+
+    // Global functions for HTML onclick
+    function toggleCart() {
+      if (cartOverlay) {
+        cartOverlay.classList.toggle('active');
+        // Update cart display every time it's opened to ensure fresh data
+        if (cartOverlay.classList.contains('active')) {
+            updateCartDisplay();
+        }
+      }
+    }
+  </script>
+</body>
+</html>

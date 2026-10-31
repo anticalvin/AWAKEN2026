@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AWAKEN Cult Newspaper - Product Detail</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+  <style>
+    /* Import Google Fonts - Consistent with main site */
+    @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap');
+
+    /* Custom font classes - Consistent with main site */
+    .font-anton { font-family: 'Anton', sans-serif; }
+    .font-roboto-condensed { font-family: 'Roboto Condensed', sans-serif; }
+    .font-roboto-slab { font-family: 'Roboto Slab', serif; }
+    .font-tattler { font-family: 'Anton', sans-serif; letter-spacing: -0.05em; }
+    .font-national { font-family: 'Oswald', sans-serif; font-weight: 700; letter-spacing: 0.1em; }
+
+    /* Basic body styles - Consistent with main site */
+    body {
+      background-color: #f3f0e7; /* Light newspaper-like background */
+      color: #000; /* Black text */
+      font-family: 'Roboto Condensed', sans-serif; /* Default font for body */
+      line-height: 1.6;
+      overflow-x: hidden; /* Prevent horizontal scrolling */
+      margin: 0; /* Ensure no default body margin */
+      padding: 0; /* Ensure no default body padding */
+    }
+
+    /* Marquee animation - Consistent with main site */
+    @keyframes marquee {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(var(--marquee-distance)); } /* Move by dynamic distance */
+    }
+    .marquee-container {
+        width: 100%; /* Take full width of its parent (header) */
+        overflow: hidden;
+        background-color: black;
+        color: white;
+        font-family: 'Roboto Condensed', sans-serif;
+        padding: 0.25rem 0;
+    }
+    .marquee-content-wrapper { /* New wrapper for seamless animation */
+        display: flex;
+        width: max-content; /* Allow content to dictate width */
+        animation: marquee var(--marquee-speed) linear infinite; /* Speed dynamically set by JS */
+    }
+    .marquee-text {
+        white-space: nowrap; /* Keep content on one line */
+        padding-right: 2rem; /* Small gap between duplicated content */
+        flex-shrink: 0; /* Prevent text from shrinking */
+    }
+
+    /* General section padding and max-width - Consistent with main site */
+    .content-section {
+      padding: 3rem 1rem; /* Default vertical padding for sections */
+      max-width: 1280px; /* Max width for content */
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Header specific styles - NOW MATCHES HOMEPAGE */
+    header {
+        background-color: #d94a44;
+        display: flex;
+        flex-direction: column; /* Stack logo/nav and marquee vertically */
+        width: 100%;
+        box-sizing: border-box;
+        position: sticky; /* Make header sticky */
+        top: 0; /* Position at the very top */
+        z-index: 99; /* Above other content */
+    }
+    .header-top-row {
+        padding: 0.5rem 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    header .header-logo {
+        font-family: 'Anton', sans-serif;
+        font-size: 4rem; /* Default size for mobile */
+        color: #f3f0e7;
+        line-height: 1;
+        text-decoration: none;
+        cursor: pointer;
+        transition: color 0.2s;
+        margin-left: 1rem; /* Space from left edge */
+    }
+    header .header-logo:hover {
+        color: #fff;
+    }
+    header nav {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        margin-right: 1rem; /* Space from right edge */
+    }
+    header nav a {
+        color: #f3f0e7;
+        font-family: 'Roboto Condensed', sans-serif;
+        font-size: 0.875rem; /* Smaller nav links for mobile */
+        text-decoration: none;
+        margin-left: 1.5rem; /* Space between nav links */
+        transition: underline 0.2s;
+    }
+    header nav a:hover {
+        text-decoration: underline;
+    }
+    .cart-icon-container {
+      position: relative;
+      cursor: pointer;
+      color: #f3f0e7;
+      font-size: 1.5rem;
+      margin-left: 1.5rem; /* Space from last nav item */
+    }
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: black;
+      color: white;
+      border-radius: 50%;
+      padding: 0.1rem 0.4rem;
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+
+    /* Product Detail Page Specific Styles */
+    .product-detail-container {
+      border: 1px solid black;
+      padding: 2rem;
+      background-color: #fff; /* Slightly whiter background for the content itself */
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Center content horizontally */
+      text-align: center; /* Center text within columns */
+    }
+
+    .product-detail-grid {
+      display: grid;
+      grid-template-columns: 1fr; /* Single column for mobile */
+      gap: 2rem;
+      width: 100%;
+    }
+
+    @media (min-width: 768px) {
+      .product-detail-grid {
+        grid-template-columns: 1fr 1fr; /* Two columns for desktop */
+        text-align: left; /* Align text left within columns on desktop */
+      }
+      .product-detail-grid .product-image-column {
+        display: flex;
+        flex-direction: column; /* Stack main image and thumbnails */
+        justify-content: flex-start; /* Align image in its column to the top */
+        align-items: center; /* Center items horizontally */
+      }
+    }
+
+    .product-detail-image {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 1.5rem; /* Space below image on mobile */
+    }
+
+    @media (min-width: 768px) {
+      .product-detail-image {
+        max-width: 90%; /* Adjust image size in column */
+        margin-bottom: 0; /* No bottom margin in desktop grid */
+      }
+    }
+
+    /* Thumbnail gallery styles */
+    .thumbnail-gallery {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      flex-wrap: wrap; /* Allow thumbnails to wrap */
+    }
+    .thumbnail-gallery img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.1s;
+    }
+    .thumbnail-gallery img:hover {
+      border-color: #d94a44;
+      transform: scale(1.05);
+    }
+    .thumbnail-gallery img.active {
+      border-color: #d94a44;
+      box-shadow: 0 0 5px rgba(217, 74, 68, 0.5);
+    }
+
+    .product-detail-title {
+      font-family: 'Anton', sans-serif;
+      font-size: 4rem;
+      line-height: 1;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .product-detail-price {
+      font-size: 2.2rem;
+      font-weight: bold;
+      color: #d94a44;
+      margin-bottom: 1.5rem;
+    }
+
+    .product-detail-description {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+      text-align: justify; /* Justify text for newspaper feel */
+    }
+
+    .product-detail-lore {
+      font-family: 'Roboto Slab', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: #555;
+      border-left: 4px solid #d94a44;
+      padding-left: 1rem;
+      margin-bottom: 2rem;
+      text-align: left; /* Align lore text left */
+    }
+
+    .product-options-group {
+      margin-bottom: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Center options on mobile */
+    }
+
+    @media (min-width: 768px) {
+      .product-options-group {
+        flex-direction: row; /* Row for options on desktop */
+        justify-content: flex-start; /* Align options left on desktop */
+      }
+    }
+
+    .product-options-group label {
+      font-weight: bold;
+      margin-right: 1rem;
+      margin-bottom: 0.5rem; /* Space below label on mobile */
+    }
+
+    .product-options-group select,
+    .product-options-group input[type="number"] {
+      border: 1px solid black;
+      padding: 0.75rem;
+      background-color: #fefefe;
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: 1rem;
+      border-radius: 0; /* Sharp corners */
+    }
+
+    .add-to-cart-btn {
+      background-color: black;
+      color: white;
+      padding: 1.2rem 2.5rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 1.25rem;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      width: 100%;
+      max-width: 400px; /* Limit button width */
+      margin-top: 1rem;
+      border-radius: 0; /* Sharp corners */
+    }
+    .add-to-cart-btn:hover {
+      background-color: #333;
+    }
+
+    /* Related Articles / More Dispatches Section */
+    .related-articles-section {
+      margin-top: 4rem;
+      border-top: 1px solid black;
+      padding-top: 2rem;
+    }
+    .related-articles-section h2 {
+      font-family: 'Anton', sans-serif;
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      text-transform: uppercase;
+    }
+    .related-article-card {
+      border: 1px solid black;
+      padding: 1rem;
+      background-color: #fff;
+      text-align: left;
+      border-radius: 0; /* Sharp corners */
+      display: flex; /* Added for vertical centering of button */
+      flex-direction: column; /* Stack content vertically */
+      justify-content: space-between; /* Push button to bottom */
+      align-items: stretch; /* Ensure items stretch to fill height */
+      height: 100%; /* Ensure all cards have consistent height */
+    }
+    .related-article-card img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      margin-bottom: 0.75rem;
+    }
+    .related-article-card h3 {
+      font-family: 'Roboto Slab', serif;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 0.5rem; /* Added margin for consistency */
+      margin-bottom: 0.25rem; /* Adjusted margin for consistency */
+    }
+    .related-article-card p {
+      font-size: 0.9rem;
+      line-height: 1.4;
+      color: #555;
+      flex-grow: 1; /* Allow description to take available space */
+      margin-bottom: 0.75rem; /* Added margin for consistency */
+    }
+    .related-article-card .view-artifact-button {
+      background-color: black;
+      color: white;
+      padding: 0.6rem 1.2rem; /* Adjusted padding */
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 0.8rem; /* Adjusted font size */
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      display: inline-block; /* Make it behave like a button */
+      margin-top: auto; /* Push button to bottom */
+      align-self: center; /* Center the button within the flex container */
+      width: calc(100% - 2rem); /* Adjusted to account for card padding */
+      max-width: 150px; /* Max width for consistency */
+      text-align: center; /* Center text within button */
+    }
+    .related-article-card .view-artifact-button:hover {
+      background-color: #333;
+    }
+
+    /* Cart Overlay - Consistent with main site */
+    .cart-overlay {
+      position: fixed;
+      top: 0;
+      right: -400px; /* Hidden off-screen */
+      width: 350px; /* Fixed width for the cart */
+      height: 100%;
+      background-color: #f3f0e7;
+      border-left: 2px solid black;
+      box-shadow: -4px 0 8px rgba(0,0,0,0.2);
+      z-index: 999;
+      transition: right 0.3s ease-in-out;
+      display: flex;
+      flex-direction: column;
+    }
+    .cart-overlay.active {
+      right: 0; /* Slide in */
+    }
+    .cart-header {
+      background-color: black;
+      color: white;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Anton', sans-serif;
+      font-size: 1.5rem;
+      text-transform: uppercase;
+    }
+    .cart-close-button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .cart-items {
+      flex-grow: 1;
+      padding: 1rem;
+      overflow-y: auto;
+    }
+    .cart-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+      border-bottom: 1px dashed #ccc;
+      padding-bottom: 0.5rem;
+    }
+    .cart-item-image {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      margin-right: 0.75rem;
+      border: 1px solid #eee;
+    }
+    .cart-item-details {
+      flex-grow: 1;
+      text-align: left;
+    }
+    .cart-item-details h4 {
+      font-weight: bold;
+      font-size: 0.95rem;
+    }
+    .cart-item-details p {
+      font-size: 0.85rem;
+      color: #555;
+    }
+    .cart-item-remove {
+      background-color: #d94a44;
+      color: white;
+      border: none;
+      padding: 0.3rem 0.6rem;
+      font-size: 0.75rem;
+      cursor: pointer;
+      border-radius: 0; /* Sharp corners */
+    }
+    .cart-item-remove:hover {
+      background-color: #b92a1e;
+    }
+    .cart-summary {
+      padding: 1rem;
+      border-top: 2px solid black;
+      font-family: 'Roboto Slab', serif;
+    }
+    .cart-summary p {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+    .cart-checkout-btn {
+      background-color: #d94a44;
+      color: white;
+      padding: 1rem;
+      width: 100%;
+      text-align: center;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      border-radius: 0; /* Sharp corners */
+    }
+    .cart-checkout-btn:hover {
+      background-color: #b92a1e;
+    }
+    .empty-cart-message {
+      text-align: center;
+      padding: 2rem;
+      color: #777;
+    }
+    @media (max-width: 767px) {
+      .cart-overlay {
+        width: 100%; /* Full width on mobile */
+        right: -100vw;
+      }
+      .cart-overlay.active {
+        right: 0;
+      }
+    }
+
+    /* Footer adjustments - Consistent with main site */
+    footer {
+      border-top: 1px solid black;
+      padding: 1.5rem 1rem;
+      font-size: 0.75rem;
+      text-align: center;
+    }
+    footer a {
+      text-decoration: underline;
+      color: inherit;
+    }
+    footer .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 0.75rem;
+      font-size: 1.25rem;
+    }
+
+    /* Responsive adjustments for header */
+    @media (min-width: 768px) {
+      header .header-logo {
+        font-size: 6rem;
+      }
+      header nav a {
+        font-size: 1rem;
+        margin-left: 2.5rem;
+      }
+    }
+    @media (max-width: 767px) {
+      header .header-top-row {
+        flex-direction: column; /* Stack logo and nav vertically */
+        padding: 0.5rem 1rem;
+        /* Ensure items are centered horizontally within the column */
+        align-items: center; /* Added to center children */
+        justify-content: flex-start; /* Align to start of column, not space-between */
+      }
+      header .header-logo {
+        font-size: 4rem;
+        margin-left: 0; /* Reset margin for centering */
+        margin-bottom: 0.5rem;
+      }
+      header nav {
+        text-align: center;
+        width: 100%; /* Take full width to allow internal centering */
+        margin-top: 0.5rem;
+        margin-right: 0; /* Reset margin for centering */
+        justify-content: center; /* Center nav items horizontally */
+        flex-wrap: wrap;
+      }
+      header nav a {
+        font-size: 0.875rem;
+        margin: 0 0.5rem; /* Adjust margin for wrapped items */
+      }
+      .cart-icon-container {
+        font-size: 1.2rem;
+        margin-left: 0.5rem;
+      }
+      .marquee-container {
+        top: auto;
+        position: relative;
+      }
+      .product-detail-title {
+        font-size: 3rem;
+      }
+      .product-detail-price {
+        font-size: 1.8rem;
+      }
+      .product-detail-description {
+        font-size: 1rem;
+      }
+      .product-detail-lore {
+        font-size: 0.9rem;
+      }
+      .product-options-group label,
+      .product-options-group select,
+      .product-options-group input[type="number"] {
+        font-size: 0.9rem;
+      }
+      .add-to-cart-btn {
+        font-size: 1rem;
+        padding: 1rem 2rem;
+      }
+      .related-articles-section h2 {
+        font-size: 2rem;
+      }
+      .related-article-card h3 {
+        font-size: 1rem;
+      }
+      .related-article-card p {
+        font-size: 0.8rem;
+      }
+      .cart-overlay {
+        width: 100%; /* Full width on mobile */
+        right: -100vw;
+      }
+      .cart-overlay.active {
+        right: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- JSON-LD Structured Data for SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    "name": "XTCY Tee",
+    "image": [
+      "https://i.ibb.co/twNrP2xF/XTCYYYY.webp",
+      "https://i.ibb.co/JRsBZr2d/BURN-BALACLAVAAA.webp",
+      "https://i.ibb.co/mrTy6Mhw/fake-news-hoodie.webp"
+     ],
+    "description": "Embrace the euphoria of truth with the XTCY Tee. Crafted for comfort and clarity, this garment is a statement of your awakened state. Limited run for true believers.",
+    "sku": "AWAKEN-XTCY-TEE-S",
+    "brand": {
+      "@type": "Brand",
+      "name": "AWAKEN Cult"
+    },
+    "offers": {
+      "@type": "Offer",
+      "url": "YOUR_PRODUCT_PAGE_URL_HERE",
+      "priceCurrency": "USD",
+      "price": "75.00",
+      "itemCondition": "https://schema.org/NewCondition",
+      "availability": "https://schema.org/InStock",
+      "seller": {
+        "@type": "Organization",
+        "name": "AWAKEN Cult Shop"
+      }
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "reviewCount": "25"
+    }
+  }
+  </script>
+
+  <!-- Header - NOW MATCHES HOMEPAGE -->
+  <header>
+    <div class="header-top-row">
+      <a href="index.html" class="header-logo">AWAKEN</a>
+      <nav>
+        <a href="shop.html">Shop</a>
+        <a href="manifesto.html">Manifesto</a>
+        <a href="join-us.html">Join Us</a>
+        <a href="archives.html">Archive</a>
+        <a href="about.html">About</a>
+        <div class="cart-icon-container" onclick="toggleCart()">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-count" id="cart-count">0</span>
+        </div>
+      </nav>
+    </div>
+    <!-- Top Scrolling Bar - Moved inside header -->
+    <div class="marquee-container">
+      <div class="marquee-content-wrapper">
+        <span class="marquee-text">ENLIGHTENMENT IS A CHOICE • JOIN THE CULT • AWAKEN • THE NEW WORLD ORDER IS HERE • BUY THE MESSAGE • BURN THE MASK • REVEAL THE TRUTH •</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Product Detail Section -->
+  <section class="content-section">
+    <div id="product-detail-container" class="product-detail-container">
+      <div class="product-detail-grid">
+        <div class="product-image-column">
+          <img id="product-image" class="product-detail-image" src="" alt="Product Image" />
+          <!-- Thumbnail Gallery -->
+          <div id="thumbnail-gallery" class="thumbnail-gallery">
+            <!-- Thumbnails will be injected here by JavaScript -->
+          </div>
+        </div>
+        <div class="product-info-column">
+          <h1 id="product-title" class="product-detail-title"></h1>
+          <p id="product-price" class="product-detail-price"></p>
+          <p id="product-description" class="product-detail-description"></p>
+          <p id="product-lore" class="product-detail-lore"></p>
+
+          <div class="product-options-group">
+            <label for="product-size">Size:</label>
+            <select id="product-size"></select>
+          </div>
+          <div class="product-options-group">
+            <label for="product-quantity">Quantity:</label>
+            <input type="number" id="product-quantity" value="1" min="1" />
+          </div>
+          <button id="add-to-cart-btn" class="add-to-cart-btn">Add to Cart</button>
+        </div>
+      </div>
+
+      <!-- Related Articles / More Dispatches -->
+      <div class="related-articles-section w-full">
+        <h2>More Dispatches From The Market</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Related Product 1: MCGA Cap -->
+          <a href="product-detail.html?id=p6" class="related-article-card block no-underline text-black">
+            <img src="https://i.ibb.co/GvhVTBTc/MCGA-CAP.webp" alt="MCGA Cap" />
+            <h3>The Cap of Conformity</h3>
+            <p>A subtle nod to the movement, perfect for blending in while standing out to those who know.</p>
+            <span class="view-artifact-button">View Artifact</span>
+          </a>
+          <!-- Related Product 2: Third Eye Balaclava -->
+          <a href="product-detail.html?id=p5" class="related-article-card block no-underline text-black">
+            <img src="https://i.ibb.co/V0FTWqC1/oberyyy.webp" alt="Third Eye Balaclava" />
+            <h3>The Veil of Anonymity</h3>
+            <p>For those times when the truth must be spoken, but your identity must remain a mystery.</p>
+            <span class="view-artifact-button">View Artifact</span>
+          </a>
+          <!-- Related Product 3: Vision Jacket -->
+          <a href="product-detail.html?id=p4" class="related-article-card block no-underline text-black">
+            <img src="https://i.ibb.co/JFyXsdVv/vzn-jacket.webp" alt="Vision Jacket" />
+            <h3>The Visionary's Garb</h3>
+            <p>Embody the future. This piece is for those who see beyond the immediate, into the true design.</p>
+            <span class="view-artifact-button">View Artifact</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Shopping Cart Overlay - Consistent with main site -->
+  <div id="cart-overlay" class="cart-overlay">
+    <div class="cart-header">
+      <span>Your Artifacts</span>
+      <button class="cart-close-button" onclick="toggleCart()">&times;</button>
+    </div>
+    <div id="cart-items" class="cart-items">
+      <!-- Cart items will be injected here by JavaScript -->
+      <p class="empty-cart-message" id="empty-cart-message">Your cart is empty. Acquire some truth.</p>
+    </div>
+    <div class="cart-summary">
+      <p>Total: <span id="cart-total">$0.00</span></p>
+    </div>
+    <button class="cart-checkout-btn" onclick="proceedToCheckout()">Proceed to Checkout</button>
+  </div>
+
+  <!-- Footer - Consistent with main site -->
+  <footer class="bg-[#f3f0e7] border-t border-black text-xs font-roboto-condensed text-center py-4">
+    <div class="max-w-6xl mx-auto px-4">
+      <p class="mb-2">© 2025 AWAKEN CULT. Contact: <a href="mailto:info@awakencult.com" class="underline">info@awakencult.com</a></p>
+      <div class="social-icons">
+        <a href="https://instagram.com/awakencult" class="hover:text-gray-600" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://x.com/awakencult" class="hover:text-gray-600" target="_blank"><i class="fab fa-twitter"></i></a>
+        <a href="https://youtube.com/@awakencult" class="hover:text-gray-600" target="_blank"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Product Data with Shopify Variant IDs
+    // IMPORTANT: Replace the 'shopifyVariantId' values with your actual Shopify product variant IDs.
+    // You can find these in your Shopify Admin by going to Products, clicking a product,
+    // and then then going to the variant details. The ID will be in the URL.
+    const products = [
+      {
+        id: 'p1',
+        name: 'XTCY Tee',
+        price: 75,
+        image: 'https://i.ibb.co/twNrP2xF/XTCYYYY.webp',
+        additionalImages: [
+          'https://i.ibb.co/twNrP2xF/XTCYYYY.webp',
+          'https://i.ibb.co/JRsBZr2d/BURN-BALACLAVAAA.webp',
+          'https://i.ibb.co/mrTy6Mhw/fake-news-hoodie.webp'
+        ],
+        description: 'Embrace the euphoria of truth with the XTCY Tee. Crafted for comfort and clarity, this garment is a statement of your awakened state. Limited run for true believers.',
+        sizes: ['S', 'M', 'L', 'XL'],
+        lore: "Worn by the first initiates during the Great Revelation, this tee symbolizes the initial rush of clarity.",
+        shopifyVariantId: '44796300501273'
+      },
+      {
+        id: 'p2',
+        name: 'Fake News Hoodie',
+        price: 150,
+        image: 'https://i.ibb.co/mrTy6Mhw/fake-news-hoodie.webp',
+        additionalImages: [
+          'https://i.ibb.co/mrTy6Mhw/fake-news-hoodie.webp',
+          'https://i.ibb.co/JRsBZr2d/BURN-BALACLAVAAA.webp',
+          'https://i.ibb.co/GvhVTBTc/MCGA-CAP.webp'
+        ],
+        description: 'In an era saturated with manufactured narratives, the "Fake News" Hoodie stands as a defiant emblem of critical thought. Crafted for comfort in the coming storm, its bold declaration is a shield against deception and a beacon for those who question. Join the ranks of the discerning.',
+        sizes: ['S', 'M', 'L', 'XL', 'XXL'],
+        lore: "A staple among the truth-seekers, this hoodie was first seen during the 'Information Purge' of 2023.",
+        shopifyVariantId: '44796300468512'
+      },
+      {
+        id: 'p3',
+        name: 'Awareness Tee',
+        price: 120,
+        image: 'https://i.ibb.co/JRsBZr2d/BURN-BALACLAVAAA.webp', /* Updated image for p3 */
+        additionalImages: [
+          'https://i.ibb.co/JRsBZr2d/BURN-BALACLAVAAA.webp',
+          'https://i.ibb.co/twNrP2xF/XTCYYYY.webp',
+          'https://i.ibb.co/JFyXsdVv/vzn-jacket.webp'
+        ],
+        description: 'The Awareness Tee is more than fabric; it\'s a canvas for your expanded consciousness. Featuring intricate designs that hint at deeper truths, it invites inquiry and recognition from fellow awakened souls.',
+        sizes: ['S', 'M', 'L'],
+        lore: "Rumored to be inspired by ancient glyphs discovered in the 'Forbidden Archives', promoting heightened awareness.",
+        shopifyVariantId: '44796300599576'
+      },
+      {
+        id: 'p4',
+        name: 'Visions Hoodie',
+        price: 180,
+        image: 'https://i.ibb.co/JFyXsdVv/vzn-jacket.webp',
+        additionalImages: [
+          'https://i.ibb.co/JFyXsdVv/vzn-jacket.webp',
+          'https://i.ibb.co/mrTy6Mhw/fake-news-hoodie.webp',
+          'https://i.ibb.co/twNrP2xF/XTCYYYY.webp'
+        ],
+        description: 'Experience clarity with the Visions Hoodie. Its unique design represents the unfolding of hidden realities, offering warmth and comfort as you navigate the complexities of the awakened world.',
+        sizes: ['M', 'L', 'XL', 'XXL'],
+        lore: "This design appeared to our founder in a profound vision, depicting the layers of reality peeling away.",
+        shopifyVariantId: '44796300534034'
+      },
+      {
+        id: 'p5',
+        name: 'Third Eye Balaclava',
+        price: 75,
+        image: 'https://i.ibb.co/vxWt75mW/green-BALLY.webp',
+        additionalImages: [
+          'https://i.ibb.co/V0FTWqC1/oberyyy.webp',
+          'https://i.ibb.co/vxWt75mW/green-BALLY.webp', /* Added green balaclava as an additional image for p5 */
+          'https://i.ibb.co/GvhVTBTc/MCGA-CAP.webp',
+          'https://i.ibb.co/JRsBZr2d/BURN-BALACLAVAAA.webp'
+        ],
+        description: 'Conceal your identity, reveal your true self. The Third Eye Balaclava is a symbol of rebellion against the system, a statement that you are ready to shed the old world and embrace the new.',
+        sizes: ['One Size'],
+        lore: "First donned by the anonymous 'Shadow Collective' during their silent protests against the illusion.",
+        shopifyVariantId: '44796300566805'
+      },
+      {
+        id: 'p6',
+        name: 'MCGA Cap',
+        price: 50,
+        image: 'https://i.ibb.co/GvhVTBTc/MCGA-CAP.webp',
+        additionalImages: [
+          'https://i.ibb.co/GvhVTBTc/MCGA-CAP.webp',
+          'https://i.ibb.co/mrTy6Mhw/fake-news-hoodie.webp',
+          'https://i.ibb.co/twNrP2xF/XTCYYYY.webp'
+        ],
+        description: 'Make Cults Great Again. This cap is a bold declaration, a nod to the resurgence of true belief and collective action. Wear it proudly as a member of the AWAKEN movement.',
+        sizes: ['One Size'],
+        lore: "A rallying cry from the early days of the movement, repurposed for the modern awakened.",
+        shopifyVariantId: '44796300435751'
+      },
+      // Additional products with dummy Shopify IDs
+      {
+        id: 'p7',
+        name: 'Exclusive Baby Tee',
+        price: 90,
+        image: 'https://i.ibb.co/ZpfbtRZT/aeaken-exclusive.png',
+        additionalImages: [
+          'https://i.ibb.co/ZpfbtRZT/aeaken-exclusive.png',
+          'https://placehold.co/300x300/C0C0C0/FFF?text=TEE+2',
+          'https://placehold.co/300x300/D0D0D0/FFF?text=TEE+3'
+        ],
+        description: 'An exclusive artifact for the inner circle. Limited edition, imbued with subtle energies of awakening.',
+        sizes: ['XS', 'S', 'M'],
+        lore: "Reserved for those who have passed the second initiation, a mark of true dedication.",
+        shopifyVariantId: '44796300632347'
+      },
+      {
+        id: 'p8',
+        name: 'Shook Tee',
+        price: 40,
+        image: 'https://i.ibb.co/qM5H0KXG/shook-final.webp',
+        additionalImages: [
+          'https://i.ibb.co/qM5H0KXG/shook-final.webp',
+          'https://placehold.co/300x300/E0E0E0/FFF?text=SHOOK+2',
+          'https://placehold.co/300x300/F0F0F0/FFF?text=SHOOK+3'
+        ],
+        description: 'For those moments when the truth hits hard. A comfortable tee that expresses your state of mind.',
+        sizes: ['S', 'M', 'L'],
+        lore: "A popular design after the 'Great Revelation' when many were truly shook by the truth.",
+        shopifyVariantId: '44796300665118'
+      },
+      {
+        id: 'p9',
+        name: 'NWO Tank',
+        price: 25,
+        image: 'https://i.ibb.co/60JYHjrZ/tank.webp',
+        additionalImages: [
+          'https://i.ibb.co/60JYHjrZ/tank.webp',
+          'https://placehold.co/300x300/A0A0A0/FFF?text=TANK+2',
+          'https://placehold.co/300x300/B0B0B0/FFF?text=TANK+3'
+        ],
+        description: 'Embrace the New World Order, literally. A comfortable tank top for warmer climates or layered looks.',
+        sizes: ['S', 'M', 'L', 'XL'],
+        lore: "Favored by operatives in warmer sectors, allowing for maximum mobility and subtle messaging.",
+        shopifyVariantId: '44796300697889'
+      },
+      {
+        id: 'p10',
+        name: 'Combat Pants',
+        price: 60,
+        image: 'https://i.ibb.co/kgfzBRBr/pants.png',
+        additionalImages: [
+          'https://i.ibb.co/kgfzBRBr/pants.png',
+          'https://i.ibb.co/HyRqj7X/pants-side.png',
+          'https://placehold.co/300x300/D0D0D0/FFF?text=PANTS+3'
+        ],
+        description: 'Durable and versatile, designed for the urban explorer and truth-seeker. Ready for any mission.',
+        sizes: ['28', '30', '32', '34', '36'],
+        lore: "Standard issue for reconnaissance teams, built to withstand the rigors of uncovering hidden truths.",
+        shopifyVariantId: '44796300730660'
+      },
+      {
+        id: 'p11',
+        name: 'Truth Serum Vial',
+        price: 100,
+        image: 'https://i.ibb.co/XZH1pMxf/poncho-2.webp', /* Keeping this image, but noting it looks like a poncho */
+        additionalImages: [
+          'https://i.ibb.co/XZH1pMxf/poncho-2.webp',
+          'https://placehold.co/300x300/E0E0E0/FFF?text=VIAL+2',
+          'https://placehold.co/300x300/F0F0F0/FFF?text=VIAL+3'
+        ],
+        description: 'A potent concoction designed to unlock dormant memories and accelerate your awakening. Use with caution.',
+        sizes: ['One Size'],
+        lore: "A rare elixir, distilled from the tears of forgotten prophets and the essence of pure truth.",
+        shopifyVariantId: '44796300763431'
+      },
+      {
+        id: 'p12',
+        name: 'Ameen Hoodie',
+        price: 85,
+        image: 'https://i.ibb.co/tMDwdkpT/ameen-final.png',
+        additionalImages: [
+          'https://i.ibb.co/tMDwdkpT/ameen-final.png',
+          'https://placehold.co/300x300/A0A0A0/FFF?text=HOODIE+2',
+          'https://placehold.co/300x300/B0B0B0/FFF?text=HOODIE+3'
+        ],
+        description: 'A comfortable and stylish hoodie, perfect for those cool nights spent contemplating the universe and the path to awakening.',
+        sizes: ['S', 'M', 'L', 'XL'],
+        lore: "Named after a revered elder who guided many initiates through their initial awakening, embodying comfort and wisdom.",
+        shopifyVariantId: '44796300796202'
+      }
+    ];
+
+    let cart = JSON.parse(localStorage.getItem('awakenCart')) || []; // Load cart from local storage
+
+    // Cart Overlay Functions (consistent with other pages)
+    const cartOverlay = document.getElementById('cart-overlay');
+    const cartCountSpan = document.getElementById('cart-count');
+    const cartItemsDiv = document.getElementById('cart-items');
+    const cartTotalSpan = document.getElementById('cart-total');
+    const emptyCartMessage = document.getElementById('empty-cart-message');
+
+    function toggleCart() {
+      cartOverlay.classList.toggle('active');
+    }
+
+    function updateCartDisplay() {
+      cartItemsDiv.innerHTML = ''; // Clear current items
+      let total = 0;
+
+      if (cart.length === 0) {
+        emptyCartMessage.style.display = 'block';
+      } else {
+        emptyCartMessage.style.display = 'none';
+        cart.forEach((item, index) => {
+          const cartItemDiv = document.createElement('div');
+          cartItemDiv.className = 'cart-item';
+          cartItemDiv.innerHTML = `
+            <img src="${item.image}" alt="${item.name}" class="cart-item-image" />
+            <div class="cart-item-details">
+              <h4>${item.name} (${item.size})</h4>
+              <p>$${item.price.toFixed(2)} x ${item.quantity}</p>
+            </div>
+            <button class="cart-item-remove" onclick="removeFromCart(${index})">Remove</button>
+          `;
+          cartItemsDiv.appendChild(cartItemDiv);
+          total += item.price * item.quantity;
+        });
+      }
+
+      cartTotalSpan.textContent = `$${total.toFixed(2)}`;
+      cartCountSpan.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+      localStorage.setItem('awakenCart', JSON.stringify(cart)); // Save cart to local storage
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCartDisplay();
+    }
+
+    function showCustomAlert(message) {
+        const alertBox = document.createElement('div');
+        alertBox.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: black;
+            color: white;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            z-index: 10000;
+            font-family: 'Roboto Condensed', sans-serif;
+            font-size: 1.1rem;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        `;
+        alertBox.textContent = message;
+        document.body.appendChild(alertBox);
+
+        setTimeout(() => {
+            alertBox.style.opacity = 1;
+        }, 10); // Small delay to trigger transition
+
+        setTimeout(() => {
+            alertBox.style.opacity = 0;
+            alertBox.addEventListener('transitionend', () => alertBox.remove());
+        }, 3000); // Disappear after 3 seconds
+    }
+
+    // Function to proceed to Shopify checkout
+    function proceedToCheckout() {
+      if (cart.length === 0) {
+        showCustomAlert('Your cart is empty. Please add some artifacts before checking out.');
+        return;
+      }
+
+      const shopifyStoreDomain = 'shop.awakencult.com'; // Your Shopify store domain
+      const cartItemsForShopify = cart
+        .map(item => `updates[]=${item.shopifyVariantId}:${item.quantity}`)
+        .join('&');
+
+      // Redirect to Shopify's cart page with items pre-filled
+      const checkoutUrl = `https://${shopifyStoreDomain}/cart?${cartItemsForShopify}`;
+      window.location.href = checkoutUrl;
+    }
+
+    // Product Detail Page Logic
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const productId = urlParams.get('id');
+      // Default to p1 if no ID is provided in the URL for demonstration
+      const product = products.find(p => p.id === productId) || products[0]; 
+
+      const productDetailContainer = document.getElementById('product-detail-container');
+      const mainProductImage = document.getElementById('product-image');
+      const thumbnailGallery = document.getElementById('thumbnail-gallery');
+
+      if (product) {
+        mainProductImage.src = product.image;
+        mainProductImage.alt = product.name;
+        document.getElementById('product-title').textContent = product.name;
+        document.getElementById('product-price').textContent = `$${product.price.toFixed(2)}`;
+        document.getElementById('product-description').textContent = product.description;
+        document.getElementById('product-lore').textContent = `Lore: ${product.lore}`;
+
+        const sizeSelect = document.getElementById('product-size');
+        sizeSelect.innerHTML = ''; // Clear existing options
+        product.sizes.forEach(size => {
+          const option = document.createElement('option');
+          option.value = size;
+          option.textContent = size;
+          sizeSelect.appendChild(option);
+        });
+
+        // Populate thumbnail gallery
+        thumbnailGallery.innerHTML = ''; // Clear existing thumbnails
+        if (product.additionalImages) {
+            product.additionalImages.forEach(imgSrc => {
+              const thumb = document.createElement('img');
+              thumb.src = imgSrc;
+              thumb.alt = `${product.name} thumbnail`;
+              thumb.classList.add('thumbnail');
+              thumb.addEventListener('click', () => {
+                mainProductImage.src = imgSrc;
+                // Remove active class from all thumbnails
+                Array.from(thumbnailGallery.children).forEach(t => t.classList.remove('active'));
+                // Add active class to clicked thumbnail
+                thumb.classList.add('active');
+              });
+              thumbnailGallery.appendChild(thumb);
+            });
+            // Set the first thumbnail as active by default
+            if (thumbnailGallery.firstElementChild) {
+              thumbnailGallery.firstElementChild.classList.add('active');
+            }
+        }
+
+        document.getElementById('add-to-cart-btn').addEventListener('click', () => {
+          const selectedSize = sizeSelect.value;
+          const quantity = parseInt(document.getElementById('product-quantity').value);
+
+          // Add to local cart only
+          const existingItemIndex = cart.findIndex(item =>
+              item.id === product.id && item.size === selectedSize
+          );
+
+          if (existingItemIndex > -1) {
+              cart[existingItemIndex].quantity += quantity;
+          } else {
+              cart.push({
+                  id: product.id,
+                  name: product.name,
+                  price: product.price,
+                  image: product.image,
+                  size: selectedSize,
+                  quantity: quantity,
+                  shopifyVariantId: product.shopifyVariantId // Keep Shopify ID for checkout
+              });
+          }
+          updateCartDisplay();
+          showCustomAlert(`${quantity} x ${product.name} (${selectedSize}) added to your cart!`);
+        });
+      } else {
+        // Handle product not found: display message and provide a way back
+        if (productDetailContainer) {
+          productDetailContainer.innerHTML = `
+            <p class="text-center text-xl font-bold text-red-600">Artifact not found. Please return to the market.</p>
+            <button class="bg-black text-white px-4 py-2 mt-4 hover:bg-gray-800" onclick="window.history.back()">Go Back</button>
+          `;
+        }
+      }
+
+      // Marquee content duplication and animation setup for seamless loop
+      const marqueeContentWrapper = document.querySelector('.marquee-container .marquee-content-wrapper');
+      const originalMarqueeText = document.querySelector('.marquee-container .marquee-text');
+
+      if (marqueeContentWrapper && originalMarqueeText) {
+        const originalContent = originalMarqueeText.outerHTML;
+
+        // Clear existing content to prevent multiple duplications on re-run
+        marqueeContentWrapper.innerHTML = '';
+
+        // Duplicate the content multiple times to ensure continuous flow
+        for (let i = 0; i < 3; i++) {
+            marqueeContentWrapper.innerHTML += originalContent;
+        }
+
+        requestAnimationFrame(() => {
+            const firstMarqueeTextElement = marqueeContentWrapper.firstElementChild;
+            if (firstMarqueeTextElement) {
+                const singleTextWidth = firstMarqueeTextElement.offsetWidth;
+                marqueeContentWrapper.style.setProperty('--marquee-distance', `-${singleTextWidth}px`);
+                const pixelsPerSecond = 150;
+                const calculatedSpeed = singleTextWidth / pixelsPerSecond;
+                marqueeContentWrapper.style.setProperty('--marquee-speed', `${calculatedSpeed}s`);
+                marqueeContentWrapper.style.animation = 'none';
+                void marqueeContentWrapper.offsetWidth;
+                marqueeContentWrapper.style.animation = `marquee var(--marquee-speed) linear infinite`;
+            }
+        });
+      }
+
+      updateCartDisplay(); // Initialize cart display on page load
+    });
+  </script>
+</body>
+</html>

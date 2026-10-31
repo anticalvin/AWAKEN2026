@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWAKEN</title>
+    <!-- Google Fonts - Anton for dystopian messages -->
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <!-- Tone.js for sound effects -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js"></script>
+    <style>
+        /* Custom CSS for the game */
+        body {
+            font-family: 'Anton', sans-serif; /* Use Anton for all text for dystopian feel */
+            background-color: #1a1a1a; /* Dark background for outside canvas */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden; /* Prevent scrolling */
+        }
+
+        #game-container {
+            position: relative;
+            width: 100%; /* Take full width on small screens */
+            max-width: 400px; /* Max width for desktop */
+            height: 100vh; /* Take full height on small screens */
+            max-height: 700px; /* Max height for desktop */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #000; /* Black background for the game area */
+            border: 8px solid #333; /* Thick border for retro feel */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            border-radius: 12px; /* Rounded corners for the container */
+        }
+
+        canvas {
+            display: block;
+            background-color: transparent; /* Canvas background will be drawn by JS */
+            width: 100%; /* Canvas takes full width of container */
+            height: 100%; /* Canvas takes full height of container */
+            image-rendering: pixelated; /* Ensures pixel art stays sharp */
+            image-rendering: -moz-crisp-edges;
+            image-rendering: -webkit-optimize-contrast;
+        }
+
+        .game-ui {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(10, 10, 10, 0.7); /* Nearly black, more opaque (adjusted to 0.7) */
+            color: #da4944; /* Red for messages */
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+            z-index: 10; /* Ensure UI is above canvas */
+            border-radius: 12px; /* Match container border-radius */
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            /* Removed text-shadow for a clean look */
+        }
+
+        .game-ui h1 {
+            font-size: 2.5rem; /* Larger title */
+            margin-bottom: 20px;
+            /* Removed text-shadow for a clean look */
+        }
+
+        .game-ui p {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            /* Removed text-shadow for a clean look */
+        }
+
+        .game-button {
+            background-color: #da4944; /* Red button */
+            color: #1a1a1a; /* Dark text for button */
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            border: 4px solid #a03330; /* Darker red border */
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 6px 6px #802825; /* Pixelated shadow, even darker red */
+            transition: all 0.1s ease-in-out;
+            margin-top: 20px;
+            -webkit-user-select: none; /* Disable text selection */
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            font-family: 'Anton', sans-serif;
+            text-transform: uppercase;
+        }
+
+        .game-button:active {
+            box-shadow: 2px 2px #802825; /* Smaller shadow on click */
+            transform: translate(4px, 4px); /* Press effect */
+        }
+
+        #score-display {
+            position: absolute;
+            top: 20px;
+            width: 100%;
+            text-align: center;
+            color: #da4944; /* Red score */
+            font-size: 2rem;
+            /* Removed text-shadow for a clean look */
+            z-index: 5; /* Above canvas, below UI screens */
+            font-family: 'Anton', sans-serif;
+        }
+
+        /* Hide elements initially */
+        .hidden {
+            display: none;
+        }
+
+        #message-box {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            z-index: 100;
+            font-family: 'Anton', sans-serif;
+            font-size: 1rem;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            pointer-events: none; /* Allow clicks to pass through */
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div id="score-display">SCORE: 0</div>
+        <canvas id="gameCanvas"></canvas>
+
+        <!-- Start Screen -->
+        <div id="start-screen" class="game-ui">
+            <h1>AWAKEN</h1>
+            <p>Tap anywhere to start!</p>
+            <button id="startButton" class="game-button">PLAY</button>
+            <button id="shareStartButton" class="game-button">SHARE</button>
+            <button id="backStartButton" class="game-button">BACK</button>
+        </div>
+
+        <!-- Game Over Screen -->
+        <div id="game-over-screen" class="game-ui hidden">
+            <h1>GAME OVER!</h1>
+            <p>SCORE: <span id="final-score">0</span></p>
+            <p>HIGH SCORE: <span id="high-score">0</span></p>
+            <button id="retryButton" class="game-button">RETRY</button>
+            <button id="shareGameOverButton" class="game-button">SHARE</button>
+            <button id="backGameOverButton" class="game-button">BACK</button>
+        </div>
+
+        <div id="message-box" class="hidden"></div>
+    </div>
+
+    <script>
+        // Get canvas and its 2D rendering context
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Get UI elements
+        const scoreDisplay = document.getElementById('score-display');
+        const startScreen = document.getElementById('start-screen');
+        const gameOverScreen = document.getElementById('game-over-screen');
+        const finalScoreSpan = document.getElementById('final-score');
+        const highScoreSpan = document.getElementById('high-score');
+        const startButton = document.getElementById('startButton');
+        const retryButton = document.getElementById('retryButton');
+        const shareStartButton = document.getElementById('shareStartButton');
+        const backStartButton = document.getElementById('backStartButton');
+        const shareGameOverButton = document.getElementById('shareGameOverButton');
+        const backGameOverButton = document.getElementById('backGameOverButton');
+        const messageBox = document.getElementById('message-box');
+
+
+        // Game state variables
+        let gameRunning = false;
+        let gameOver = false;
+        let score = 0;
+        let highScore = localStorage.getItem('dystopianFlapHighScore') || 0;
+
+        // Game constants (adjusted for pixel art feel and mobile)
+        const PLAYER_WIDTH = 32; // Pixelated player width (reverted to 32)
+        const PLAYER_HEIGHT = 32; // Pixelated player height (reverted to 32)
+        const OBSTACLE_WIDTH = 60; // Width of the metal bins
+        const OBSTACLE_GAP_HEIGHT = 150; // Gap for the player to pass through (adjusted to 150, more narrow)
+        const GAME_SPEED = 2.5; // Overall game speed (for player and obstacles)
+        const GRAVITY = 0.2; // Increased gravity strength (reverted to 0.2)
+        const LIFT = -4.75; // Adjusted to half the previous magnitude (-9.5 / 2)
+        const GROUND_HEIGHT = 50; // Height of the ground layer
+
+        // Player object (smiley face)
+        const player = {
+            x: 50, // Initial X position
+            y: canvas.height / 2, // Initial Y position (center)
+            width: PLAYER_WIDTH,
+            height: PLAYER_HEIGHT,
+            velocity: 0, // Current vertical velocity
+            draw: function() {
+                // Player color
+                ctx.fillStyle = '#FFD700'; // Gold/Yellow
+                ctx.strokeStyle = '#000'; // Black outline
+                ctx.lineWidth = 2;
+
+                // Draw face circle
+                ctx.beginPath();
+                ctx.arc(this.x + this.width / 2, this.y + this.height / 2, this.width / 2, 0, Math.PI * 2, true);
+                ctx.fill();
+                ctx.stroke();
+
+                // Draw eyes
+                ctx.fillStyle = '#000';
+                const eyeRadius = this.width * 0.08;
+                // Left eye
+                ctx.beginPath();
+                ctx.arc(this.x + this.width * 0.35, this.y + this.height * 0.4, eyeRadius, 0, Math.PI * 2, true);
+                ctx.fill();
+                // Right eye
+                ctx.beginPath();
+                ctx.arc(this.x + this.width * 0.65, this.y + this.height * 0.4, eyeRadius, 0, Math.PI * 2, true);
+                ctx.fill();
+                // Third eye on the forehead
+                ctx.beginPath();
+                ctx.arc(this.x + this.width / 2, this.y + this.height * 0.25, eyeRadius, 0, Math.PI * 2, true);
+                ctx.fill();
+
+                // Draw mouth
+                ctx.beginPath();
+                ctx.arc(this.x + this.width / 2, this.y + this.height * 0.65, this.width * 0.2, 0, Math.PI, false);
+                ctx.stroke();
+            },
+            update: function() {
+                this.velocity += GRAVITY; // Apply gravity
+                this.y += this.velocity; // Update position
+
+                // Prevent player from going too high (ceiling collision)
+                if (this.y < 0) {
+                    this.y = 0;
+                    this.velocity = 0;
+                    endGame(); // Game over if hits ceiling
+                }
+                // Ground collision is handled in main game loop
+            },
+            flap: function() {
+                this.velocity = LIFT; // Apply upward lift
+            }
+        };
+
+        // Array to hold obstacles (metal bins)
+        let obstacles = [];
+        let obstacleTimeout; // Changed to timeout for dynamic intervals
+
+        // Sound effects using Tone.js
+        const flapSound = new Tone.Synth().toDestination();
+        const scoreSound = new Tone.MembraneSynth().toDestination();
+        const hitSound = new Tone.NoiseSynth().toDestination();
+
+        // Function to play sound effects
+        function playFlapSound() {
+            flapSound.triggerAttackRelease("C4", "8n"); // A short note for flapping
+        }
+
+        function playScoreSound() {
+            scoreSound.triggerAttackRelease("C5", "16n"); // A higher note for scoring
+        }
+
+        function playHitSound() {
+            hitSound.triggerAttackRelease("16n"); // A noise for hitting
+        }
+
+        // Helper function for random building colors
+        function getRandomBuildingColor() {
+            const buildingColors = ['#222', '#333', '#444'];
+            return buildingColors[Math.floor(Math.random() * buildingColors.length)];
+        }
+
+        // Function to create a new obstacle pair (metal bins)
+        function createObstacle() {
+            const safeZoneVertical = 60; // Minimum distance from top/bottom of playable area to gap
+            const minGapY = safeZoneVertical; // Minimum Y for the top of the gap
+            const maxGapY = canvas.height - GROUND_HEIGHT - OBSTACLE_GAP_HEIGHT - safeZoneVertical; // Maximum Y for the top of the gap
+
+            // Ensure maxGapY is not less than minGapY in case of very small canvas
+            const actualMaxGapY = Math.max(minGapY, maxGapY);
+
+            const gapY = Math.floor(Math.random() * (actualMaxGapY - minGapY + 1)) + minGapY;
+
+            const topObstacleHeight = gapY;
+            const bottomObstacleHeight = canvas.height - GROUND_HEIGHT - (gapY + OBSTACLE_GAP_HEIGHT);
+
+            obstacles.push({
+                x: canvas.width, // Start off-screen to the right
+                topHeight: topObstacleHeight,
+                bottomHeight: bottomObstacleHeight,
+                width: OBSTACLE_WIDTH,
+                passed: false // To track if player has passed for scoring
+            });
+        }
+
+        // Draw metal bin obstacle (enhanced)
+        function drawMetalBin(x, y, width, height) {
+            ctx.fillStyle = '#696969'; // Dim gray for metal
+            ctx.strokeStyle = '#404040'; // Darker gray for outline
+            ctx.lineWidth = 2;
+
+            // Main bin body
+            ctx.fillRect(x, y, width, height);
+            ctx.strokeRect(x, y, width, height);
+
+            // Add horizontal stripes/bands
+            ctx.fillStyle = '#555'; // Slightly darker gray for stripes
+            const stripeHeight = 5;
+            const stripeSpacing = 15;
+            for (let i = 0; i < height; i += stripeSpacing) {
+                ctx.fillRect(x, y + i, width, stripeHeight);
+            }
+
+            // Top rim
+            ctx.fillStyle = '#808080'; // Gray for rim
+            ctx.fillRect(x - 2, y - 5, width + 4, 10);
+            ctx.strokeRect(x - 2, y - 5, width + 4, 10);
+
+            // Small lid handle (optional)
+            ctx.fillStyle = '#404040';
+            ctx.fillRect(x + width / 2 - 5, y - 10, 10, 5);
+        }
+
+        // Time of day variables for background
+        let currentTimeOfDay = 0; // 0 to 1, representing progress through day/night cycle
+        const DAY_CYCLE_SPEED = 0.00002; // Slower speed for sky transition
+
+        // For the watching eye movement
+        let eyeOscillationOffset = 0;
+        const EYE_OSCILLATION_SPEED = 0.002;
+        const EYE_OSCILLATION_AMPLITUDE = 15;
+
+        // New global variable for the eye's current tracked Y position
+        let eyeTrackedY = canvas.height / 2;
+        const EYE_TRACKING_SPEED = 0.05; // How quickly the eye tracks the gap
+
+        // --- Background Elements Data ---
+        let stars = [];
+        const numStars = 100;
+        const starMinSize = 1;
+        const starMaxSize = 3;
+
+        // Stores unique properties for each building instance by layer and global index
+        let backgroundElementStates = {}; 
+
+        const baseBuildingColors = ['#1a1a1a', '#222', '#333']; // Darker, middle, lighter
+        const buildingScrollSpeeds = [0.05, 0.1, 0.2]; // Slower for further layers
+        const BG_BUILDING_MIN_WIDTH = 80;
+        const BG_BUILDING_MAX_WIDTH = 150;
+        const BG_BUILDING_MIN_HEIGHT_RATIO = 0.3;
+        const BG_BUILDING_MAX_HEIGHT_RATIO = 0.8;
+
+        const akiraBillboardColors = ['#FF0000', '#FFFF00', '#00FFFF', '#00FF00', '#FFA500']; // Red, Yellow, Cyan, Green, Orange
+
+        const windowColorDark = [30, 30, 30]; // Dark gray for off windows
+        const windowColorLit = [255, 215, 0]; // Gold/Yellow for lit windows
+
+        let cameraX = 0; // Global camera position for parallax
+
+        // Helper function for linear interpolation
+        function getInterpolatedValue(valueA, valueB, factor) {
+            return valueA + factor * (valueB - valueA);
+        }
+
+        // Helper function to interpolate RGB colors
+        function lerpColor(color1, color2, factor) {
+            const result = [];
+            for (let i = 0; i < 3; i++) {
+                result[i] = Math.round(getInterpolatedValue(color1[i], color2[i], factor));
+            }
+            return `rgb(${result[0]}, ${result[1]}, ${result[2]})`;
+        }
+
+        // Define sky color points as [R, G, B] arrays for smooth transition
+        const skyColors = [
+            { time: 0.0, color: [20, 20, 40] },   // Deep Night
+            { time: 0.25, color: [80, 50, 100] },  // Pre-dawn purple
+            { time: 0.5, color: [100, 150, 200] }, // Mid-day light blue
+            { time: 0.75, color: [150, 100, 120] }, // Dusk reddish
+            { time: 1.0, color: [20, 20, 40] }    // Back to Deep Night
+        ];
+
+        function getSkyColor(time) {
+            time = time % 1.0;
+
+            let startColor, endColor, startPoint, endPoint;
+
+            for (let i = 0; i < skyColors.length; i++) {
+                if (time >= skyColors[i].time) {
+                    startPoint = skyColors[i].time;
+                    startColor = skyColors[i].color;
+                    if (i + 1 < skyColors.length) {
+                        endPoint = skyColors[i + 1].time;
+                        endColor = skyColors[i + 1].color;
+                    } else {
+                        endPoint = 1.0;
+                        endColor = skyColors[0].color; // Loop back to deep night
+                    }
+                } else {
+                    break;
+                }
+            }
+
+            const factor = (time - startPoint) / (endPoint - startPoint);
+            return lerpColor(startColor, endColor, factor);
+        }
+
+        // Initialize stars
+        function initializeStars() {
+            stars = [];
+            for (let i = 0; i < numStars; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * (canvas.height / 2), // Stars in upper half
+                    size: getInterpolatedValue(starMinSize, starMaxSize, Math.random())
+                });
+            }
+        }
+
+        // Draw a single star
+        function drawStar(star, alpha) {
+            ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+            // Draw a simple 5-pointed star shape or a square for pixel art
+            ctx.beginPath();
+            ctx.moveTo(star.x, star.y - star.size);
+            ctx.lineTo(star.x + star.size * 0.3, star.y - star.size * 0.3);
+            ctx.lineTo(star.x + star.size, star.y);
+            ctx.lineTo(star.x + star.size * 0.3, star.y + star.size * 0.3);
+            ctx.lineTo(star.x, star.y + star.size);
+            ctx.lineTo(star.x - star.size * 0.3, star.y + star.size * 0.3);
+            ctx.lineTo(star.x - star.size, star.y);
+            ctx.lineTo(star.x - star.size * 0.3, star.y - star.size * 0.3);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        // Initialize background buildings data structure
+        function initializeBackgroundBuildings() {
+            // No need to clear backgroundBuildingsData here, it's a dynamic cache now.
+            // We ensure enough initial buildings are "generated" in the cache.
+            // The drawing loop will handle which ones are visible.
+        }
+
+        // Draw dystopian buildings (for background only)
+        function drawBackgroundBuilding(building, timeOfDay, layerIndex) {
+            ctx.fillStyle = building.color;
+            ctx.fillRect(building.x, building.y, building.width, building.height);
+
+            // Calculate window light factor based on time of day
+            let currentWindowLightFactor;
+            if (timeOfDay < 0.25) { // Night to Dawn
+                currentWindowLightFactor = getInterpolatedValue(1.0, 0.2, timeOfDay / 0.25);
+            } else if (timeOfDay < 0.5) { // Dawn to Day
+                currentWindowLightFactor = getInterpolatedValue(0.2, 0.0, (timeOfDay - 0.25) / 0.25);
+            } else if (timeOfDay < 0.75) { // Day to Dusk
+                currentWindowLightFactor = getInterpolatedValue(0.0, 0.2, (timeOfDay - 0.5) / 0.25);
+            } else { // Dusk to Night
+                currentWindowLightFactor = getInterpolatedValue(0.2, 1.0, (timeOfDay - 0.75) / 0.25);
+            }
+            currentWindowLightFactor = Math.max(0, Math.min(1, currentWindowLightFactor)); // Clamp between 0 and 1
+
+            const windowSize = 8;
+            const windowSpacing = 12; // Space between windows
+
+            building.windows.forEach(window => {
+                const winX = building.x + window.xOffset;
+                const winY = building.y + window.yOffset;
+
+                let windowFillColor;
+                if (window.isInitiallyLit && currentWindowLightFactor > 0.1) { // Only light if initially lit and light factor is significant
+                    windowFillColor = lerpColor(windowColorDark, windowColorLit, currentWindowLightFactor);
+                } else {
+                    windowFillColor = `rgb(${windowColorDark[0]}, ${windowColorDark[1]}, ${windowColorDark[2]})`;
+                }
+                
+                ctx.fillStyle = windowFillColor;
+                ctx.fillRect(winX, winY, windowSize, windowSize);
+                ctx.strokeStyle = '#000'; // Black border for windows
+                ctx.lineWidth = 1;
+                ctx.strokeRect(winX, winY, windowSize, windowSize);
+            });
+
+            if (building.hasAntenna) {
+                ctx.fillStyle = '#666';
+                ctx.fillRect(building.x + building.width / 2 - 2, building.y - 30, 4, 30);
+                ctx.beginPath();
+                ctx.arc(building.x + building.width / 2, building.y - 30, 5, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // Draw AWAKEN billboard if applicable
+            if (building.hasAwakenBillboard) {
+                ctx.save(); // Save current canvas state
+
+                const billboardWidth = building.width * 0.8;
+                const billboardHeight = 40; // Fixed height for the billboard
+                const billboardX = building.x + (building.width - billboardWidth) / 2;
+                const billboardY = building.y + building.height * 0.15; // Position higher up on the building
+
+                // Billboard outer frame
+                ctx.fillStyle = '#444';
+                ctx.fillRect(billboardX, billboardY, billboardWidth, billboardHeight);
+                ctx.strokeStyle = '#222';
+                ctx.lineWidth = 3;
+                ctx.strokeRect(billboardX, billboardY, billboardWidth, billboardHeight);
+
+                // Inner black screen
+                const screenPadding = 6;
+                ctx.fillStyle = '#000';
+                ctx.fillRect(billboardX + screenPadding, billboardY + screenPadding,
+                             billboardWidth - screenPadding * 2, billboardHeight - screenPadding * 2);
+
+                // AWAKEN text
+                ctx.font = 'bold 24px Anton'; // Reduced font size to fit
+                ctx.fillStyle = building.billboardColor; // Use the assigned Akira color
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.shadowColor = 'transparent'; 
+                ctx.shadowBlur = 0; 
+                
+                ctx.fillText('AWAKEN', billboardX + billboardWidth / 2, billboardY + billboardHeight / 2); // Centered
+                ctx.restore(); // Restore canvas state
+            }
+
+            // Draw EYE billboard if applicable
+            if (building.hasEyeBillboard) {
+                ctx.save(); // Save current canvas state
+
+                const billboardWidth = building.width * 0.8;
+                const billboardHeight = 40; // Fixed height for the billboard
+                const billboardX = building.x + (building.width - billboardWidth) / 2;
+                const billboardY = building.y + building.height * (building.hasAwakenBillboard ? 0.4 : 0.15); 
+
+                // Billboard background (outer frame)
+                ctx.fillStyle = '#444';
+                ctx.fillRect(billboardX, billboardY, billboardWidth, billboardHeight);
+                ctx.strokeStyle = '#222';
+                ctx.lineWidth = 3;
+                ctx.strokeRect(billboardX, billboardY, billboardWidth, billboardHeight);
+
+                // Inner black screen
+                const screenPadding = 6;
+                ctx.fillStyle = '#000';
+                ctx.fillRect(billboardX + screenPadding, billboardY + screenPadding,
+                             billboardWidth - screenPadding * 2, billboardHeight - screenPadding * 2);
+
+                // Draw the stylized eye
+                const eyeCenterX = billboardX + billboardWidth / 2;
+                const eyeCenterY = billboardY + billboardHeight / 2;
+                const eyeSize = billboardWidth * 0.4;
+
+                ctx.fillStyle = building.billboardColor; // Eye color matches billboard text color (Cyan)
+                ctx.beginPath();
+                ctx.ellipse(eyeCenterX, eyeCenterY, eyeSize / 2, eyeSize / 3, 0, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = '#000'; // Black pupil
+                ctx.beginPath();
+                ctx.arc(eyeCenterX, eyeCenterY, eyeSize * 0.15, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore(); // Restore canvas state
+            }
+        }
+
+        function drawBackgroundLayer(time, deltaTime) {
+            // Sky
+            ctx.fillStyle = getSkyColor(time);
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Stars
+            let currentStarAlpha;
+            if (time < 0.25) { // Night to Dawn
+                currentStarAlpha = getInterpolatedValue(1.0, 0.0, time / 0.25);
+            } else if (time < 0.75) { // Day
+                currentStarAlpha = 0.0;
+            } else { // Dusk to Night
+                currentStarAlpha = getInterpolatedValue(0.0, 1.0, (time - 0.75) / 0.25);
+            }
+            if (currentStarAlpha > 0) {
+                stars.forEach(star => drawStar(star, currentStarAlpha));
+            }
+
+            // Ground
+            ctx.fillStyle = '#333';
+            ctx.fillRect(0, canvas.height - GROUND_HEIGHT, canvas.width, GROUND_HEIGHT);
+            ctx.strokeStyle = '#111';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(0, canvas.height - GROUND_HEIGHT, canvas.width, GROUND_HEIGHT);
+
+            // Parallax Buildings
+            cameraX += GAME_SPEED * deltaTime / 16; // Update global camera X
+
+            for (let layer = 0; layer < baseBuildingColors.length; layer++) {
+                const layerColor = baseBuildingColors[layer];
+                const layerScrollSpeed = buildingScrollSpeeds[layer];
+                const effectiveCameraX = cameraX * layerScrollSpeed;
+
+                // Calculate the range of global building indices visible for this layer
+                // A "slot" is roughly the max building width + max gap
+                const maxBuildingSlotWidth = BG_BUILDING_MAX_WIDTH + 30; 
+                const firstVisibleGlobalIndex = Math.floor(effectiveCameraX / maxBuildingSlotWidth);
+                const numSlotsToDraw = Math.ceil(canvas.width / maxBuildingSlotWidth) + 2; // +2 for off-screen buffer
+
+                for (let i = 0; i < numSlotsToDraw; i++) {
+                    const globalBuildingIndex = firstVisibleGlobalIndex + i;
+                    const buildingKey = `${layer}_${globalBuildingIndex}`;
+
+                    if (!backgroundElementStates[buildingKey]) {
+                        // Generate new building properties if not already cached
+                        const bldgWidth = getInterpolatedValue(BG_BUILDING_MIN_WIDTH, BG_BUILDING_MAX_WIDTH, Math.random());
+                        const bldgHeight = canvas.height * getInterpolatedValue(BG_BUILDING_MIN_HEIGHT_RATIO, BG_BUILDING_MAX_HEIGHT_RATIO, Math.random());
+                        const bldgY = canvas.height - GROUND_HEIGHT - bldgHeight;
+                        const hasAntenna = Math.random() < 0.2;
+                        const hasAwakenBillboard = Math.random() < 0.15;
+                        const hasEyeBillboard = Math.random() < 0.1;
+                        let billboardColor = '#00FFFF';
+                        if (hasAwakenBillboard) {
+                            billboardColor = akiraBillboardColors[Math.floor(Math.random() * akiraBillboardColors.length)];
+                        }
+
+                        const windows = [];
+                        const windowSize = 8;
+                        const windowSpacing = 12;
+                        for (let xOff = windowSpacing; xOff < bldgWidth - windowSpacing; xOff += windowSpacing) {
+                            for (let yOff = windowSpacing; yOff < bldgHeight - windowSpacing; yOff += windowSpacing) {
+                                windows.push({
+                                    xOffset: xOff,
+                                    yOffset: yOff,
+                                    isInitiallyLit: Math.random() < 0.5 // 50% chance to be initially lit
+                                });
+                            }
+                        }
+
+                        backgroundElementStates[buildingKey] = {
+                            width: bldgWidth,
+                            height: bldgHeight,
+                            y: bldgY,
+                            color: layerColor, // Use layer's base color
+                            hasAntenna: hasAntenna,
+                            hasAwakenBillboard: hasAwakenBillboard,
+                            hasEyeBillboard: hasEyeBillboard,
+                            billboardColor: billboardColor,
+                            windows: windows,
+                            xOffset: Math.random() * 30 // Small random offset within its slot
+                        };
+                    }
+
+                    const building = backgroundElementStates[buildingKey];
+                    // Calculate current X position on canvas
+                    building.x = (globalBuildingIndex * maxBuildingSlotWidth) - effectiveCameraX + building.xOffset;
+
+                    drawBackgroundBuilding(building, time, layer);
+                }
+            }
+        }
+
+        // Draw the ominous watching eye (pupil tracks player, consistent red color)
+        function drawWatchingEye(eyeY) { 
+            const eyeRadius = 40;
+            const irisRadius = eyeRadius * 0.6;
+            const pupilRadius = 15;
+
+            // Eye center (fixed X, dynamic Y)
+            const eyeX = canvas.width / 2;
+
+            // Calculate pupil offset to track player
+            const dx = player.x - eyeX;
+            const dy = player.y - eyeY; 
+            const angle = Math.atan2(dy, dx);
+
+            // Limit pupil movement within the iris
+            const pupilMaxOffset = irisRadius - pupilRadius;
+            const pupilOffsetX = Math.cos(angle) * pupilMaxOffset;
+            const pupilOffsetY = Math.sin(angle) * pupilMaxOffset;
+
+            const pupilX = eyeX + pupilOffsetX;
+            const pupilY = eyeY + pupilOffsetY; 
+
+            // Eye white
+            ctx.fillStyle = 'white';
+            ctx.beginPath();
+            ctx.arc(eyeX, eyeY, eyeRadius, 0, Math.PI * 2); 
+            ctx.fill();
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // Iris (red)
+            ctx.fillStyle = 'red';
+            ctx.beginPath();
+            ctx.arc(eyeX, eyeY, irisRadius, 0, Math.PI * 2); 
+            ctx.fill();
+
+            // Pupil (black, as per reference image)
+            ctx.fillStyle = 'black'; 
+            ctx.beginPath();
+            ctx.arc(pupilX, pupilY, pupilRadius, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Glint
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+            ctx.beginPath();
+            ctx.arc(pupilX - pupilRadius * 0.5, pupilY - pupilRadius * 0.5, pupilRadius * 0.3, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // Main game loop
+        let lastFrameTime = performance.now();
+        function animate(currentTime) {
+            const deltaTime = currentTime - lastFrameTime;
+            lastFrameTime = currentTime;
+
+            currentTimeOfDay = (currentTimeOfDay + DAY_CYCLE_SPEED * deltaTime) % 1;
+            eyeOscillationOffset += EYE_OSCILLATION_SPEED * deltaTime;
+
+            // Logic for eye tracking the obstacle gaps
+            let targetGapCenterY = canvas.height / 2; // Default to center if no obstacle is found
+            let activeObstacle = null;
+            let minHorizontalDistance = Infinity;
+
+            for (let i = 0; i < obstacles.length; i++) {
+                const o = obstacles[i];
+                const obstacleCenterX = o.x + o.width / 2;
+                const eyeCenterX = canvas.width / 2;
+                const distance = Math.abs(obstacleCenterX - eyeCenterX);
+
+                // Consider obstacles that are currently visible or just about to be
+                if (o.x < canvas.width && o.x + o.width > 0) { // Obstacle is visible on screen
+                    if (distance < minHorizontalDistance) {
+                        minHorizontalDistance = distance;
+                        activeObstacle = o;
+                    }
+                }
+            }
+
+            if (activeObstacle) {
+                targetGapCenterY = activeObstacle.topHeight + OBSTACLE_GAP_HEIGHT / 2;
+            }
+
+            // Smoothly move eyeTrackedY towards targetGapCenterY
+            eyeTrackedY += (targetGapCenterY - eyeTrackedY) * EYE_TRACKING_SPEED;
+
+            // Apply oscillation on top of the tracked position
+            const finalEyeY = eyeTrackedY + Math.sin(eyeOscillationOffset) * EYE_OSCILLATION_AMPLITUDE;
+
+
+            // Only update game logic if game is running
+            if (gameRunning) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
+
+                drawBackgroundLayer(currentTimeOfDay, deltaTime);
+                drawWatchingEye(finalEyeY); // Draw eye BEFORE obstacles
+                player.update();
+
+                for (let i = 0; i < obstacles.length; i++) {
+                    const o = obstacles[i];
+                    o.x -= GAME_SPEED;
+
+                    drawMetalBin(o.x, 0, o.width, o.topHeight);
+                    drawMetalBin(o.x, canvas.height - o.bottomHeight - GROUND_HEIGHT, o.width, o.bottomHeight);
+
+                    // Collision detection
+                    // Horizontal overlap check
+                    const horizontalOverlap = player.x < o.x + o.width && player.x + player.width > o.x;
+
+                    if (horizontalOverlap) {
+                        // Collision with top obstacle: player's top is above the bottom edge of the top obstacle
+                        // This now ends the game only if the player's top is significantly into the top pipe
+                        const topObstacleBodyCollision = player.y < o.topHeight; // Player's top edge is above the pipe's bottom edge
+
+                        // Collision with bottom obstacle: player's bottom is below the top of the bottom obstacle
+                        const bottomObstacleCollision = player.y + player.height > canvas.height - o.bottomHeight - GROUND_HEIGHT;
+
+                        // Only end game if player hits the body of the top obstacle OR the bottom obstacle
+                        if (topObstacleBodyCollision || bottomObstacleCollision) {
+                            playHitSound();
+                            endGame();
+                        }
+                    }
+
+                    if (o.x + o.width < player.x && !o.passed) {
+                        score++;
+                        playScoreSound();
+                        scoreDisplay.textContent = `SCORE: ${score}`;
+                        o.passed = true;
+                    }
+                }
+
+                obstacles = obstacles.filter(o => o.x + o.width > 0);
+
+                if (player.y + player.height > canvas.height - GROUND_HEIGHT) {
+                    player.y = canvas.height - GROUND_HEIGHT - player.height;
+                    player.velocity = 0;
+                    playHitSound();
+                    endGame();
+                    // No return here, allow animate to continue for background/eye
+                }
+            } else {
+                // If game is not running, still draw background and eye for UI screens
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                drawBackgroundLayer(currentTimeOfDay, deltaTime);
+                drawWatchingEye(finalEyeY); // Draw eye even when game is not running
+            }
+            
+            player.draw(); // Always draw the player (even on start/game over screens)
+
+            requestAnimationFrame(animate);
+        }
+
+        // Function to resize canvas and adjust player position
+        function resizeCanvas() {
+            const gameContainer = document.getElementById('game-container');
+            canvas.width = gameContainer.offsetWidth - 16;
+            canvas.height = gameContainer.offsetHeight - 16;
+
+            if (!gameRunning && !gameOver) {
+                player.y = canvas.height / 2;
+            }
+            initializeStars(); // Reinitialize stars on resize
+            initializeBackgroundBuildings(); // Reinitialize buildings on resize
+        }
+
+        // Function to show temporary messages
+        function showMessage(msg) {
+            messageBox.textContent = msg;
+            messageBox.classList.remove('hidden');
+            messageBox.style.opacity = 0; // Start hidden for transition
+            setTimeout(() => { messageBox.style.opacity = 1; }, 10); // Fade in
+            setTimeout(() => {
+                messageBox.style.opacity = 0;
+                messageBox.addEventListener('transitionend', () => {
+                    messageBox.classList.add('hidden');
+                }, { once: true });
+            }, 2000); // Fade out after 2 seconds
+        }
+
+        // Function to get the current obstacle spawn interval based on score
+        function getObstacleSpawnInterval() {
+            const initialInterval = 2000; // milliseconds
+            const minInterval = 700; // milliseconds (adjusted for "really close")
+            const difficultyRampUpScore = 20; // Score at which interval reaches minimum (adjusted for "shouldn't take too long")
+
+            if (score >= difficultyRampUpScore) {
+                return minInterval;
+            } else {
+                // Linear interpolation for interval reduction
+                const intervalRange = initialInterval - minInterval;
+                const currentReduction = (score / difficultyRampUpScore) * intervalRange;
+                return initialInterval - currentReduction;
+            }
+        }
+
+        // Function to schedule the next obstacle creation
+        function scheduleNextObstacle() {
+            if (!gameRunning) return; // Stop if game is not running
+
+            createObstacle();
+            const currentInterval = getObstacleSpawnInterval();
+            obstacleTimeout = setTimeout(scheduleNextObstacle, currentInterval);
+        }
+
+        // Start game function
+        async function startGame() {
+            if (Tone.context.state !== 'running') {
+                await Tone.start();
+                console.log('Audio context resumed!');
+            }
+
+            score = 0;
+            scoreDisplay.textContent = `SCORE: ${score}`;
+            player.y = canvas.height / 2;
+            player.velocity = 0;
+            obstacles = [];
+            gameRunning = true;
+            gameOver = false;
+            startScreen.classList.add('hidden');
+            gameOverScreen.classList.add('hidden');
+            scoreDisplay.classList.remove('hidden');
+
+            // Clear any existing timeout before starting a new game
+            if (obstacleTimeout) {
+                clearTimeout(obstacleTimeout);
+            }
+            scheduleNextObstacle(); // Start the first obstacle and subsequent ones
+
+            lastFrameTime = performance.now(); // Reset for smooth animation start
+            // animate is already being called by requestAnimationFrame loop
+        }
+
+        // End game function
+        function endGame() {
+            gameRunning = false;
+            gameOver = true;
+            clearTimeout(obstacleTimeout); // Clear the timeout on game over
+
+            if (score > highScore) {
+                highScore = score;
+                localStorage.setItem('dystopianFlapHighScore', highScore);
+            }
+
+            finalScoreSpan.textContent = score;
+            highScoreSpan.textContent = highScore;
+            gameOverScreen.classList.remove('hidden');
+            scoreDisplay.classList.add('hidden');
+        }
+
+        // Event listeners for user input (tap anywhere to flap)
+        document.addEventListener('click', async (e) => {
+            // Check if the clicked element is a button
+            if (e.target.tagName === 'BUTTON') {
+                return; // Do nothing, let the button's specific handler take over
+            }
+
+            if (Tone.context.state !== 'running') {
+                await Tone.start();
+                console.log('Audio context resumed on click!');
+            }
+
+            if (gameRunning) {
+                player.flap();
+                playFlapSound();
+            }
+            // No startGame() call here, only buttons should start the game.
+        });
+
+        document.addEventListener('touchstart', async (e) => {
+            // Only prevent default if the target is NOT a button.
+            // This allows native button behavior to proceed.
+            if (e.target.tagName !== 'BUTTON') {
+                e.preventDefault();
+            }
+
+            // Check if the touched element is a button
+            if (e.target.tagName === 'BUTTON') {
+                return; // Do nothing, let the button's specific handler take over
+            }
+
+            if (Tone.context.state !== 'running') {
+                await Tone.start();
+                console.log('Audio context resumed on touchstart!');
+            }
+
+            if (gameRunning) {
+                player.flap();
+                playFlapSound();
+            }
+            // No startGame() call here, only buttons should start the game.
+        }, { passive: false }); // Keep passive: false if we want to prevent scrolling elsewhere
+
+        // Button click handlers - these remain the same as they are specific
+        startButton.addEventListener('click', async () => {
+            if (Tone.context.state !== 'running') {
+                await Tone.start();
+                console.log('Audio context resumed on start button click!');
+            }
+            startGame();
+        });
+        retryButton.addEventListener('click', async () => {
+            if (Tone.context.state !== 'running') {
+                await Tone.start();
+            }
+            startGame();
+        });
+
+        // Share button logic
+        function handleShareClick() {
+            const gameUrl = window.location.href;
+            if (navigator.share) {
+                navigator.share({
+                    title: 'AWAKEN - Dystopian Flap Game',
+                    url: gameUrl,
+                }).then(() => {
+                    console.log('Thanks for sharing!');
+                }).catch(console.error);
+            } else {
+                // Fallback for environments that do not support navigator.share
+                try {
+                    navigator.clipboard.writeText(gameUrl).then(() => {
+                        showMessage("Link Copied!");
+                    }).catch(() => {
+                        const textArea = document.createElement("textarea");
+                        textArea.value = gameUrl;
+                        document.body.appendChild(textArea);
+                        textArea.focus();
+                        textArea.select();
+                        try {
+                            document.execCommand('copy');
+                            showMessage("Link Copied! (Fallback)");
+                        } catch (err) {
+                            showMessage("Failed to copy link. Please copy manually: " + gameUrl);
+                        }
+                        document.body.removeChild(textArea);
+                    });
+                } catch (err) {
+                    const textArea = document.createElement("textarea");
+                    textArea.value = gameUrl;
+                    document.body.appendChild(textArea);
+                    textArea.focus();
+                    textArea.select();
+                    try {
+                        document.execCommand('copy');
+                        showMessage("Link Copied! (Fallback)");
+                    } catch (err) {
+                        showMessage("Failed to copy link. Please copy manually: " + gameUrl);
+                    }
+                    document.body.removeChild(textArea);
+                }
+            }
+        }
+
+        shareStartButton.addEventListener('click', async () => {
+            if (Tone.context.state !== 'running') {
+                await Tone.start();
+            }
+            handleShareClick();
+        });
+        shareGameOverButton.addEventListener('click', async () => {
+            if (Tone.context.state !== 'running') {
+                await Tone.start();
+            }
+            handleShareClick();
+        });
+
+        // Back button logic
+        function handleBackClick() {
+            window.location.href = 'index.html';
+        }
+
+        backStartButton.addEventListener('click', async () => {
+            if (Tone.context.state !== 'running') {
+                await Tone.start();
+            }
+            handleBackClick();
+        });
+        backGameOverButton.addEventListener('click', async () => {
+            if (Tone.context.state !== 'running') {
+                await Tone.start();
+            }
+            handleBackClick();
+        });
+
+        // Initial setup on load
+        window.onload = () => {
+            resizeCanvas();
+            highScore = localStorage.getItem('dystopianFlapHighScore') || 0;
+            highScoreSpan.textContent = highScore;
+            scoreDisplay.textContent = `SCORE: 0`;
+            startScreen.classList.remove('hidden');
+            scoreDisplay.classList.add('hidden');
+            gameOverScreen.classList.add('hidden');
+            
+            lastFrameTime = performance.now(); // Initialize for the very first frame
+            requestAnimationFrame(animate); // Start the animation loop
+        };
+
+        // Resize canvas when window is resized
+        window.addEventListener('resize', resizeCanvas);
+
+    </script>
+</body>
+</html>

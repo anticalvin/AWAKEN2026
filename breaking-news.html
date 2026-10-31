@@ -1,0 +1,110 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+    Daily Cult - Juju Boy
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&display=swap');
+
+    .font-anton {
+      font-family: 'Anton', sans-serif;
+    }
+    .font-roboto-condensed {
+      font-family: 'Roboto Condensed', sans-serif;
+    }
+    .font-roboto-slab {
+      font-family: 'Roboto Slab', serif;
+    }
+  </style>
+ </head>
+ <!-- Body now only has h-screen and overflow-hidden to prevent scrolling. -->
+ <body class="bg-[#f2f0e8] flex justify-center px-2 h-screen overflow-hidden">
+  <!-- Outer wrapper now has minimal vertical padding to make it fill more, and takes full height -->
+  <div class="w-full max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl mx-auto flex flex-col h-full py-0">
+    <!-- Main magazine container with border and relative positioning, flex-grow to take available space -->
+    <!-- Removed right padding entirely as the vertical bar is gone -->
+    <div class="relative w-full border-2 border-[#c9544b] flex-grow flex flex-col">
+      <!-- Top red header bar - flex-shrink-0 to prevent it from shrinking -->
+      <div class="flex bg-[#c9544b] text-white px-2 py-1 relative flex-shrink-0">
+        <!-- Left white box with C and Daily Cult logo, now a clickable link -->
+        <a href="index.html" class="flex items-center bg-white text-[#c9544b] px-1 py-0.5 border border-black relative min-w-[120px] h-14 sm:min-w-[150px] sm:h-16 md:min-w-[180px] md:h-14 group">
+          <div class="flex items-center">
+            <span class="font-anton text-5xl sm:text-6xl md:text-[72px] leading-tight -tracking-[0.05em] select-none">
+              C
+            </span>
+            <div class="flex flex-col ml-1 mt-1">
+              <span class="font-roboto-condensed font-bold text-sm sm:text-base md:text-[18px] leading-tight select-none">
+                DAILY
+              </span>
+              <span class="font-roboto-condensed font-bold text-3xl sm:text-4xl md:text-[48px] leading-tight -tracking-[0.05em] select-none">
+                ult
+              </span>
+            </div>
+          </div>
+          <!-- New Eye Logo - positioned to the right within the logo box -->
+          <img src="https://i.ibb.co/23z6psTD/NEW-EYE-LOGO-BLACK-VEC.png" alt="Awaken Eye Logo" class="h-8 sm:h-10 md:h-12 ml-auto mr-1 object-contain"/>
+        </a>
+        <!-- Date and price - repositioned to be together -->
+        <div class="flex flex-col justify-start ml-2 mt-1 text-xs sm:text-sm md:text-[10px] leading-tight font-roboto-condensed font-bold select-none">
+          <span>
+            Thursday
+          </span>
+          <span>
+            September 15 2005
+          </span>
+        </div>
+        <!-- Price box - REMOVED -->
+        <!-- Exclusive box on right, now clickable -->
+        <!-- Updated border color and text shades -->
+        <a href="exclusive.html" class="ml-auto flex flex-col justify-center bg-blue-900 border border-[#c9544b] px-2 py-1 relative w-32 h-14 sm:w-40 sm:h-16 md:w-[160px] md:h-[56px] group">
+          <!-- Changed yellow-400 to a slightly deeper yellow-500, added drop-shadow -->
+          <span class="font-anton text-2xl sm:text-3xl md:text-[36px] leading-tight text-yellow-500 select-none drop-shadow-[0_0_2px_black]" style="transform: skew(-10deg);">
+            EXCLUSIVE
+          </span>
+          <!-- Removed "MORE AMAZING PHOTOS INSIDE" text -->
+        </a>
+      </div>
+      <!-- Main large image, now clickable and flex-grow -->
+      <a href="main-image-details.html" class="block w-full flex-grow overflow-hidden">
+        <!-- Reverted to object-cover to eliminate empty space, prioritizing fill over showing full image -->
+        <img alt="Person wearing a white mask with an eye symbol, holding a bottle, with 'NEW WORLD ORDER' text" class="w-full h-full object-cover" src="https://i.ibb.co/8DgDMRg3/xtcy-3.webp"/>
+      </a>
+      <!-- Small inset image, now positioned on the left for mobile -->
+      <!-- Adjusted top position for mobile to be lower, and left position for mobile -->
+      <div class="absolute top-[35%] left-[2%] border-2 border-[#c9544b] bg-white w-[35%] max-w-[160px] h-auto max-h-[160px] md:top-[18%] md:right-[5%] md:left-auto">
+        <a href="small-image-details.html">
+          <!-- Increased max-h for the image to show more of it -->
+          <img alt="Close-up of a person in a mask holding a stack of cookies with eye symbols" class="w-full h-auto max-h-[130px] object-cover" src="https://i.ibb.co/gN1TLnM/XTCY-ART.webp"/>
+        </a>
+        <!-- Reduced min-h for the text container to make it smaller -->
+        <div class="text-[8px] sm:text-[9px] leading-normal font-roboto-condensed font-normal p-1 min-h-[20px] sm:min-h-[24px] select-none">
+          GO: XTCY Coming Soon
+        </div>
+      </div>
+      <!-- Small white text top left on main image -->
+      <!-- Adjusted top position for mobile only, and slightly higher -->
+      <div class="absolute top-[15%] left-[2%] text-white text-[8px] sm:text-[9px] leading-tight font-roboto-condensed font-normal select-none md:top-[12%]" style="text-shadow: 0 0 3px black;">
+        GET SET: The mask lays out lines of truth
+      </div>
+      <!-- Bottom headline text -->
+      <!-- Adjusted bottom position to ensure visibility -->
+      <div class="absolute bottom-[25%] left-0 w-full px-2 select-none">
+        <h1 class="font-anton text-white text-3xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-[72px] leading-tight drop-shadow-[0_0_3px_black] -tracking-[0.05em]">
+          JUJU BOY
+        </h1>
+        <p class="font-roboto-slab text-white text-sm sm:text-base md:text-xl lg:text-2xl font-bold drop-shadow-[0_0_3px_black]">
+          Supermodel Juju Boy took XTCY!
+        </p>
+      </div>
+      <!-- Right vertical text bar - REMOVED -->
+    </div>
+  </div>
+ </body>
+</html>

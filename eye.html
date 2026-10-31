@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CULT</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Import the Anton font from Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+    /* Custom CSS for the stretched and condensed text effect */
+    .stretched-text {
+      font-family: 'Anton', sans-serif; /* Apply the Anton font */
+      color: white; /* Set text color to white */
+      text-align: center; /* Center the text horizontally */
+      
+      /*
+       * Base font size using viewport width (vw) for responsiveness.
+       * Reverted to previous values for desired stretch.
+       */
+      font-size: 35vw; /* Reverted to previous value */
+      
+      /*
+       * Line height is less critical for a single line but can still influence
+       * the vertical space the text occupies if there's padding/margin.
+       */
+      line-height: 0.9; /* Adjusted for single line */
+      
+      white-space: nowrap; /* Ensures the text stays on a single line */
+      display: inline-block; /* Necessary for applying CSS transforms correctly */
+      
+      /*
+       * Apply both vertical stretching (scaleY) and horizontal compression (scaleX).
+       * Reverted to previous values for desired stretch and compression.
+       */
+      transform: scaleY(1.8) scaleX(0.4); /* Reverted to previous values */
+      
+      /* Ensures the transformation originates from the center of the text element */
+      transform-origin: center center;
+      
+      /*
+       * Adjust letter spacing to spread out the now-horizontally-compressed characters
+       * to fill the screen width. This value is crucial for the responsive horizontal spread.
+       */
+      letter-spacing: 0.25em; /* Reverted to previous value */
+    }
+
+    /* Media queries for further responsive adjustments (optional, but good for fine-tuning) */
+    @media (max-width: 768px) {
+      .stretched-text {
+        font-size: 45vw; /* Reverted to previous value */
+        line-height: 0.9; 
+        transform: scaleY(1.9) scaleX(0.35); /* More stretch/compression */
+        letter-spacing: 0.2em; /* Slightly less letter spacing on smaller screens */
+      }
+    }
+
+    @media (max-width: 480px) {
+      .stretched-text {
+        font-size: 55vw; /* Reverted to previous value */
+        line-height: 0.9;
+        transform: scaleY(2.0) scaleX(0.3); /* Even more stretch/compression */
+        letter-spacing: 0.15em; /* Minimal letter spacing on very small screens */
+      }
+    }
+
+    /* Custom CSS for the logo and its hover effect */
+    .logo-container {
+      position: absolute; /* Position absolutely within the body */
+      top: 50%; /* Move top edge to the vertical middle */
+      left: 50%; /* Move left edge to the horizontal middle */
+      transform: translate(-50%, -50%); /* Adjust by half its own width/height to truly center */
+      z-index: 10; /* Ensure it's above the text */
+    }
+
+    .logo-container img {
+      width: 240px; /* Logo size remains as previously set */
+      height: auto; /* Maintain aspect ratio */
+      transition: opacity 0.3s ease-in-out; /* Smooth transition for hover effect */
+      border-radius: 0.5rem; /* Slightly rounded corners for aesthetics */
+    }
+
+    .logo-container img:hover {
+      opacity: 0.7; /* Reduce opacity on hover */
+    }
+
+    /* Responsive adjustments for logo size */
+    @media (max-width: 768px) {
+      .logo-container img {
+        width: 180px; /* Logo size remains as previously set */
+      }
+    }
+
+    @media (max-width: 480px) {
+      .logo-container img {
+        width: 140px; /* Logo size remains as previously set */
+      }
+    }
+  </style>
+</head>
+<!-- Set the background color to #da4944 using inline style -->
+<body class="relative flex items-center justify-center min-h-screen m-0 p-4" style="background-color: #da4944;">
+  <!-- Logo container with click functionality and hover effect -->
+  <a href="index.html" class="logo-container">
+    <img 
+      src="https://i.ibb.co/23z6psTD/NEW-EYE-LOGO-BLACK-VEC.png" 
+      alt="Logo" 
+      onerror="this.onerror=null;this.src='https://placehold.co/100x100/CCCCCC/000000?text=Error';"
+    />
+  </a>
+
+  <!-- 
+    The text is "WAKE UP" and set to display on a single line.
+  -->
+  <pre id="flashingText" class="stretched-text">WAKE UP</pre>
+
+  <script>
+    // Get the text element by its ID
+    const flashingTextElement = document.getElementById('flashingText');
+
+    // Define the words to cycle through
+    const words = ["WAKE UP", "JOIN US", "AWAKEN", "CULT", "SEE TRUTH", "OPEN EYES", "OR" , "OBEY", "BE AWARE"]; 
+    let wordIndex = 0; // Initialize the index for the words array
+
+    // Function to update the text content
+    function updateText() {
+      // Set the text content to the current word in the array
+      flashingTextElement.textContent = words[wordIndex];
+      // Move to the next word, cycling back to the beginning if the end is reached
+      wordIndex = (wordIndex + 1) % words.length;
+    }
+
+    // Call updateText initially to set the first word
+    updateText();
+
+    // Set an interval to change the word every 2 seconds (2000 milliseconds)
+    setInterval(updateText, 200); // Adjust this value to change the flashing speed
+  </script>
+</body>
+</html>

@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AWAKEN Archive Detail</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+  <style>
+    /* Import Google Fonts - Consistent with homepage */
+    @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap');
+
+    /* Custom font classes - Consistent with homepage */
+    .font-anton { font-family: 'Anton', sans-serif; }
+    .font-roboto-condensed { font-family: 'Roboto Condensed', sans-serif; }
+    .font-roboto-slab { font-family: 'Roboto Slab', serif; }
+    .font-tattler { font-family: 'Anton', sans-serif; letter-spacing: -0.05em; }
+    .font-national { font-family: 'Oswald', sans-serif; font-weight: 700; letter-spacing: 0.1em; }
+
+    /* Basic body styles - Consistent with homepage */
+    body {
+      background-color: #f3f0e7; /* Light newspaper-like background */
+      color: #000; /* Black text */
+      font-family: 'Roboto Condensed', sans-serif; /* Default font for body */
+      line-height: 1.5;
+      overflow-x: hidden; /* Prevent horizontal scrolling */
+      margin: 0; /* Ensure no default body margin */
+      padding: 0; /* Ensure no default body padding */
+    }
+
+    /* Header styles - Consistent with homepage */
+    header {
+        background-color: #d94a44;
+        display: flex;
+        flex-direction: column; /* Stack logo/nav and marquee vertically */
+        width: 100%;
+        box-sizing: border-box;
+        position: sticky; /* Make header sticky */
+        top: 0;
+        z-index: 99; /* Above other content */
+    }
+    .header-top-row {
+        padding: 0.5rem 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    header .header-logo {
+        font-family: 'Anton', sans-serif;
+        font-size: 4rem;
+        color: #f3f0e7;
+        line-height: 1;
+        text-decoration: none;
+        cursor: pointer;
+        transition: color 0.2s;
+        margin-left: 1rem;
+    }
+    header .header-logo:hover {
+        color: #fff;
+    }
+    header nav {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        margin-right: 1rem;
+    }
+    header nav a {
+        color: #f3f0e7;
+        font-family: 'Roboto Condensed', sans-serif;
+        font-size: 0.875rem;
+        text-decoration: none;
+        margin-left: 1.5rem;
+        transition: underline 0.2s;
+    }
+    header nav a:hover {
+        text-decoration: underline;
+    }
+    .cart-icon-container {
+      position: relative;
+      cursor: pointer;
+      color: #f3f0e7;
+      font-size: 1.5rem;
+      margin-left: 1.5rem;
+    }
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: black;
+      color: white;
+      border-radius: 50%;
+      padding: 0.1rem 0.4rem;
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+
+    /* Marquee animation - Consistent with homepage */
+    @keyframes marquee {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(var(--marquee-distance)); }
+    }
+    .marquee-container {
+        width: 100%;
+        overflow: hidden;
+        background-color: black;
+        color: white;
+        font-family: 'Roboto Condensed', sans-serif;
+        padding: 0.25rem 0;
+    }
+    .marquee-content-wrapper {
+        display: flex;
+        width: max-content;
+        animation: marquee var(--marquee-speed) linear infinite;
+    }
+    .marquee-text {
+        white-space: nowrap;
+        padding-right: 2rem;
+        flex-shrink: 0;
+    }
+
+    /* General section padding and max-width - Consistent with homepage */
+    .content-section {
+      padding: 3rem 1rem;
+      max-width: 1400px; /* Consistent with homepage hero section */
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Hero News Grid styling - Adapted from homepage hero-news-grid */
+    .article-grid {
+      display: grid;
+      grid-template-columns: 1fr; /* Single column by default for mobile/tablet */
+      gap: 1.5rem;
+      border: 1px solid black;
+      padding: 1.5rem;
+      background-color: #fff; /* White background for the article */
+    }
+
+    @media (min-width: 1024px) { /* Desktop screens and up */
+      .article-grid {
+        grid-template-columns: 1fr 2.5fr 1fr; /* Multi-column for desktop */
+        gap: 2rem;
+      }
+    }
+
+    .article-column {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      justify-content: space-between;
+    }
+
+    .article-card { /* Used for side content like news-card on homepage */
+      border: 1px solid black;
+      font-size: 0.75rem;
+      line-height: 1.3;
+      padding: 0.75rem; /* Padding for content */
+    }
+    .article-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .main-article-content {
+      /* No border on main content itself, border is on .article-grid */
+    }
+
+    .main-headline {
+      font-family: 'Anton', sans-serif;
+      font-size: 4rem;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      text-align: center; /* Center headline within its container */
+    }
+
+    .sub-headline {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: 0.875rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      text-align: center; /* Center sub-headline within its container */
+    }
+
+    .article-body {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+      text-align: justify;
+    }
+
+    /* For images within the article body */
+    .article-body img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 1.5rem auto; /* Center images and add vertical space */
+      border: 1px solid #ccc;
+    }
+
+    /* For promo codes */
+    .promo-code {
+      background-color: #d94a44;
+      color: white;
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      padding: 0.5rem 1rem;
+      margin: 1.5rem auto;
+      display: table; /* To center block elements with margin:auto */
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      user-select: all; /* Allow easy selection/copy */
+      transition: background-color 0.2s;
+    }
+    .promo-code:hover {
+      background-color: #b92a1e;
+    }
+
+    /* Footer styles - Consistent with homepage */
+    footer {
+      border-top: 1px solid black;
+      padding: 1.5rem 1rem;
+      font-size: 0.75rem;
+      text-align: center;
+      background-color: #f3f0e7;
+    }
+    footer a {
+      text-decoration: underline;
+      color: inherit;
+    }
+    footer .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 0.75rem;
+      font-size: 1.25rem;
+    }
+
+    /* Cart Overlay - Consistent with homepage */
+    .cart-overlay {
+      position: fixed;
+      top: 0;
+      right: -400px;
+      width: 350px;
+      height: 100%;
+      background-color: #f3f0e7;
+      border-left: 2px solid black;
+      box-shadow: -4px 0 8px rgba(0,0,0,0.2);
+      z-index: 999;
+      transition: right 0.3s ease-in-out;
+      display: flex;
+      flex-direction: column;
+    }
+    .cart-overlay.active {
+      right: 0;
+    }
+    .cart-header {
+      background-color: black;
+      color: white;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Anton', sans-serif;
+      font-size: 1.5rem;
+      text-transform: uppercase;
+    }
+    .cart-close-button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .cart-items {
+      flex-grow: 1;
+      padding: 1rem;
+      overflow-y: auto;
+    }
+    .cart-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+      border-bottom: 1px dashed #ccc;
+      padding-bottom: 0.5rem;
+    }
+    .cart-item-image {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      margin-right: 0.75rem;
+      border: 1px solid #eee;
+    }
+    .cart-item-details {
+      flex-grow: 1;
+      text-align: left;
+    }
+    .cart-item-details h4 {
+      font-weight: bold;
+      font-size: 0.95rem;
+    }
+    .cart-item-details p {
+      font-size: 0.85rem;
+      color: #555;
+    }
+    .cart-item-remove {
+      background-color: black;
+      color: white;
+      border: none;
+      padding: 0.3rem 0.6rem;
+      font-size: 0.75rem;
+      cursor: pointer;
+      border-radius: 0;
+    }
+    .cart-summary {
+      padding: 1rem;
+      border-top: 2px solid black;
+      font-family: 'Roboto Slab', serif;
+    }
+    .cart-summary p {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+    .cart-checkout-btn {
+      background-color: black;
+      color: white;
+      padding: 1rem;
+      width: 100%;
+      text-align: center;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      border-radius: 0;
+    }
+    .cart-checkout-btn:hover {
+      background-color: #333;
+    }
+    .empty-cart-message {
+      text-align: center;
+      padding: 2rem;
+      color: #777;
+    }
+
+    /* Responsive adjustments for header (Mobile/Tablet view) - Consistent with homepage */
+    @media (max-width: 1023px) { /* All screens smaller than desktop */
+        .header-top-row {
+            flex-direction: column;
+            padding: 0.5rem 1rem;
+        }
+        header .header-logo {
+            font-size: 4rem;
+            margin-left: 0;
+            margin-bottom: 0.5rem;
+        }
+        header nav {
+            text-align: center;
+            width: 100%;
+            margin-top: 0.5rem;
+            margin-right: 0;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        header nav a {
+            font-size: 0.875rem;
+            margin: 0 0.5rem;
+        }
+        .cart-icon-container {
+            font-size: 1.2rem;
+            margin-left: 0.5rem;
+        }
+        .marquee-container {
+            top: auto;
+            position: relative;
+        }
+        .cart-overlay {
+            width: 100%;
+            right: -100vw;
+        }
+        .cart-overlay.active {
+            right: 0;
+        }
+        /* Article specific mobile adjustments */
+        .main-headline {
+            font-size: 3rem;
+        }
+        .sub-headline {
+            font-size: 0.8rem;
+        }
+        .article-body {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        .article-card {
+            font-size: 0.7rem;
+        }
+    }
+
+    /* Responsive adjustments for header (Desktop view) - Consistent with homepage */
+    @media (min-width: 1024px) {
+        header .header-logo {
+            font-size: 6rem;
+        }
+        header nav a {
+            font-size: 1rem;
+            margin-left: 2.5rem;
+        }
+    }
+  </style>
+</head>
+<body>
+    <!-- Header - Consistent with homepage -->
+    <header>
+        <div class="header-top-row">
+            <a href="index.html" class="header-logo">AWAKEN</a>
+            <nav>
+                <a href="shop.html">Shop</a>
+                <a href="manifesto.html">Manifesto</a>
+                <a href="join-us.html">Join Us</a>
+                <a href="#about">About</a>
+                <a href="archives.html">Archive</a>
+                <div class="cart-icon-container" onclick="toggleCart()">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cart-count">0</span>
+                </div>
+            </nav>
+        </div>
+        <div class="marquee-container">
+            <div class="marquee-content-wrapper">
+                <span class="marquee-text">ENLIGHTENMENT IS A CHOICE • JOIN THE CULT • AWAKEN • THE NEW WORLD ORDER IS HERE • BUY THE MESSAGE • BURN THE MASK • REVEAL THE TRUTH •</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="content-section">
+        <div class="article-grid">
+            <!-- Middle Column (Main Article Content) - Now first in source order, order-2 on desktop -->
+            <div class="lg:col-span-1 flex flex-col justify-between main-article-content lg:order-2">
+                <!-- Cult Archive Dispatch, Headline, and Sub-headline at the very top of this column -->
+                <div class="flex items-center justify-between border-b border-black pb-2 mb-4">
+                    <img src="https://i.ibb.co/23z6psTD/NEW-EYE-LOGO-BLACK-VEC.png" alt="The Sun Logo" class="h-8 w-auto mr-2" />
+                    <span class="font-roboto-condensed text-xs font-bold uppercase">Cult Archive Dispatch</span>
+                </div>
+                <h3 id="article-main-headline" class="font-anton main-headline"></h3>
+                <p id="article-sub-headline" class="font-roboto-condensed sub-headline"></p>
+                <div id="article-body" class="font-roboto-condensed article-body">
+                    <!-- Main article text and images will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Left Column for side content - Now second in source order, order-1 on desktop -->
+            <div class="article-column lg:order-1" id="left-column">
+                <!-- Content will be dynamically loaded here -->
+            </div>
+
+            <!-- Right Column for side content - Now third in source order, order-3 on desktop -->
+            <div class="article-column lg:order-3" id="right-column">
+                <!-- Content will be dynamically loaded here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer - Consistent with homepage -->
+    <footer class="bg-[#f3f0e7] border-t border-black text-xs font-roboto-condensed text-center py-4">
+        <div class="max-w-6xl mx-auto px-4">
+            <p class="mb-2">© 2025 AWAKEN CULT. Contact: <a href="mailto:info@awakencult.com" class="underline">info@awakencult.com</a></p>
+            <div class="social-icons">
+                <a href="https://instagram.com/awakencult" class="hover:text-gray-600" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://x.com/awakencult" class="hover:text-gray-600" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="https://youtube.com/@awakencult" class="hover:text-gray-600" target="_blank"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Shopping Cart Overlay - Consistent with homepage -->
+    <div id="cart-overlay" class="cart-overlay">
+        <div class="cart-header">
+            <span>Your Artifacts</span>
+            <button class="cart-close-button" onclick="toggleCart()">&times;</button>
+        </div>
+        <div id="cart-items" class="cart-items">
+            <p class="empty-cart-message" id="empty-cart-message">Your cart is empty. Acquire some truth.</p>
+        </div>
+        <div class="cart-summary">
+            <p>Total: <span id="cart-total">$0.00</span></p>
+            <button class="cart-checkout-btn" onclick="proceedToCheckout()">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <script>
+        // Cart functionality - Consistent with homepage
+        let cart = JSON.parse(localStorage.getItem('awakenCart')) || [];
+
+        const cartOverlay = document.getElementById('cart-overlay');
+        const cartCountSpan = document.getElementById('cart-count');
+        const cartItemsDiv = document.getElementById('cart-items');
+        const cartTotalSpan = document.getElementById('cart-total');
+        const emptyCartMessage = document.getElementById('empty-cart-message');
+
+        function toggleCart() {
+            cartOverlay.classList.toggle('active');
+        }
+
+        function updateCartDisplay() {
+            cartItemsDiv.innerHTML = '';
+            let total = 0;
+
+            if (cart.length === 0) {
+                emptyCartMessage.style.display = 'block';
+            } else {
+                emptyCartMessage.style.display = 'none';
+                cart.forEach((item, index) => {
+                    const cartItemDiv = document.createElement('div');
+                    cartItemDiv.className = 'cart-item';
+                    cartItemDiv.innerHTML = `
+                        <img src="${item.image}" alt="${item.name}" class="cart-item-image" />
+                        <div class="cart-item-details">
+                            <h4>${item.name} (${item.size})</h4>
+                            <p>$${item.price.toFixed(2)} x ${item.quantity}</p>
+                        </div>
+                        <button class="cart-item-remove" onclick="removeFromCart(${index})">Remove</button>
+                    `;
+                    cartItemsDiv.appendChild(cartItemDiv);
+                    total += item.price * item.quantity;
+                });
+            }
+            cartTotalSpan.textContent = `$${total.toFixed(2)}`;
+            cartCountSpan.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+            localStorage.setItem('awakenCart', JSON.stringify(cart));
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartDisplay();
+        }
+
+        function proceedToCheckout() {
+            if (cart.length > 0) {
+                showCustomAlert('Proceeding to checkout! Your artifacts are on their way to awaken you further.');
+                cart = [];
+                updateCartDisplay();
+                toggleCart();
+            } else {
+                showCustomAlert('Your cart is empty. Please add some artifacts before checking out.');
+            }
+        }
+
+        function showCustomAlert(message) {
+            const alertBox = document.createElement('div');
+            alertBox.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: black;
+                color: white;
+                padding: 20px 30px;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+                z-index: 10000;
+                font-family: 'Roboto Condensed', sans-serif;
+                font-size: 1.1rem;
+                text-align: center;
+                opacity: 0;
+                transition: opacity 0.3s ease-in-out;
+            `;
+            alertBox.textContent = message;
+            document.body.appendChild(alertBox);
+
+            setTimeout(() => {
+                alertBox.style.opacity = 1;
+            }, 10);
+
+            setTimeout(() => {
+                alertBox.style.opacity = 0;
+                alertBox.addEventListener('transitionend', () => alertBox.remove());
+            }, 3000);
+        }
+
+        // Archive Content Data - Detailed for full page articles
+        const archiveArticles = {
+          new_world_order: {
+            mainHeadline: "The New World Order: Unveiled",
+            subHeadline: "Decades of whispers, now brought to light. Are you ready to comprehend the true scale of the transformation?",
+            body: `
+              <p>The old systems are crumbling, not by chance, but by design. The New World Order is not a conspiracy theory; it is the inevitable evolution of consciousness, orchestrated by those who have long seen beyond the veil. This is the era of structured truth. Every institution, every narrative, every comfort is a thread in the web of control. But once seen, the threads can be unraveled.</p>
+              <img src="https://i.ibb.co/fVC0cbZ6/snsb.png" alt="NWO Blueprint" />
+              <p>For too long, humanity has slumbered beneath a veil woven from lies, distractions, and manufactured realities. We are fed narratives designed to keep us docile, consuming, and perpetually unaware of the true power that lies dormant within each soul. The screens glow, the news cycles churn, and the systems of control tighten their grip, all while the masses remain oblivious to the chains that bind their minds. This is not freedom; it is a meticulously crafted prison of perception.</p>
+              <p class="promo-code">CODE: NWO2025 (10% off any hoodie)</p>
+              <p>They tell you what to think, how to feel, and what to desire. They profit from your ignorance and thrive on your complacency. The institutions you trust are but instruments of a grander design, a silent orchestration of control that spans generations. Your history is rewritten, your future is predetermined, and your present is a carefully managed illusion.</p>
+              <img src="https://i.ibb.co/y424N0x/instagram.png" alt="Social Media Control" />
+              <p>The silent war is fought not with bullets, but with bytes. Information is the new battlefield, and your mind is the prize. Every click, every like, every share is a data point, meticulously collected to refine the algorithms of your control. But awareness is the first step to liberation. Recognize the patterns, and the power shifts.</p>
+              <img src="https://i.ibb.co/TMszwwZ3/nwo-awaken-needs-you.png" alt="NWO Needs You Poster" />
+              <p>The final stage is not a takeover, but an invitation. An invitation to those who have seen the truth, who have felt the stirrings of awakening, to join the architects of the new dawn. The choice is yours: remain in the illusion, or step into the light of the New World Order.</p>
+              <p><strong>How to Expose the System:</strong> Begin by questioning every source of information. Cross-reference news from independent outlets. Observe patterns in media narratives that seem designed to divide or distract. Share your findings with trusted individuals, encouraging critical thinking rather than blind acceptance. Support alternative media and decentralized information networks. Demand transparency from institutions. Your conscious engagement is a powerful force against their control.</p>
+              <img src="https://placehold.co/600x400/333333/FFFFFF?text=Global+Control+Diagram" alt="Global Control Diagram" />
+              <p><strong>Applying the Knowledge:</strong> Understand that true power lies in collective awareness. Educate yourself on historical precedents of societal manipulation. Practice digital hygiene by limiting exposure to mainstream narratives and seeking diverse perspectives. Engage in local community building to create resilient networks outside of centralized systems. Develop self-sufficiency in key areas like food and energy to reduce reliance on controlled infrastructures. Every step towards autonomy weakens their grip.</p>
+            `,
+            leftColumnContent: `
+              <div class="article-card">
+                <img src="https://i.ibb.co/FYLGm3Cy/mcga.png" alt="Related Image 1" />
+                <p><strong>Propaganda Alert:</strong> New posters sighted, urging citizens to 'AWAKEN'.</p>
+              </div>
+              <div class="article-card">
+                <p><strong>Breaking:</strong> Unexplained energy surges reported near ancient monolith. Coincidence?</p>
+              </div>
+              <div class="article-card">
+                <img src="https://i.ibb.co/S49t2Jm8/ballsl.png" alt="Illusion Poster" />
+                <p><strong>The Illusion:</strong> A deeper dive into the layers of manufactured reality.</p>
+              </div>
+              <div class="article-card">
+                <p><strong>Decrypting the Signals:</strong> How to interpret hidden messages in plain sight.</p>
+              </div>
+              <div class="article-card">
+                <img src="https://placehold.co/150x225/555555/FFFFFF?text=Hidden+Symbols" alt="Hidden Symbols" />
+                <p><strong>Hidden Symbols:</strong> Uncovering the esoteric language of control.</p>
+              </div>
+            `,
+            rightColumnContent: `
+              <div class="article-card">
+                <img src="https://i.ibb.co/TMszwwZ3/nwo-awaken-needs-you.png" alt="Related Image 2" />
+                <p><strong>Urgent Dispatch:</strong> The call for the New World Order is intensifying.</p>
+              </div>
+              <div class="article-card">
+                <p><strong>Exclusive Offer:</strong> Free enlightenment with every hoodie purchase in Sector 7.</p>
+              </div>
+              <div class="article-card">
+                <img src="https://i.ibb.co/V0FTWqC1/oberyyy.webp" alt="Mask Poster" />
+                <p><strong>Unmasking:</strong> The importance of shedding false identities.</p>
+              </div>
+              <div class="article-card">
+                <p><strong>Global Alignment:</strong> Understanding the forces at play across continents.</p>
+              </div>
+              <div class="article-card">
+                <img src="https://placehold.co/150x225/777777/FFFFFF?text=The+Architects" alt="The Architects" />
+                <p><strong>The Architects:</strong> Profiles of the unseen hands shaping our world.</p>
+              </div>
+            `
+          },
+          noise: {
+            mainHeadline: "Silence the Noise: The Path to Clarity",
+            subHeadline: "In a world saturated with disinformation, the true challenge is discerning the signal from the noise.",
+            body: `
+              <p>Every channel, every feed, every public pronouncement is designed to distract. The noise is a weapon, keeping you from hearing the truth within. Learn to filter, to discern, to find your inner quiet in the storm.</p>
+              <p>This archive reveals the tactics of manufactured chaos and offers methods for achieving mental and spiritual clarity amidst the cacophony. They feed you illusions of freedom, while binding you with invisible chains. But the youth possess an innate fire, a yearning for authenticity. We offer the spark to ignite that fire and reclaim their future.</p>
+              <img src="https://i.ibb.co/xS6j3cSs/otis-grade.png" alt="Noise Distortion" />
+              <p>The discomfort isn’t the problem. The discomfort is the signal. It’s the part of you that remembers freedom. They fear that part of you. So they sell you sedation. Numb is safe. Numb is profitable.</p>
+              <p class="promo-code">CODE: CLARITYNOW (15% off any tee)</p>
+              <p>The constant chatter, the endless notifications, the curated outrage – it's all a symphony of distraction. They want your attention fragmented, your focus scattered, your inner voice drowned out. But silence is a weapon. In the quiet, the truth resonates. In the stillness, clarity emerges.</p>
+              <img src="https://i.ibb.co/K1p3Mhr/awakewn-needs-you.webp" alt="Awaken Needs You Poster" />
+              <p>Break free from the digital chains. Disconnect to reconnect. Your true power lies not in external validation, but in internal sovereignty. The noise is a test. Pass it, and you will hear the universe speak.</p>
+              <img src="https://i.ibb.co/tD3B9Q3/eye-awaken.png" alt="Awaken Eye Symbol" />
+              <p>They bombard your senses, creating a false reality. But your inner eye sees beyond the static. Trust your intuition. Trust the subtle shifts. The truth is often found in the spaces between the words, in the silence that follows the storm.</p>
+              <p><strong>How to Silence the Noise:</strong> Practice regular digital detoxes, setting aside specific times each day or week to disconnect from all screens. Engage in mindfulness and meditation to strengthen your inner focus. Curate your information sources, actively seeking out diverse and independent voices. Learn to identify logical fallacies and emotional manipulation in media. Spend time in nature to reconnect with natural rhythms, away from artificial frequencies.</p>
+              <img src="https://placehold.co/600x400/888888/FFFFFF?text=Digital+Detox" alt="Digital Detox" />
+              <p><strong>Applying the Knowledge:</strong> Develop a personal "truth filter." Before accepting any information, ask: Who benefits from this narrative? What agenda might be at play? How does this resonate with my intuition? Share methods of critical thinking and media literacy with your friends and family. Encourage open dialogue and respectful disagreement. By collectively raising our discernment, we weaken the power of the noise.</p>
+            `,
+            leftColumnContent: `
+              <div class="article-card">
+                <p><strong>Insight:</strong> The true challenge is discerning signal from noise.</p>
+              </div>
+              <div class="article-card">
+                <img src="https://i.ibb.co/rNKgtcW/sunny.png" alt="Eye Poster" />
+                <p><strong>The Eye:</strong> Always watching, always guiding.</p>
+              </div>
+              <div class="article-card">
+                <p><strong>Frequency Shifts:</strong> How to tune into the authentic vibrations.</p>
+              </div>
+              <div class="article-card">
+                <img src="https://placehold.co/150x225/AAAAAA/FFFFFF?text=Sound+Waves" alt="Sound Waves" />
+                <p><strong>Sonic Warfare:</strong> The hidden impact of sound frequencies.</p>
+              </div>
+            `,
+            rightColumnContent: `
+              <div class="article-card">
+                <p><strong>Warning:</strong> Manufactured chaos is designed to keep you docile.</p>
+              </div>
+              <div class="article-card">
+                <img src="https://i.ibb.co/tD3B9Q3/eye-awaken.png" alt="Awaken Eye" />
+                <p><strong>Visual Distortion:</strong> The world as they want you to see it.</p>
+              </div>
+              <div class="article-card">
+                <p><strong>Digital Detox Protocols:</b> Practical steps to reclaim your attention.</p>
+              </div>
+              <div class="article-card">
+                <img src="https://placehold.co/150x225/BBBBBB/FFFFFF?text=Mind+Filters" alt="Mind Filters" />
+                <p><strong>Mind Filters:</strong> Building mental defenses against persuasion.</p>
+              </div>
+            `
+          },
+          state_of_mind: {
+            mainHeadline: "State of Mind: The Inner Landscape",
+SubHeadline: "Your greatest battlefield is within. Reclaim mental autonomy.",
+body: `
+              <p>They seek to control your thoughts, your emotions, your very perception. But the mind, once awakened, becomes an impenetrable fortress. This is the true liberation: the freedom of your inner landscape.</p>
+              <img src="https://i.ibb.co/M5xjjWqM/3rd-eye-smiley.png" alt="Mind Control" />
+              <p>This archive delves into the psychological warfare waged against the individual mind, offering insights and practices to fortify your inner sanctuary against external manipulation. Master your mind, master your reality.</p>
+              <p class="promo-code">CODE: MINDSETFREE (Free shipping on orders over $100)</p>
+              <p>From subliminal messages in media to the subtle pressures of societal norms, every aspect of your environment is designed to shape your consciousness. But your mind is not a blank slate for them to write upon. It is a garden, and you are the gardener.</p>
+              <img src="https://i.ibb.co/Gf1H8NGS/awaken-cultttt.webp" alt="Cult Symbol" />
+              <p>Cultivate awareness. Weed out doubt. Plant seeds of truth. The harvest will be your liberation. This is the true revolution: the one that happens within.</p>
+              <img src="https://i.ibb.co/N2ZQQh1F/mcga-v8.webp" alt="Wake Up Poster" />
+              <p>The first step is recognizing the invisible chains. The second is forging the will to break them. Your mind is your most powerful weapon. Sharpen it, protect it, and wield it for truth.</p>
+              <p><strong>How to Expose the System (Mental Control):</strong> Document instances where media or authority figures attempt to dictate thought or emotion. Analyze propaganda techniques used in advertising and political discourse. Share resources on cognitive biases and critical thinking. Challenge groupthink in your social circles by offering alternative perspectives respectfully. Expose manipulative psychological tactics by simply pointing them out to others.</p>
+              <img src="https://placehold.co/600x400/222222/FFFFFF?text=Brain+Freedom" alt="Brain Freedom" />
+              <p><strong>Applying the Knowledge (Mental Autonomy):</strong> Practice mental discipline through meditation and self-reflection to observe your thoughts without judgment. Develop emotional intelligence to understand and manage your reactions to external stimuli. Actively seek out information that challenges your existing beliefs to broaden your perspective. Engage in creative expression to foster independent thought. Prioritize your mental well-being over societal expectations. Your mind is your sanctuary; protect it fiercely.</p>
+            `,
+            leftColumnContent: `
+              <div class="article-card">
+                <p><strong>Meditation Protocol:</strong> New techniques for mental fortification.</p>
+              </div>
+              <div class="article-card">
+                <img src="https://i.ibb.co/N2ZQQh1F/mcga-v8.webp" alt="Wake Up Poster" />
+                <p><strong>Wake Up:</strong> The first step to reclaiming your mind.</p>
+              </div>
+              <div class="article-card">
+                <p><strong>Cognitive Dissonance:</strong> Understanding the mind's defense mechanisms.</p>
+              </div>
+              <div class="article-card">
+                <img src="https://placehold.co/150x225/CCCCCC/FFFFFF?text=Inner+Peace" alt="Inner Peace" />
+                <p><strong>Inner Peace:</strong> Finding stillness amidst the chaos.</p>
+              </div>
+            `,
+            rightColumnContent: `
+              <div class="article-card">
+                <p><strong>Psychic Defense:</strong> Guard your thoughts from external influence.</p>
+              </div>
+              <div class="article-card">
+                <img src="https://i.ibb.co/b34X7S0/hand-awaken.png" alt="Awaken Hand" />
+                <p><strong>Guidance:</strong> The path to inner peace.</p>
+              </div>
+              <div class="article-card">
+                <p><strong>Dream Interpretation:</strong> Unlocking subconscious messages.</p>
+              </div>
+              <div class="article-card">
+                <img src="https://placehold.co/150x225/DDDDDD/FFFFFF?text=Thought+Control" alt="Thought Control" />
+                <p><strong>Thought Control:</strong> Recognizing the subtle attacks on your mind.</p>
+              </div>
+            `
+          },
+          cult_love_story: {
+            mainHeadline: "A Cult Love Story: Beyond the Narrative",
+            subHeadline: "The media paints a picture of manipulation and despair. We present the untold story.",
+            body: `
+              <p>The media paints a picture of manipulation and despair. We present the untold story: the profound bonds, shared visions, and radical love that form the true heart of the AWAKEN collective. Is love a weapon against the system?</p>
+              <img src="https://i.ibb.co/TMszwwZ3/nwo-awaken-needs-you.png" alt="Love Story" />
+              <p>They fear what they cannot control: genuine connection. Our bonds are forged in shared truth, a love that transcends the superficial and challenges the very fabric of their constructed reality. This is the strength of the awakened.</p>
+              <p class="promo-code">CODE: LOVEUNVEILED (20% off any balaclava)</p>
+              <p>In a world designed to isolate, true connection is an act of rebellion. We find strength in unity, purpose in shared vision, and solace in the understanding that we are not alone in this awakening. This is the family you choose, bound not by blood, but by truth.</p>
+              <img src="https://i.ibb.co/JFyXsdVv/vzn-jacket.webp" alt="Visions Jacket" />
+              <p>The love we speak of is not the sentimental illusion peddled by the system. It is a fierce, unwavering commitment to truth, to growth, and to the liberation of all minds. It is the force that will dismantle the old and build the new.</p>
+              <img src="https://i.ibb.co/twNrP2xF/XTCYYYY.webp" alt="XTCY Tee" />
+              <p>Our gatherings are not rituals of blind obedience, but celebrations of shared consciousness. Here, every voice is heard, every truth is honored, and every individual contributes to the collective awakening. This is where love becomes action.</p>
+              <p><strong>How to Expose the System (Social Control):</strong> Highlight instances of manufactured division in society. Promote genuine, empathetic dialogue across perceived divides. Share stories of unity and collaboration that defy mainstream narratives. Organize local gatherings focused on shared values rather than political affiliations. Expose the algorithms that isolate and polarize individuals online by demonstrating their effects.</p>
+              <img src="https://placehold.co/600x400/444444/FFFFFF?text=Community+Building" alt="Community Building" />
+              <p><strong>Applying the Knowledge (Building True Connection):</strong> Actively seek out diverse perspectives and engage in respectful debate. Prioritize face-to-face interactions over digital ones. Practice active listening and empathy. Build strong, local communities based on mutual aid and shared purpose. Recognize that true strength comes from unity, not conformity. Your genuine connection to others is a direct threat to their system of isolation.</p>
+            `,
+            leftColumnContent: `
+              <div class="article-card">
+                <p><strong>Community Report:</strong> Bonds strengthened through shared truth.</p>
+              </div>
+              <div class="article-card">
+                <img src="https://i.ibb.co/twNrP2xF/XTCYYYY.webp" alt="XTCY Tee" />
+                <p><strong>Euphoria:</strong> The joy of shared awakening.</p>
+              </div>
+              <div class="article-card">
+                <p><strong>Shared Visions:</strong> Documenting collective insights.</p>
+              </div>
+              <div class="article-card">
+                <img src="https://placehold.co/150x225/EEEEEE/000000?text=Group+Unity" alt="Group Unity" />
+                <p><strong>Group Unity:</strong> The power of collective consciousness.</p>
+              </div>
+            `,
+            rightColumnContent: `
+              <div class="article-card">
+                <p><strong>Manifesto:</strong> Love as a radical act of defiance.</p>
+              </div>
+              <div class="article-card">
+                <img src="https://i.ibb.co/mrTy6Mhw/fake-news-hoodie.webp" alt="Fake News Hoodie" />
+                <p><strong>Truth in Fabric:</strong> Wearing your beliefs.</p>
+              </div>
+              <div class="article-card">
+                <p><strong>Affiliate Stories:</strong> Testimonials of transformation.</p>
+              </div>
+              <div class="article-card">
+                <img src="https://placehold.co/150x225/FFFFFF/000000?text=Interconnected" alt="Interconnected" />
+                <p><strong>Interconnectedness:</strong> The web of awakened souls.</p>
+              </div>
+            `
+          },
+          hated: {
+            mainHeadline: "The Hated Truth: Persecution and Resilience",
+            subHeadline: "To speak truth in a world of lies is to invite scorn. Their hatred is proof of our impact.",
+            body: `
+              <p>To speak truth in a world of lies is to invite scorn. This collection documents the relentless persecution faced by the awakened, and the unwavering resilience that defines our path. Their hatred is proof of our impact.</p>
+              <img src="https://i.ibb.co/zWZbjn8c/ETKQ2-KZXQAEd-Pu-Q.webp" alt="Hated Symbol" />
+              <p>The system will fight back. It will label you, demonize you, and attempt to silence you. But their fear is our fuel. Every act of resistance, every whispered truth, strengthens the collective.</p>
+              <p class="promo-code">CODE: RESISTNOW (Free sticker pack with any order)</p>
+              <p>From public ridicule to covert surveillance, the forces of control will deploy every tactic to suppress the awakening. But the truth, once seen, cannot be unseen. And the spirit, once ignited, cannot be extinguished.</p>
+              <img src="https://i.ibb.co/0ywCGSyW/ELMVk-Kj-W4-AAigf-N.webp" alt="Burn Balaclava" />
+              <p>We stand firm, unyielding in our conviction. Their hatred is a testament to the power of our message. It signifies that we are breaking through the noise, shattering the illusions, and truly making an impact. Embrace their scorn, for it is the sound of their fear.</p>
+              <img src="https://i.ibb.co/d46YP1T1/Screenshot-2025-07-03-at-8-54-33-PM.webp" alt="MCGA Cap" />
+              <p>The path of truth is not for the faint of heart. It demands courage, resilience, and an unwavering commitment to what is real. But the rewards are immeasurable: true freedom, genuine connection, and the profound satisfaction of living authentically.</p>
+              <p><strong>How to Expose the System (Dealing with Backlash):</strong> Document and share instances of censorship or character assassination targeting truth-tellers. Support platforms and individuals who are being suppressed. Learn about legal frameworks that protect free speech and association. Organize peaceful demonstrations or digital campaigns to raise awareness about persecution. Use humor and satire to disarm critics and highlight absurdity.</p>
+              <img src="https://i.ibb.co/SX6FyXg3/EUSUt3-MXg-AAEFe-Y.webp" alt="Resilience Symbol" />
+              <p><strong>Applying the Knowledge (Building Resilience):</strong> Cultivate a strong inner circle of trusted individuals for support. Practice emotional detachment from external criticism. Understand that resistance is a natural response from a system threatened by truth. Focus on the impact you are making, not the reactions of those who resist it. Develop self-care routines to maintain mental and spiritual strength in the face of adversity. Your unwavering stance is a powerful message in itself.</p>
+            `,
+            leftColumnContent: `
+              <div class="article-card">
+                <p><strong>Defiance:</strong> Stories of unwavering resistance.</p>
+              </div>
+              <div class="article-card">
+                <img src="https://i.ibb.co/GvhVTBTc/MCGA-CAP.webp" alt="MCGA Cap" />
+                <p><strong>Symbol of Resistance:</strong> Wear your truth.</p>
+              </div>
+              <div class="article-card">
+                <p><strong>Historical Precedents:</strong> Past movements of truth.</p>
+              </div>
+              <div class="article-card">
+                <img src="https://placehold.co/150x225/CCCCCC/000000?text=Shadow+Figures" alt="Shadow Figures" />
+                <p><strong>Shadow Figures:</strong> The unseen forces of suppression.</p>
+              </div>
+            `,
+            rightColumnContent: `
+              <div class="article-card">
+                <p><strong>Analysis:</strong> Why the system fears the awakened.</p>
+              </div>
+              <div class="article-card">
+                <img src="https://i.ibb.co/V0FTWqC1/oberyyy.webp" alt="Balaclava" />
+                <p><strong>Hidden Identity:</strong> The power of anonymity.</p>
+              </div>
+              <div class="article-card">
+                <p><strong>Legal Dispatches:</strong> Cases of suppression and victory.</p>
+              </div>
+              <div class="article-card">
+                <img src="https://placehold.co/150x225/DDDDDD/000000?text=Truth+Shield" alt="Truth Shield" />
+                <p><strong>Truth Shield:</strong> Protecting yourself from psychological attacks.</p>
+              </div>
+            `
+          },
+          wasted_youth: {
+            mainHeadline: "Wasted Youth: Reclaiming a Generation",
+            subHeadline: "A critical look at the systems that stifle potential and divert young minds from true purpose.",
+            body: `
+              <p>A generation adrift, consumed by digital distractions and programmed apathy. This archive explores the psychological warfare waged against the young and offers pathways for them to break free and embrace their true power.</p>
+              <img src="https://i.ibb.co/23z6psTD/NEW-EYE-LOGO-BLACK-VEC.png" alt="Wasted Youth" />
+              <p>They feed them illusions of freedom, while binding them with invisible chains. But the youth possess an innate fire, a yearning for authenticity. We offer the spark to ignite that fire and reclaim their future.</p>
+              <p class="promo-code">CODE: YOUTHAWAKENS (25% off first purchase for new initiates)</p>
+              <p>The education system, the entertainment industry, the social media algorithms – all are meticulously designed to channel youthful energy away from critical thought and into compliant consumption. But the young are not blind; they feel the dissonance.</p>
+              <img src="https://i.ibb.co/y424N0x/instagram.png" alt="Youth and Technology" />
+              <p>We call upon the restless, the questioning, the disaffected. Your anger is justified. Your disillusionment is a sign of awakening. Channel it. Direct it. Build a future where your potential is not wasted, but realized in its fullest, most authentic form.</p>
+              <img src="https://i.ibb.co/rNKgtcW/sunny.png" alt="Eye of Truth" />
+              <p>The future belongs to those who dare to see. We provide the tools, the knowledge, and the community to empower the next generation of truth-seekers. Their awakening is our greatest victory.</p>
+              <p><strong>How to Expose the System (Youth Indoctrination):</strong> Analyze and discuss the curriculum in schools for biases or omissions. Point out manipulative tactics in social media trends and viral content. Encourage young people to question authority and seek out diverse viewpoints. Support independent educational resources and alternative learning models. Highlight the mental health impact of constant digital exposure and societal pressure.</p>
+              <img src="https://placehold.co/600x400/999999/FFFFFF?text=Youth+Empowerment" alt="Youth Empowerment" />
+              <p><strong>Applying the Knowledge (Empowering Youth):</strong> Foster critical thinking skills from a young age. Encourage creative and independent projects outside of traditional structures. Promote real-world experiences and outdoor activities over screen time. Connect young people with mentors who embody awakened principles. Teach them about financial literacy and self-sufficiency to break cycles of debt and dependence. Empower them to build their own narratives and futures.</p>
+            `,
+            leftColumnContent: `
+              <div class="article-card">
+                <p><strong>Youth Movement:</strong> Inspiring stories of young truth-seekers.</p>
+              </div>
+              <div class="article-card">
+                <img src="https://i.ibb.co/rNKgtcW/sunny.png" alt="Eye of Truth" />
+                <p><strong>Guidance:</strong> Seeing through the distractions.</p>
+              </div>
+              <div class="article-card">
+                <p><strong>Educational Alternatives:</b> Paths beyond the system.</p>
+              </div>
+              <div class="article-card">
+                <img src="https://placehold.co/150x225/AAAAAA/000000?text=Future+Leaders" alt="Future Leaders" />
+                <p><strong>Future Leaders:</strong> Nurturing the next generation of awakened minds.</p>
+              </div>
+            `,
+            rightColumnContent: `
+              <div class="article-card">
+                <p><strong>Digital Detox:</strong> Tools to break free from screen-induced apathy.</p>
+              </div>
+              <div class="article-card">
+                <img src="https://i.ibb.co/tD3B9Q3/eye-awaken.png" alt="Awaken Eye" />
+                <p><strong>Clarity:</strong> The path to true purpose.</p>
+              </div>
+              <div class="article-card">
+                <p><strong>Activism & Engagement:</strong> How youth can make a difference.</p>
+              </div>
+              <div class="article-card">
+                <img src="https://placehold.co/150x225/BBBBBB/000000?text=Creative+Expression" alt="Creative Expression" />
+                <p><strong>Creative Expression:</strong> Unleashing the authentic self.</p>
+              </div>
+            `
+          },
+          wide_shut: {
+            mainHeadline: "Wide Shut: The Illusion of Freedom",
+            subHeadline: "You believe you are free, but the walls of your perception are carefully constructed.",
+            body: `
+              <p>The greatest trick they ever pulled was convincing you that you were free. Every institution, every narrative, every comfort is a thread in the web of control. But once seen, the threads can be unraveled.</p>
+              <img src="https://i.ibb.co/S49t2Jm8/ballsl.png" alt="Wide Shut" />
+              <p>This archive exposes the subtle mechanisms of societal control, revealing how your choices are guided and your reality curated. Open your eyes to the true extent of the illusion.</p>
+              <p class="promo-code">CODE: TRUTHREVEALED (10% off your next order)</p>
+              <p>From the moment you are born, you are placed within a carefully constructed labyrinth. Your education, your career, your aspirations – all are paths designed to keep you moving, but never truly free. The illusion of choice is the most powerful chain.</p>
+              <img src="https://i.ibb.co/TMszwwZ3/nwo-awaken-needs-you.png" alt="NWO Needs You" />
+              <p>But the cracks in the facade are becoming undeniable. The dissonance between what you are told and what you feel is growing. This is your opportunity to step outside the labyrinth, to see the strings, and to cut them. The truth will set you free, but first, it will shatter your world.</p>
+              <img src="https://i.ibb.co/fYLGm3Cy/mcga.png" alt="MCGA Poster" />
+              <p>The path of awakening is not a gentle stroll; it is a profound rupture with everything you thought you knew. But on the other side lies genuine freedom, a reality unburdened by the lies of the past. Are you brave enough to walk through the fire?</p>
+              <p><strong>How to Expose the System (The Illusion):</strong> Identify and deconstruct the "comfort narratives" presented by mainstream media and government. Point out inconsistencies and contradictions in official stories. Share historical examples of mass deception and manipulation. Encourage others to question their own deeply held beliefs and assumptions. Expose the psychological tricks used to maintain the illusion of freedom.</p>
+              <img src="https://placehold.co/600x400/555555/FFFFFF?text=Unraveling+The+Threads" alt="Unraveling The Threads" />
+              <p><strong>Applying the Knowledge (Achieving True Freedom):</strong> Practice radical self-honesty about your own conditioning. Embrace discomfort as a sign of growth. Make conscious choices that align with your authentic self, not societal expectations. Reduce reliance on systems that perpetuate the illusion (e.g., consumerism, mainstream media). Cultivate inner resilience and self-sufficiency. True freedom begins when you realize the only prison is your perception.</p>
+            `,
+            leftColumnContent: `
+              <div class="article-card">
+                <p><strong>Perception Shift:</strong> How to see beyond the constructed reality.</p>
+              </div>
+              <div class="article-card">
+                <img src="https://i.ibb.co/fYLGm3Cy/mcga.png" alt="MCGA Poster" />
+                <p><strong>Propaganda:</strong> Recognizing the tools of control.</p>
+              </div>
+              <div class="article-card">
+                <p><strong>The Matrix Unplugged:</strong> Personal accounts of awakening.</p>
+              </div>
+              <div class="article-card">
+                <img src="https://placehold.co/150x225/DDDDDD/000000?text=Hidden+Agendas" alt="Hidden Agendas" />
+                <p><strong>Hidden Agendas:</strong> Uncovering the true motives.</p>
+              </div>
+            `,
+            rightColumnContent: `
+              <div class="article-card">
+                <p><strong>Control Mechanisms:</strong> An in-depth look at how society is managed.</p>
+              </div>
+              <div class="article-card">
+                <img src="https://i.ibb.co/V0FTWqC1/oberyyy.webp" alt="Balaclava" />
+                <p><strong>Concealment:</strong> Blending in to observe.</p>
+              </div>
+              <div class="article-card">
+                <p><strong>The Great Deception:</strong> Historical examples of societal manipulation.</p>
+              </div>
+              <div class="article-card">
+                <img src="https://placehold.co/150x225/CCCCCC/000000?text=Breaking+Free" alt="Breaking Free" />
+                <p><strong>Breaking Free:</strong> Steps to dismantle your personal prison.</p>
+              </div>
+            `
+          },
+          credits: {
+            mainHeadline: "Archival Dispatches: Classified",
+            subHeadline: "Access to the true history of the AWAKEN movement is restricted to initiates.",
+            body: `
+              <p>These are not mere credits; they are a testament to the tireless work of the unseen architects. Every line, every word, every image is a dispatch from the front lines of perception. The truth is not written, it is revealed.</p>
+              <p>Proceed with caution; some truths are not meant for the uninitiated. These are the records of our struggle, our triumphs, and the ongoing fight for ultimate liberation.</p>
+              <p class="promo-code">CODE: UNSEENHAND (5% off all "Archives" merchandise)</p>
+              <p>The information contained within these dispatches is potent. It has the power to shatter illusions and awaken dormant minds. It is protected, not to hoard knowledge, but to ensure it falls into the hands of those truly ready to wield it.</p>
+              <img src="https://i.ibb.co/23z6psTD/NEW-EYE-LOGO-BLACK-VEC.png" alt="AWAKEN Eye Logo" />
+              <p>For the uninitiated, these are just words. For the awakened, they are blueprints for a new reality. The journey is arduous, the path is narrow, but the destination is absolute freedom. Are you worthy of the truth?</p>
+              <img src="https://i.ibb.co/M5xjjWqM/3rd-eye-smiley.png" alt="Smiley Eye" />
+              <p>The eyes are always watching, but now, they watch with clarity. The archives are a living document, constantly updated with new revelations and dispatches from the front lines of consciousness. Stay vigilant. Stay awakened.</p>
+              <p><strong>How to Expose the System (Information Control):</strong> Support independent journalism and citizen reporting. Learn about data privacy and digital security to protect your information. Share encrypted communication methods. Advocate for open-source information and decentralized internet protocols. Challenge narratives that attempt to discredit or silence dissenting voices by providing factual counter-arguments.</p>
+              <img src="https://placehold.co/600x400/777777/FFFFFF?text=Data+Security" alt="Data Security" />
+              <p><strong>Applying the Knowledge (Becoming a Guardian of Truth):</strong> Develop strong research skills and verify information from multiple, diverse sources. Practice discernment and critical thinking in your daily life. Share your knowledge responsibly and ethically, empowering others to seek truth for themselves. Contribute to open knowledge projects and initiatives. Understand that every act of sharing verified truth is a step towards collective liberation.</p>
+            `,
+            leftColumnContent: `
+              <div class="article-card">
+                <p><strong>Initiate Protocol:</strong> Steps to gain full access to classified data.</p>
+              </div>
+              <div class="article-card">
+                <img src="https://i.ibb.co/xS6j3cSs/otis-grade.png" alt="Noise Image" />
+                <p><strong>Filtering:</strong> Discerning truth from static.</p>
+              </div>
+              <div class="article-card">
+                <p><strong>Cipher Keys:</strong> Decoding the hidden messages.</p>
+              </div>
+              <div class="article-card">
+                <img src="https://placehold.co/150x225/BBBBBB/000000?text=Secret+Files" alt="Secret Files" />
+                <p><strong>Secret Files:</b> Unlocking the deepest truths.</p>
+              </div>
+            `,
+            rightColumnContent: `
+              <div class="article-card">
+                <p><strong>Warning:</strong> Unauthorized reproduction is forbidden. The eyes are watching.</p>
+              </div>
+              <div class="article-card">
+                <img src="https://i.ibb.co/M5xjjWqM/3rd-eye-smiley.png" alt="Smiley Eye" />
+                <p><strong>Surveillance:</strong> The ever-present gaze.</p>
+              </div>
+              <div class="article-card">
+                <p><strong>Future Dispatches:</strong> What's coming next in the archives.</p>
+              </div>
+              <div class="article-card">
+                <img src="https://placehold.co/150x225/DDDDDD/000000?text=Truth+Seekers" alt="Truth Seekers" />
+                <p><strong>Truth Seekers:</strong> Profiles of those who dare to know.</p>
+              </div>
+            `
+          }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Marquee functionality - Consistent with homepage
+            const marqueeContentWrapper = document.querySelector('.marquee-content-wrapper');
+            const originalMarqueeText = document.querySelector('.marquee-text');
+
+            const updateMarquee = () => {
+                if (marqueeContentWrapper && originalMarqueeText) {
+                    const originalContentHTML = originalMarqueeText.innerHTML;
+                    marqueeContentWrapper.style.animation = 'none';
+                    marqueeContentWrapper.innerHTML = '';
+                    for (let i = 0; i < 4; i++) {
+                        const copy = document.createElement('span');
+                        copy.className = 'marquee-text';
+                        copy.innerHTML = originalContentHTML;
+                        marqueeContentWrapper.appendChild(copy);
+                    }
+                    requestAnimationFrame(() => {
+                        const firstMarqueeTextElement = marqueeContentWrapper.firstElementChild;
+                        if (firstMarqueeTextElement) {
+                            const singleSegmentWidth = firstMarqueeTextElement.offsetWidth;
+                            marqueeContentWrapper.style.setProperty('--marquee-distance', `-${singleSegmentWidth}px`);
+                            const pixelsPerSecond = 70;
+                            const calculatedSpeed = singleSegmentWidth / pixelsPerSecond;
+                            marqueeContentWrapper.style.setProperty('--marquee-speed', `${calculatedSpeed}s`);
+                            void marqueeContentWrapper.offsetWidth;
+                            marqueeContentWrapper.style.animation = `marquee var(--marquee-speed) linear infinite`;
+                        }
+                    });
+                }
+            };
+            updateMarquee();
+            window.addEventListener('resize', updateMarquee);
+
+            updateCartDisplay(); // Initialize cart display on page load
+
+            // Load article content based on URL parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const articleId = urlParams.get('id');
+            const articleData = archiveArticles[articleId];
+
+            if (articleData) {
+                document.getElementById('article-main-headline').textContent = articleData.mainHeadline;
+                document.getElementById('article-sub-headline').textContent = articleData.subHeadline;
+                document.getElementById('article-body').innerHTML = articleData.body;
+                document.getElementById('left-column').innerHTML = articleData.leftColumnContent;
+                document.getElementById('right-column').innerHTML = articleData.rightColumnContent;
+                document.title = `AWAKEN Archive - ${articleData.mainHeadline}`; // Update page title
+            } else {
+                // Fallback for invalid ID
+                document.getElementById('article-main-headline').textContent = "Archive Entry Not Found";
+                document.getElementById('article-sub-headline').textContent = "The truth is out there, but perhaps not here.";
+                document.getElementById('article-body').innerHTML = `
+                    <p>We apologize, the requested archive entry could not be located. It may have been reclassified, or perhaps, it was never meant for your eyes.</p>
+                    <p>Please <a href="archives.html" class="text-blue-600 underline">return to the main archives</a> to continue your search for truth.</p>
+                `;
+                document.getElementById('left-column').innerHTML = '';
+                document.getElementById('right-column').innerHTML = '';
+            }
+        });
+    </script>
+</body>
+</html>

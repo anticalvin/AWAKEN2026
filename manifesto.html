@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AWAKEN Cult Newspaper - The Manifesto</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+  <style>
+    /* Import Google Fonts - Consistent with main site */
+    @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap');
+
+    /* Custom font classes - Consistent with main site */
+    .font-anton { font-family: 'Anton', sans-serif; }
+    .font-roboto-condensed { font-family: 'Roboto Condensed', sans-serif; }
+    .font-roboto-slab { font-family: 'Roboto Slab', serif; }
+    .font-tattler { font-family: 'Anton', sans-serif; letter-spacing: -0.05em; }
+    .font-national { font-family: 'Oswald', sans-serif; font-weight: 700; letter-spacing: 0.1em; }
+
+    /* Basic body styles - Consistent with main site */
+    body {
+      background-color: #f3f0e7; /* Light newspaper-like background */
+      color: #000; /* Black text */
+      font-family: 'Roboto Slab', serif; /* Default font for manifesto body */
+      line-height: 1.6;
+      overflow-x: hidden; /* Prevent horizontal scrolling */
+      margin: 0; /* Ensure no default body margin */
+      padding: 0; /* Ensure no default body padding */
+    }
+
+    /* General section padding and max-width - Consistent with main site */
+    .content-section {
+      padding: 3rem 1rem; /* Default vertical padding for sections */
+      max-width: 1280px; /* Max width for content */
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Header specific styles - Consistent with main site */
+    header {
+        background-color: #d94a44;
+        display: flex;
+        justify-content: space-between; /* Space between logo and nav */
+        align-items: center; /* Vertically center */
+        width: 100%;
+        box-sizing: border-box;
+        position: sticky; /* Make header sticky */
+        top: 0;
+        z-index: 99;
+        padding: 0.5rem 1rem; /* Consistent padding */
+    }
+    header .header-logo {
+        font-family: 'Anton', sans-serif;
+        font-size: 4rem; /* Default size for mobile */
+        color: #f3f0e7;
+        line-height: 1;
+        text-decoration: none;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+    header .header-logo:hover {
+        color: #fff;
+    }
+    header nav {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center; /* Center nav items horizontally if they wrap */
+        flex-wrap: wrap; /* Allow nav items to wrap */
+    }
+    header nav a {
+        color: #f3f0e7;
+        font-family: 'Roboto Condensed', sans-serif;
+        font-size: 0.875rem;
+        text-decoration: none;
+        margin: 0 0.5rem; /* Adjusted margin for wrapped items */
+        transition: underline 0.2s;
+    }
+    header nav a:hover {
+        text-decoration: underline;
+    }
+    .cart-icon-container {
+      position: relative;
+      cursor: pointer;
+      color: #f3f0e7;
+      font-size: 1.5rem;
+      margin-left: 1.5rem;
+    }
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: black;
+      color: white;
+      border-radius: 50%;
+      padding: 0.1rem 0.4rem;
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+
+    /* Manifesto specific styles */
+    .manifesto-container {
+      border: 1px solid black;
+      padding: 2rem;
+      background-color: #fff; /* Slightly whiter background for the manifesto content itself */
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+    }
+
+    .manifesto-logo-container {
+      text-align: center;
+      margin-bottom: 1rem; /* Space between logo and title */
+    }
+
+    .manifesto-logo {
+      width: 100px; /* Adjust size as needed */
+      height: auto;
+      display: inline-block; /* Allows centering */
+    }
+
+    .manifesto-title {
+      font-family: 'Anton', sans-serif;
+      font-size: 4rem;
+      line-height: 1;
+      text-align: center;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      color: #d94a44; /* Use the header red for emphasis */
+    }
+
+    .manifesto-subtitle {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: 1.5rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      font-weight: bold;
+    }
+
+    .manifesto-section-title {
+      font-family: 'Anton', sans-serif;
+      font-size: 2.5rem;
+      line-height: 1.1;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      border-bottom: 2px solid black;
+      padding-bottom: 0.5rem;
+      text-transform: uppercase;
+    }
+
+    .manifesto-paragraph {
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+      text-align: justify; /* Justify text for newspaper feel */
+    }
+
+    .manifesto-quote {
+      font-family: 'Roboto Slab', serif;
+      font-style: italic;
+      font-size: 1.2rem;
+      border-left: 4px solid #d94a44;
+      padding-left: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    /* Columns for manifesto body on larger screens */
+    @media (min-width: 768px) {
+      .manifesto-body-columns {
+        column-count: 2;
+        column-gap: 2rem;
+      }
+    }
+    @media (min-width: 1024px) {
+      .manifesto-body-columns {
+        column-count: 3;
+        column-gap: 2.5rem;
+      }
+    }
+
+    /* Footer adjustments - Consistent with main site */
+    footer {
+      border-top: 1px solid black;
+      padding: 1.5rem 1rem;
+      font-size: 0.75rem;
+      text-align: center;
+    }
+    footer a {
+      text-decoration: underline;
+      color: inherit;
+    }
+    footer .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 0.75rem;
+      font-size: 1.25rem;
+    }
+
+    /* Responsive adjustments for header */
+    @media (min-width: 1024px) { /* Desktop screens and up */
+      header .header-logo {
+        font-size: 6rem;
+      }
+      header nav a {
+        font-size: 1rem;
+        margin-left: 2.5rem;
+      }
+    }
+    @media (max-width: 1023px) { /* All screens smaller than desktop */
+      header {
+          flex-direction: column; /* Stack logo and nav vertically on mobile/tablet */
+          align-items: center; /* Center items when stacked */
+      }
+      header .header-logo {
+          font-size: 4rem;
+          margin-bottom: 0.5rem; /* Space below logo when stacked */
+          margin-left: 0; /* Remove left margin when centered */
+      }
+      header nav {
+          margin-top: 0.5rem; /* Space above nav when stacked */
+          margin-right: 0; /* Remove right margin when centered */
+      }
+      .cart-icon-container {
+        font-size: 1.2rem;
+      }
+    }
+    /* Responsive adjustments for manifesto text */
+    @media (max-width: 768px) {
+      .manifesto-title {
+        font-size: 3rem;
+      }
+      .manifesto-subtitle {
+        font-size: 1.2rem;
+      }
+      .manifesto-section-title {
+        font-size: 2rem;
+      }
+      .manifesto-paragraph {
+        font-size: 1rem;
+      }
+      .manifesto-quote {
+        font-size: 1rem;
+      }
+    }
+    @media (max-width: 480px) {
+      .manifesto-title {
+        font-size: 2.5rem;
+      }
+      .manifesto-subtitle {
+        font-size: 1rem;
+      }
+      .manifesto-section-title {
+        font-size: 1.5rem;
+      }
+      .manifesto-paragraph {
+        font-size: 0.9rem;
+      }
+      .manifesto-quote {
+        font-size: 0.9rem;
+      }
+    }
+
+    /* New section styles for the provided layout */
+    .manifesto-additional-content {
+        background-color: #f3f0e7; /* Same as body background */
+        padding: 2rem 1rem; /* Adjust padding as needed */
+        margin-top: 3rem; /* Add top margin to separate from manifesto */
+        font-family: 'Anton', sans-serif; /* Apply Anton font to all new content */
+    }
+
+    .manifesto-additional-content .grid {
+        display: grid;
+        grid-template-columns: 1fr; /* Default to single column for mobile */
+        gap: 2rem; /* Gap between columns/rows */
+        max-width: 1280px; /* Max width for content */
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Adjust grid for desktop to ensure proper left-middle-right alignment */
+    @media (min-width: 768px) { /* Tablet and up */
+        .manifesto-additional-content .grid {
+            grid-template-columns: repeat(3, 1fr); /* 3 columns for larger screens */
+            justify-items: center; /* Center items within their grid cells */
+            align-items: start; /* Align items to the start of their cells vertically */
+        }
+    }
+
+    .manifesto-additional-content .col-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center content horizontally within the column */
+        text-align: center;
+        position: relative; /* Make col-item a positioning context */
+    }
+
+    /* Desktop styles for vertical-text-group */
+    .manifesto-additional-content .vertical-text-group {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start; /* Align children to the start (left) */
+        min-height: 250px; /* Ensure enough height for all content */
+        width: 100%;
+        box-sizing: border-box;
+        position: relative; /* Make it a positioning context for absolute children */
+        max-width: 200px; /* Constrain the width of the rotated text block */
+    }
+
+    /* Adjust the parent col-item for the left column to shift the entire block on desktop */
+    @media (min-width: 768px) {
+      .manifesto-additional-content .col-item:nth-child(1) {
+          margin-top: 100px;
+          margin-left: 100px;
+          align-items: flex-start;
+      }
+    }
+
+    /* Desktop styles for rotated text within the first column */
+    .manifesto-additional-content .vertical-text-group p {
+        transform: rotate(-90deg);
+        white-space: nowrap;
+        line-height: 1;
+        margin: 0;
+        padding: 0;
+        transform-origin: left center;
+        position: absolute;
+        width: max-content;
+        max-width: 150px;
+    }
+
+    /* Precise positioning for each rotated line relative to its rotated state on desktop */
+    .manifesto-additional-content .vertical-text-group p:nth-child(1) { top: 0px; left: -80px; }
+    .manifesto-additional-content .vertical-text-group p:nth-child(2) { top: 40px; left: -65px; }
+    .manifesto-additional-content .vertical-text-group p:nth-child(3) { top: 90px; left: -50px; }
+    .manifesto-additional-content .vertical-text-group p:nth-child(4) { top: 115px; left: -40px; }
+    .manifesto-additional-content .vertical-text-group p:nth-child(5) { top: 140px; left: -30px; }
+    .manifesto-additional-content .vertical-text-group .stand-embrace-text {
+        bottom: 0px;
+        left: -45px;
+        font-weight: 800;
+        font-size: 20px;
+        line-height: 1;
+    }
+
+
+    /* Ensure center and right column items are centered */
+    .manifesto-additional-content .col-item:nth-child(2),
+    .manifesto-additional-content .col-item:nth-child(3),
+    .manifesto-additional-content .col-item:nth-child(5),
+    .manifesto-additional-content .col-item:nth-child(6) {
+        align-items: center; /* Center content horizontally */
+        text-align: center; /* Center text within the content */
+    }
+
+    .manifesto-additional-content .center-text-group p {
+        line-height: 1;
+        margin-bottom: 0.25rem; /* Tighten for center group */
+    }
+
+    .manifesto-additional-content .right-text-group p {
+        line-height: 1;
+        margin-bottom: 0.25rem; /* Tighten for right group */
+    }
+
+    .manifesto-additional-content img {
+        display: block; /* Ensure images behave as blocks */
+        margin: 0 auto; /* Center images */
+        max-width: 100%; /* Ensure images don't overflow their containers */
+        height: auto; /* Maintain aspect ratio */
+        object-fit: contain; /* Prevent stretching */
+    }
+
+    .manifesto-additional-content .border-line {
+        border-left: 2px solid black;
+        padding-left: 0.5rem;
+        position: relative;
+        min-height: 160px; /* Ensure enough height for the lines */
+    }
+    /* Adjusted pseudo-elements to align with the border-line */
+    .manifesto-additional-content .border-line::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0; /* Align with the parent's left edge */
+        width: 2px;
+        height: 80px;
+        background-color: black;
+    }
+    .manifesto-additional-content .border-line::after {
+        content: '';
+        position: absolute;
+        top: 80px;
+        left: 0; /* Align with the parent's left edge */
+        width: 2px;
+        height: 40px;
+        border-bottom: 2px solid black;
+    }
+    /* Additional lines for the right column's border effect */
+    .manifesto-additional-content .border-line-extra-1::before {
+        content: '';
+        position: absolute;
+        top: 120px;
+        left: 0;
+        width: 2px;
+        height: 20px;
+        border-bottom: 2px solid black;
+    }
+    .manifesto-additional-content .border-line-extra-2::before {
+        content: '';
+        position: absolute;
+        top: 140px;
+        left: 0;
+        width: 2px;
+        height: 20px;
+        border-bottom: 2px solid black;
+    }
+
+    /* Mobile specific adjustments for the first column and rotated text */
+    @media (max-width: 767px) {
+      /* The parent column item for the rotated text */
+      .manifesto-additional-content .col-item:nth-child(1) {
+          margin: 0; /* Reset desktop margins */
+          width: 100%; /* Take full width */
+          display: flex; /* Enable flexbox */
+          justify-content: center; /* Center horizontally */
+          align-items: center; /* Center vertically */
+          min-height: 450px; /* Ample space for the rotated block */
+          padding: 2rem 0; /* Add some vertical padding */
+      }
+
+      /* The container for the rotated text block */
+      .manifesto-additional-content .vertical-text-group {
+          padding: 0; /* Remove any conflicting padding */
+          /* Define dimensions for the container *before* rotation */
+          /* These dimensions will swap when rotated - width becomes effective height, height becomes effective width */
+          width: 400px;  /* This will be the effective height after rotation */
+          height: 300px; /* This will be the effective width after rotation */
+          display: flex;
+          flex-direction: column;
+          justify-content: center; /* Center content vertically within this block (before rotation) */
+          align-items: center; /* Center content horizontally within this block (before rotation) */
+          position: relative; /* Keep relative for containing the rotated content */
+          overflow: visible; /* Ensure nothing is clipped */
+
+          /* Apply rotation to the entire container itself */
+          transform: rotate(-90deg);
+          transform-origin: center center; /* Rotate around its center */
+      }
+
+      /* Individual p tags within the rotated container */
+      .manifesto-additional-content .vertical-text-group p {
+          position: static; /* Remove absolute positioning on mobile */
+          transform: none; /* Remove individual rotation on mobile */
+          white-space: nowrap;
+          line-height: 1.2; /* Add some line height for spacing */
+          margin: 0.5rem 0; /* Add vertical margin between lines */
+          padding: 0;
+          text-align: center; /* Center text within each p tag */
+      }
+
+      /* Specific styles for the "STAND! EMBRACE THE TRUTH" text on mobile */
+      .manifesto-additional-content .vertical-text-group .stand-embrace-text {
+          font-weight: 800;
+          font-size: 20px;
+          line-height: 1.2;
+          margin-top: 1rem; /* More space above this prominent text */
+      }
+
+      /* Ensure the bottom middle image is truly centered on mobile */
+      .manifesto-additional-content .col-item:nth-child(5) img {
+          max-width: 80%;
+          width: auto;
+          margin-left: auto;
+          margin-right: auto;
+      }
+      /* Ensure the entire bottom-middle col-item is centered on mobile */
+      .manifesto-additional-content .col-item:nth-child(5) {
+          width: 100%;
+          align-items: center;
+          text-align: center;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <!-- Header - Consistent with main site -->
+  <header class="bg-[#d94a44] px-3 pt-2 pb-1">
+    <a href="index.html" class="header-logo">AWAKEN</a>
+    <nav>
+      <a href="shop.html">Shop</a>
+      <a href="manifesto.html">Manifesto</a>
+      <a href="join-us.html">Join Us</a>
+      <a href="archives.html">Archives</a>
+      <a href="index.html#about">About</a>
+      <div class="cart-icon-container" onclick="toggleCart()">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count" id="cart-count">0</span>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Manifesto Content Section -->
+  <section class="content-section">
+    <div class="manifesto-container">
+      <!-- Logo above the title -->
+      <div class="manifesto-logo-container">
+        <img src="https://i.ibb.co/23z6psTD/NEW-EYE-LOGO-BLACK-VEC.png" alt="AWAKEN Logo" class="manifesto-logo" />
+      </div>
+      <h1 class="manifesto-title">The Awakening Manifesto</h1>
+      <p class="manifesto-subtitle">A simple truth for a new world.</p>
+
+      <div class="manifesto-body-columns">
+        <h2 class="manifesto-section-title">I. The Fake World</h2>
+        <p class="manifesto-paragraph">
+          You live in a lie. They feed you stories, distractions, and fake reality. They want you weak, buying their junk, and never seeing the truth. Your screens glow, news screams, and control tightens. You're a slave, and you don't even know it.
+        </p>
+        <p class="manifesto-paragraph">
+          They tell you what to think, how to feel, what to want. They get rich off your ignorance. The people you trust? Just tools in a bigger plan. Your past is rewritten, your future decided, your present a controlled show.
+        </p>
+
+        <h2 class="manifesto-section-title">II. Wake Up</h2>
+        <p class="manifesto-paragraph">
+          But it's breaking. The truth is getting louder. A new feeling is rising, a hunger for real life, for freedom. This is the call to AWAKEN. It's your soul screaming to see past the fake, to break free, to take back what's yours.
+        </p>
+        <p class="manifesto-paragraph">
+          AWAKEN isn't just a group; it's how you live. It's daring to question everything, demanding real answers, and living by true rules. We want those with open minds and restless spirits. Join us.
+        </p>
+        <blockquote class="manifesto-quote">
+          "The truth isn't out there. It's inside you. Just open your eyes."
+        </blockquote>
+
+        <h2 class="manifesto-section-title">III. The Real Path</h2>
+        <p class="manifesto-paragraph">
+          Our way is about finding yourself, truly, and waking up together. We strip away the lies, smash the fake idols, and build a new understanding of reality from scratch. We share knowledge, support each other, and stay focused. That's how we move forward.
+        </p>
+        <p class="manifesto-paragraph">
+          We believe in you, strong alone, stronger together. We are building the New World Order. Not one of chains, but of freedom. A world where truth wins, minds open, and people live real lives, finally free.
+        </p>
+
+        <h2 class="manifesto-section-title">IV. New Day. New You.</h2>
+        <p class="manifesto-paragraph">
+          No more just taking what they give you. A new time is here. A time of clear sight, real purpose, and true connection. Join AWAKEN. Face the truth. Be a light in the dark. Your awakening isn't just for you; it's for all of us. It's for the future.
+        </p>
+        <p class="manifesto-paragraph">
+          The fake world is crumbling. Are you ready for the real one?
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- New Section with Provided Text Layout -->
+  <section class="manifesto-additional-content">
+    <main class="grid">
+      <!-- Top Left Vertical Text -->
+      <div class="col-item">
+        <div class="vertical-text-group">
+          <!-- Individual p tags no longer have absolute positioning on mobile -->
+          <p class="text-[10px] font-normal">
+            WE ARE READY AND WILLING TO IGNITE
+          </p>
+          <p class="font-extrabold text-[24px]">
+            JUST BORN TO AWAKEN
+          </p>
+          <p class="text-[10px] font-normal">
+            TRUE COMPANIONSHIP
+          </p>
+          <p class="text-[8px] font-normal">
+            EVERYTHING BELONGS TO US
+          </p>
+          <p class="text-[8px] font-normal">
+            BECAUSE WE ARE AWARE, UNCHAINED, UNAPPREHENSIVE
+          </p>
+          <!-- This text is now positioned by flexbox within the rotated group -->
+          <p class="font-extrabold text-[20px] stand-embrace-text">
+            STAND!
+            <br/>
+            EMBRACE THE TRUTH
+          </p>
+        </div>
+      </div>
+      <!-- Top Center -->
+      <div class="col-item">
+        <p class="text-[12px] font-normal">
+          #12 "FOREVER AWAKENED"
+        </p>
+        <p class="font-extrabold text-[32px]">
+          REVELATION
+        </p>
+        <img alt="AWAKEN Eye Logo" class="w-20 h-20" height="80" src="https://i.ibb.co/23z6psTD/NEW-EYE-LOGO-BLACK-VEC.png" width="80"/>
+        <p class="text-[10px] font-normal max-w-[180px]">
+          WE ARE READY AND WILLING TO IGNITE,
+        </p>
+        <p class="font-extrabold text-[14px]">
+          JUST BORN TO AWAKEN
+        </p>
+        <p class="text-[8px] font-normal max-w-[180px]">
+          TRUE COMPANIONSHIP
+        </p>
+        <p class="text-[8px] font-normal max-w-[180px]">
+          EVERYTHING BELONGS TO US
+        </p>
+        <p class="text-[8px] font-normal max-w-[180px]">
+          BECAUSE WE ARE AWARE, UNCHAINED, UNAPPREHENSIVE
+        </p>
+        <p class="font-extrabold text-[16px] mt-2">
+          STAND!
+          <br/>
+          EMBRACE THE TRUTH
+        </p>
+      </div>
+      <!-- Top Right -->
+      <div class="col-item">
+        <p class="font-extrabold text-[20px]">
+          WE ARE
+        </p>
+        <p class="font-extrabold text-[28px]">
+          READY
+        </p>
+        <p class="font-extrabold text-[20px]">
+          AND
+        </p>
+        <p class="font-extrabold text-[28px]">
+          WILLING
+        </p>
+        <p class="font-extrabold text-[20px]">
+          TO
+        </p>
+        <p class="font-extrabold text-[28px]">
+          IGNITE
+        </p>
+        <p class="font-extrabold text-[20px]">
+          JUST
+        </p>
+        <p class="font-extrabold text-[28px]">
+          BORN
+        </p>
+        <p class="font-extrabold text-[20px]">
+          TO
+        </p>
+        <p class="font-extrabold text-[28px]">
+          AWAKEN
+        </p>
+      </div>
+      <!-- Bottom Left -->
+      <div class="col-item">
+        <img alt="AWAKEN Symbol" class="w-24 h-24" height="100" src="https://i.ibb.co/M5xjjWqM/3rd-eye-smiley.png" width="100"/>
+        <div class="text-[12px] font-extrabold text-center max-w-[180px]"> <!-- Increased font size -->
+          STAND WITH
+          <span class="font-normal">
+          [AND REJOICE] // AWAKEN
+          </span>
+        </div>
+        <div class="text-[10px] font-normal max-w-[180px] text-center"> <!-- Increased font size -->
+          SO MANY TRUTHS TO UNCOVER SO MANY MINDS TO FREE
+        </div>
+        <div class="text-[10px] font-normal max-w-[180px] text-center"> <!-- Increased font size -->
+          EMBRACE A SYMBOL, REFLECT IN SILENCE AND SECRECY
+        </div>
+        <div class="text-[10px] font-normal max-w-[180px] text-center"> <!-- Increased font size -->
+          RAISE A BANNER, RELEASE THE ENSLAVED, THE NEW DAWN AWAITS
+        </div>
+        <div class="text-[10px] font-extrabold max-w-[180px] text-center"> <!-- Increased font size -->
+          A THOUSAND MILES LONG, TWO LIGHTYEARS DEEP
+        </div>
+        <div class="text-[10px] font-normal max-w-[180px] text-center"> <!-- Increased font size -->
+          COULDN'T BREAK US, TRUTH EMERGES STRONG. MOUNTAINS KEEP BACK DRAGONIC WINGS AS CALMLY AS POSSIBLE, AS CALMLY AS
+        </div>
+        <div class="text-[10px] font-normal max-w-[180px] text-center"> <!-- Increased font size -->
+          POSSIBLE ...
+        </div>
+        <img alt="AWAKEN Hand Symbol" class="w-16 h-20 mx-auto" height="80" src="https://i.ibb.co/fVC0cbZ6/snsb.png" width="60"/>
+        <div class="text-[10px] font-extrabold max-w-[180px] text-center"> <!-- Increased font size -->
+          UNYIELDING RESISTANCE ICONIC TRUTH DEVOTED VIGILANCE NATURE, NATURE, NATURE SOME GREAT REWARD CODE OF AWAKENING
+        </div>
+      </div>
+      <!-- Bottom Center -->
+      <div class="col-item">
+        <p class="font-extrabold text-[28px]">
+          THE DAY IS HERE...
+        </p>
+        <p class="font-extrabold text-[28px]">
+          THE DAY IS HERE...
+        </p>
+        <p class="font-extrabold text-[28px]">
+          THE DAY IS HERE...
+        </p>
+        <img alt="AWAKEN Collective" class="max-w-xs mx-auto" height="120" src="https://i.ibb.co/DPKd5pY6/jhbhjb.png" width="220"/>
+      </div>
+      <!-- Bottom Right -->
+      <div class="col-item items-start">
+        <p class="font-extrabold text-[16px]">
+          #12 "FOREVER AWAKENED"
+        </p>
+        <p class="font-extrabold text-[32px]">
+          REVELATION
+        </p>
+        <div class="border-line relative" style="min-height: 160px;">
+          <div class="absolute top-0 left-0 w-0.5 h-[80px] bg-black"></div>
+          <div class="absolute top-[80px] left: 0; width: 0.5px; height: 40px; border-b-2 border-black;"></div>
+          <div class="absolute top-[120px] left: 0; width: 0.5px; height: 20px; border-b-2 border-black;"></div>
+          <div class="absolute top-[140px] left: 0; width: 0.5px; height: 20px; border-bottom: 2px solid black;"></div>
+        </div>
+        <p class="font-extrabold text-[12px]">
+          WE BELIEVE
+          <br/>
+          WE REJECT THE LIES
+          <br/>
+          WE WERE TAUGHT TO ESCAPE
+          <br/>
+          WE'LL TAKE BACK CONTROL
+          <br/>
+          WE PLAN FOR A NEW WORLD
+          <br/>
+          WE SHALL OVERCOME
+          <br/>
+          WE PLEDGE OUR TRUTH
+          <br/>
+          WE BELIEVE IN AWAKENING
+          <br/>
+          WE REJECT THE OLD WAYS
+          <br/>
+          WE ARE SEEKING THE TRUTH
+          <br/>
+          WE'LL TAKE OUR FREEDOM
+          <br/>
+          WE PLAN FOR ENLIGHTENMENT
+          <br/>
+          WE SHALL RISE
+          <br/>
+          WE PLEDGE OUR ALLEGIANCE
+        </p>
+      </div>
+    </main>
+  </section>
+
+  <!-- Footer - Consistent with main site -->
+  <footer class="bg-[#f3f0e7] border-t border-black text-xs font-roboto-condensed text-center py-4">
+    <div class="max-w-6xl mx-auto px-4">
+      <p class="mb-2">© 2025 AWAKEN CULT. Contact: <a href="mailto:info@awakencult.com" class="underline">info@awakencult.com</a></p>
+      <div class="social-icons">
+        <a href="https://instagram.com/awakencult" class="hover:text-gray-600" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://x.com/awakencult" class="hover:text-gray-600" target="_blank"><i class="fab fa-twitter"></i></a>
+        <a href="https://youtube.com/@awakencult" target="_blank"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
