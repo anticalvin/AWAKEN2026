@@ -574,42 +574,6 @@
   </style>
 </head>
 <body>
-  <!-- JSON-LD Structured Data for SEO -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org/",
-    "@type": "Product",
-    "name": "XTCY Tee",
-    "image": [
-      "https://i.ibb.co/twNrP2xF/XTCYYYY.webp",
-      "https://i.ibb.co/JRsBZr2d/BURN-BALACLAVAAA.webp",
-      "https://i.ibb.co/mrTy6Mhw/fake-news-hoodie.webp"
-     ],
-    "description": "Embrace the euphoria of truth with the XTCY Tee. Crafted for comfort and clarity, this garment is a statement of your awakened state. Limited run for true believers.",
-    "sku": "AWAKEN-XTCY-TEE-S",
-    "brand": {
-      "@type": "Brand",
-      "name": "AWAKEN Cult"
-    },
-    "offers": {
-      "@type": "Offer",
-      "url": "YOUR_PRODUCT_PAGE_URL_HERE",
-      "priceCurrency": "USD",
-      "price": "75.00",
-      "itemCondition": "https://schema.org/NewCondition",
-      "availability": "https://schema.org/InStock",
-      "seller": {
-        "@type": "Organization",
-        "name": "AWAKEN Cult Shop"
-      }
-    },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.8",
-      "reviewCount": "25"
-    }
-  }
-  </script>
 
   <!-- Header - NOW MATCHES HOMEPAGE -->
   <header>
@@ -653,7 +617,7 @@
           <p id="product-lore" class="product-detail-lore"></p>
 
           <div class="product-options-group">
-            <label for="product-size">Size:</label>
+            <label for="product-size" id="product-size-label">Size:</label>
             <select id="product-size"></select>
           </div>
           <div class="product-options-group">
@@ -667,29 +631,7 @@
       <!-- Related Articles / More Dispatches -->
       <div class="related-articles-section w-full">
         <h2>More Dispatches From The Market</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <!-- Related Product 1: MCGA Cap -->
-          <a href="product-detail.html?id=p6" class="related-article-card block no-underline text-black">
-            <img src="https://i.ibb.co/GvhVTBTc/MCGA-CAP.webp" alt="MCGA Cap" />
-            <h3>The Cap of Conformity</h3>
-            <p>A subtle nod to the movement, perfect for blending in while standing out to those who know.</p>
-            <span class="view-artifact-button">View Artifact</span>
-          </a>
-          <!-- Related Product 2: Third Eye Balaclava -->
-          <a href="product-detail.html?id=p5" class="related-article-card block no-underline text-black">
-            <img src="https://i.ibb.co/V0FTWqC1/oberyyy.webp" alt="Third Eye Balaclava" />
-            <h3>The Veil of Anonymity</h3>
-            <p>For those times when the truth must be spoken, but your identity must remain a mystery.</p>
-            <span class="view-artifact-button">View Artifact</span>
-          </a>
-          <!-- Related Product 3: Vision Jacket -->
-          <a href="product-detail.html?id=p4" class="related-article-card block no-underline text-black">
-            <img src="https://i.ibb.co/JFyXsdVv/vzn-jacket.webp" alt="Vision Jacket" />
-            <h3>The Visionary's Garb</h3>
-            <p>Embody the future. This piece is for those who see beyond the immediate, into the true design.</p>
-            <span class="view-artifact-button">View Artifact</span>
-          </a>
-        </div>
+        <div id="related-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
       </div>
     </div>
   </section>
@@ -705,9 +647,9 @@
       <p class="empty-cart-message" id="empty-cart-message">Your cart is empty. Acquire some truth.</p>
     </div>
     <div class="cart-summary">
-      <p>Total: <span id="cart-total">$0.00</span></p>
+      <p>Total: <span id="cart-total">R0</span></p>
     </div>
-    <button class="cart-checkout-btn" onclick="proceedToCheckout()">Proceed to Checkout</button>
+    <button class="cart-checkout-btn" onclick="proceedToShopifyCheckout()">Proceed to Checkout</button>
   </div>
 
   <!-- Footer - Consistent with main site -->
@@ -722,409 +664,153 @@
     </div>
   </footer>
 
+  <script src="products.js"></script>
+  <script src="cart.js"></script>
   <script>
-    // Product Data with Shopify Variant IDs
-    // IMPORTANT: Replace the 'shopifyVariantId' values with your actual Shopify product variant IDs.
-    // You can find these in your Shopify Admin by going to Products, clicking a product,
-    // and then then going to the variant details. The ID will be in the URL.
-    const products = [
-      {
-        id: 'p1',
-        name: 'XTCY Tee',
-        price: 75,
-        image: 'https://i.ibb.co/twNrP2xF/XTCYYYY.webp',
-        additionalImages: [
-          'https://i.ibb.co/twNrP2xF/XTCYYYY.webp',
-          'https://i.ibb.co/JRsBZr2d/BURN-BALACLAVAAA.webp',
-          'https://i.ibb.co/mrTy6Mhw/fake-news-hoodie.webp'
-        ],
-        description: 'Embrace the euphoria of truth with the XTCY Tee. Crafted for comfort and clarity, this garment is a statement of your awakened state. Limited run for true believers.',
-        sizes: ['S', 'M', 'L', 'XL'],
-        lore: "Worn by the first initiates during the Great Revelation, this tee symbolizes the initial rush of clarity.",
-        shopifyVariantId: '44796300501273'
-      },
-      {
-        id: 'p2',
-        name: 'Fake News Hoodie',
-        price: 150,
-        image: 'https://i.ibb.co/mrTy6Mhw/fake-news-hoodie.webp',
-        additionalImages: [
-          'https://i.ibb.co/mrTy6Mhw/fake-news-hoodie.webp',
-          'https://i.ibb.co/JRsBZr2d/BURN-BALACLAVAAA.webp',
-          'https://i.ibb.co/GvhVTBTc/MCGA-CAP.webp'
-        ],
-        description: 'In an era saturated with manufactured narratives, the "Fake News" Hoodie stands as a defiant emblem of critical thought. Crafted for comfort in the coming storm, its bold declaration is a shield against deception and a beacon for those who question. Join the ranks of the discerning.',
-        sizes: ['S', 'M', 'L', 'XL', 'XXL'],
-        lore: "A staple among the truth-seekers, this hoodie was first seen during the 'Information Purge' of 2023.",
-        shopifyVariantId: '44796300468512'
-      },
-      {
-        id: 'p3',
-        name: 'Awareness Tee',
-        price: 120,
-        image: 'https://i.ibb.co/JRsBZr2d/BURN-BALACLAVAAA.webp', /* Updated image for p3 */
-        additionalImages: [
-          'https://i.ibb.co/JRsBZr2d/BURN-BALACLAVAAA.webp',
-          'https://i.ibb.co/twNrP2xF/XTCYYYY.webp',
-          'https://i.ibb.co/JFyXsdVv/vzn-jacket.webp'
-        ],
-        description: 'The Awareness Tee is more than fabric; it\'s a canvas for your expanded consciousness. Featuring intricate designs that hint at deeper truths, it invites inquiry and recognition from fellow awakened souls.',
-        sizes: ['S', 'M', 'L'],
-        lore: "Rumored to be inspired by ancient glyphs discovered in the 'Forbidden Archives', promoting heightened awareness.",
-        shopifyVariantId: '44796300599576'
-      },
-      {
-        id: 'p4',
-        name: 'Visions Hoodie',
-        price: 180,
-        image: 'https://i.ibb.co/JFyXsdVv/vzn-jacket.webp',
-        additionalImages: [
-          'https://i.ibb.co/JFyXsdVv/vzn-jacket.webp',
-          'https://i.ibb.co/mrTy6Mhw/fake-news-hoodie.webp',
-          'https://i.ibb.co/twNrP2xF/XTCYYYY.webp'
-        ],
-        description: 'Experience clarity with the Visions Hoodie. Its unique design represents the unfolding of hidden realities, offering warmth and comfort as you navigate the complexities of the awakened world.',
-        sizes: ['M', 'L', 'XL', 'XXL'],
-        lore: "This design appeared to our founder in a profound vision, depicting the layers of reality peeling away.",
-        shopifyVariantId: '44796300534034'
-      },
-      {
-        id: 'p5',
-        name: 'Third Eye Balaclava',
-        price: 75,
-        image: 'https://i.ibb.co/vxWt75mW/green-BALLY.webp',
-        additionalImages: [
-          'https://i.ibb.co/V0FTWqC1/oberyyy.webp',
-          'https://i.ibb.co/vxWt75mW/green-BALLY.webp', /* Added green balaclava as an additional image for p5 */
-          'https://i.ibb.co/GvhVTBTc/MCGA-CAP.webp',
-          'https://i.ibb.co/JRsBZr2d/BURN-BALACLAVAAA.webp'
-        ],
-        description: 'Conceal your identity, reveal your true self. The Third Eye Balaclava is a symbol of rebellion against the system, a statement that you are ready to shed the old world and embrace the new.',
-        sizes: ['One Size'],
-        lore: "First donned by the anonymous 'Shadow Collective' during their silent protests against the illusion.",
-        shopifyVariantId: '44796300566805'
-      },
-      {
-        id: 'p6',
-        name: 'MCGA Cap',
-        price: 50,
-        image: 'https://i.ibb.co/GvhVTBTc/MCGA-CAP.webp',
-        additionalImages: [
-          'https://i.ibb.co/GvhVTBTc/MCGA-CAP.webp',
-          'https://i.ibb.co/mrTy6Mhw/fake-news-hoodie.webp',
-          'https://i.ibb.co/twNrP2xF/XTCYYYY.webp'
-        ],
-        description: 'Make Cults Great Again. This cap is a bold declaration, a nod to the resurgence of true belief and collective action. Wear it proudly as a member of the AWAKEN movement.',
-        sizes: ['One Size'],
-        lore: "A rallying cry from the early days of the movement, repurposed for the modern awakened.",
-        shopifyVariantId: '44796300435751'
-      },
-      // Additional products with dummy Shopify IDs
-      {
-        id: 'p7',
-        name: 'Exclusive Baby Tee',
-        price: 90,
-        image: 'https://i.ibb.co/ZpfbtRZT/aeaken-exclusive.png',
-        additionalImages: [
-          'https://i.ibb.co/ZpfbtRZT/aeaken-exclusive.png',
-          'https://placehold.co/300x300/C0C0C0/FFF?text=TEE+2',
-          'https://placehold.co/300x300/D0D0D0/FFF?text=TEE+3'
-        ],
-        description: 'An exclusive artifact for the inner circle. Limited edition, imbued with subtle energies of awakening.',
-        sizes: ['XS', 'S', 'M'],
-        lore: "Reserved for those who have passed the second initiation, a mark of true dedication.",
-        shopifyVariantId: '44796300632347'
-      },
-      {
-        id: 'p8',
-        name: 'Shook Tee',
-        price: 40,
-        image: 'https://i.ibb.co/qM5H0KXG/shook-final.webp',
-        additionalImages: [
-          'https://i.ibb.co/qM5H0KXG/shook-final.webp',
-          'https://placehold.co/300x300/E0E0E0/FFF?text=SHOOK+2',
-          'https://placehold.co/300x300/F0F0F0/FFF?text=SHOOK+3'
-        ],
-        description: 'For those moments when the truth hits hard. A comfortable tee that expresses your state of mind.',
-        sizes: ['S', 'M', 'L'],
-        lore: "A popular design after the 'Great Revelation' when many were truly shook by the truth.",
-        shopifyVariantId: '44796300665118'
-      },
-      {
-        id: 'p9',
-        name: 'NWO Tank',
-        price: 25,
-        image: 'https://i.ibb.co/60JYHjrZ/tank.webp',
-        additionalImages: [
-          'https://i.ibb.co/60JYHjrZ/tank.webp',
-          'https://placehold.co/300x300/A0A0A0/FFF?text=TANK+2',
-          'https://placehold.co/300x300/B0B0B0/FFF?text=TANK+3'
-        ],
-        description: 'Embrace the New World Order, literally. A comfortable tank top for warmer climates or layered looks.',
-        sizes: ['S', 'M', 'L', 'XL'],
-        lore: "Favored by operatives in warmer sectors, allowing for maximum mobility and subtle messaging.",
-        shopifyVariantId: '44796300697889'
-      },
-      {
-        id: 'p10',
-        name: 'Combat Pants',
-        price: 60,
-        image: 'https://i.ibb.co/kgfzBRBr/pants.png',
-        additionalImages: [
-          'https://i.ibb.co/kgfzBRBr/pants.png',
-          'https://i.ibb.co/HyRqj7X/pants-side.png',
-          'https://placehold.co/300x300/D0D0D0/FFF?text=PANTS+3'
-        ],
-        description: 'Durable and versatile, designed for the urban explorer and truth-seeker. Ready for any mission.',
-        sizes: ['28', '30', '32', '34', '36'],
-        lore: "Standard issue for reconnaissance teams, built to withstand the rigors of uncovering hidden truths.",
-        shopifyVariantId: '44796300730660'
-      },
-      {
-        id: 'p11',
-        name: 'Truth Serum Vial',
-        price: 100,
-        image: 'https://i.ibb.co/XZH1pMxf/poncho-2.webp', /* Keeping this image, but noting it looks like a poncho */
-        additionalImages: [
-          'https://i.ibb.co/XZH1pMxf/poncho-2.webp',
-          'https://placehold.co/300x300/E0E0E0/FFF?text=VIAL+2',
-          'https://placehold.co/300x300/F0F0F0/FFF?text=VIAL+3'
-        ],
-        description: 'A potent concoction designed to unlock dormant memories and accelerate your awakening. Use with caution.',
-        sizes: ['One Size'],
-        lore: "A rare elixir, distilled from the tears of forgotten prophets and the essence of pure truth.",
-        shopifyVariantId: '44796300763431'
-      },
-      {
-        id: 'p12',
-        name: 'Ameen Hoodie',
-        price: 85,
-        image: 'https://i.ibb.co/tMDwdkpT/ameen-final.png',
-        additionalImages: [
-          'https://i.ibb.co/tMDwdkpT/ameen-final.png',
-          'https://placehold.co/300x300/A0A0A0/FFF?text=HOODIE+2',
-          'https://placehold.co/300x300/B0B0B0/FFF?text=HOODIE+3'
-        ],
-        description: 'A comfortable and stylish hoodie, perfect for those cool nights spent contemplating the universe and the path to awakening.',
-        sizes: ['S', 'M', 'L', 'XL'],
-        lore: "Named after a revered elder who guided many initiates through their initial awakening, embodying comfort and wisdom.",
-        shopifyVariantId: '44796300796202'
+    const PAGE_URL = window.location.origin + window.location.pathname;
+
+    function selectedVariant(product) {
+      const select = document.getElementById('product-size');
+      return product.variants.find(v => v.shopifyVariantId === select.value) || product.variants[0];
+    }
+
+    function renderPrice(product) {
+      const variant = selectedVariant(product);
+      document.getElementById('product-price').textContent = formatZAR(variantPrice(product, variant));
+    }
+
+    // Structured data is built from the selected product, in ZAR.
+    function renderStructuredData(product) {
+      const prices = product.variants.map(v => variantPrice(product, v));
+      const data = {
+        '@context': 'https://schema.org/',
+        '@type': 'Product',
+        name: product.name,
+        image: product.images,
+        description: `${product.lore} ${product.details}`,
+        brand: { '@type': 'Brand', name: 'AWAKEN Cult' },
+        offers: {
+          '@type': 'AggregateOffer',
+          url: `${PAGE_URL}?id=${encodeURIComponent(product.id)}`,
+          priceCurrency: 'ZAR',
+          lowPrice: Math.min(...prices).toFixed(2),
+          highPrice: Math.max(...prices).toFixed(2),
+          offerCount: product.variants.length,
+          itemCondition: 'https://schema.org/NewCondition',
+          availability: 'https://schema.org/InStock'
+        }
+      };
+      let tag = document.getElementById('product-jsonld');
+      if (!tag) {
+        tag = document.createElement('script');
+        tag.type = 'application/ld+json';
+        tag.id = 'product-jsonld';
+        document.head.appendChild(tag);
       }
-    ];
-
-    let cart = JSON.parse(localStorage.getItem('awakenCart')) || []; // Load cart from local storage
-
-    // Cart Overlay Functions (consistent with other pages)
-    const cartOverlay = document.getElementById('cart-overlay');
-    const cartCountSpan = document.getElementById('cart-count');
-    const cartItemsDiv = document.getElementById('cart-items');
-    const cartTotalSpan = document.getElementById('cart-total');
-    const emptyCartMessage = document.getElementById('empty-cart-message');
-
-    function toggleCart() {
-      cartOverlay.classList.toggle('active');
+      tag.textContent = JSON.stringify(data);
     }
 
-    function updateCartDisplay() {
-      cartItemsDiv.innerHTML = ''; // Clear current items
-      let total = 0;
+    function renderProductPage() {
+      const productId = new URLSearchParams(window.location.search).get('id');
+      const product = getProduct(productId);
+      const container = document.getElementById('product-detail-container');
 
-      if (cart.length === 0) {
-        emptyCartMessage.style.display = 'block';
-      } else {
-        emptyCartMessage.style.display = 'none';
-        cart.forEach((item, index) => {
-          const cartItemDiv = document.createElement('div');
-          cartItemDiv.className = 'cart-item';
-          cartItemDiv.innerHTML = `
-            <img src="${item.image}" alt="${item.name}" class="cart-item-image" />
-            <div class="cart-item-details">
-              <h4>${item.name} (${item.size})</h4>
-              <p>$${item.price.toFixed(2)} x ${item.quantity}</p>
-            </div>
-            <button class="cart-item-remove" onclick="removeFromCart(${index})">Remove</button>
-          `;
-          cartItemsDiv.appendChild(cartItemDiv);
-          total += item.price * item.quantity;
-        });
-      }
-
-      cartTotalSpan.textContent = `$${total.toFixed(2)}`;
-      cartCountSpan.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
-      localStorage.setItem('awakenCart', JSON.stringify(cart)); // Save cart to local storage
-    }
-
-    function removeFromCart(index) {
-      cart.splice(index, 1);
-      updateCartDisplay();
-    }
-
-    function showCustomAlert(message) {
-        const alertBox = document.createElement('div');
-        alertBox.style.cssText = `
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: black;
-            color: white;
-            padding: 20px 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            z-index: 10000;
-            font-family: 'Roboto Condensed', sans-serif;
-            font-size: 1.1rem;
-            text-align: center;
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out;
-        `;
-        alertBox.textContent = message;
-        document.body.appendChild(alertBox);
-
-        setTimeout(() => {
-            alertBox.style.opacity = 1;
-        }, 10); // Small delay to trigger transition
-
-        setTimeout(() => {
-            alertBox.style.opacity = 0;
-            alertBox.addEventListener('transitionend', () => alertBox.remove());
-        }, 3000); // Disappear after 3 seconds
-    }
-
-    // Function to proceed to Shopify checkout
-    function proceedToCheckout() {
-      if (cart.length === 0) {
-        showCustomAlert('Your cart is empty. Please add some artifacts before checking out.');
+      if (!product) {
+        document.title = 'Artifact not found | AWAKEN';
+        container.innerHTML = `
+          <p class="text-center text-xl font-bold" style="color:#d94a44">Artifact not found.</p>
+          <p class="text-center mt-4"><a href="shop.html" class="underline font-bold">Back to the market</a></p>`;
         return;
       }
 
-      const shopifyStoreDomain = 'shop.awakencult.com'; // Your Shopify store domain
-      const cartItemsForShopify = cart
-        .map(item => `updates[]=${item.shopifyVariantId}:${item.quantity}`)
-        .join('&');
+      document.title = `${product.name} | AWAKEN`;
+      const mainImage = document.getElementById('product-image');
+      mainImage.src = product.image;
+      mainImage.alt = product.name;
+      document.getElementById('product-title').textContent = product.name;
+      document.getElementById('product-description').textContent = product.lore;
+      document.getElementById('product-lore').textContent = product.details;
 
-      // Redirect to Shopify's cart page with items pre-filled
-      const checkoutUrl = `https://${shopifyStoreDomain}/cart?${cartItemsForShopify}`;
-      window.location.href = checkoutUrl;
+      // Variant picker: keep the chosen option when the page re-renders after a price sync.
+      const select = document.getElementById('product-size');
+      const previous = select.value;
+      document.getElementById('product-size-label').textContent = `${product.optionName}:`;
+      select.innerHTML = '';
+      product.variants.forEach(variant => {
+        const option = document.createElement('option');
+        option.value = variant.shopifyVariantId;
+        option.textContent = variant.available === false ? `${variant.option} (sold out)` : variant.option;
+        option.disabled = variant.available === false;
+        select.appendChild(option);
+      });
+      if (previous && product.variants.some(v => v.shopifyVariantId === previous)) select.value = previous;
+      select.closest('.product-options-group').style.display = isOneOption(product) ? 'none' : '';
+      select.onchange = () => renderPrice(product);
+      renderPrice(product);
+
+      const gallery = document.getElementById('thumbnail-gallery');
+      gallery.innerHTML = '';
+      if (product.images.length > 1) {
+        product.images.forEach((src, i) => {
+          const thumb = document.createElement('img');
+          thumb.src = src;
+          thumb.alt = `${product.name} view ${i + 1}`;
+          thumb.classList.add('thumbnail');
+          if (i === 0) thumb.classList.add('active');
+          thumb.addEventListener('click', () => {
+            mainImage.src = src;
+            gallery.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+            thumb.classList.add('active');
+          });
+          gallery.appendChild(thumb);
+        });
+      }
+
+      document.getElementById('add-to-cart-btn').onclick = () => {
+        const quantity = Math.min(10, Math.max(1, parseInt(document.getElementById('product-quantity').value, 10) || 1));
+        addItemToCart(product, selectedVariant(product).shopifyVariantId, quantity);
+      };
+
+      renderStructuredData(product);
+      renderRelated(product);
     }
 
-    // Product Detail Page Logic
+    function renderRelated(current) {
+      const grid = document.getElementById('related-grid');
+      grid.innerHTML = PRODUCTS.filter(p => p.id !== current.id).slice(0, 3).map(p => `
+        <a href="product-detail.html?id=${esc(p.id)}" class="related-article-card block no-underline text-black">
+          <img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy" />
+          <h3>${esc(p.name)}</h3>
+          <p>${esc(p.lore)}</p>
+          <span class="view-artifact-button">View Artifact</span>
+        </a>`).join('');
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const productId = urlParams.get('id');
-      // Default to p1 if no ID is provided in the URL for demonstration
-      const product = products.find(p => p.id === productId) || products[0]; 
+      renderProductPage();
+      document.addEventListener('awaken:catalogue', renderProductPage);
 
-      const productDetailContainer = document.getElementById('product-detail-container');
-      const mainProductImage = document.getElementById('product-image');
-      const thumbnailGallery = document.getElementById('thumbnail-gallery');
-
-      if (product) {
-        mainProductImage.src = product.image;
-        mainProductImage.alt = product.name;
-        document.getElementById('product-title').textContent = product.name;
-        document.getElementById('product-price').textContent = `$${product.price.toFixed(2)}`;
-        document.getElementById('product-description').textContent = product.description;
-        document.getElementById('product-lore').textContent = `Lore: ${product.lore}`;
-
-        const sizeSelect = document.getElementById('product-size');
-        sizeSelect.innerHTML = ''; // Clear existing options
-        product.sizes.forEach(size => {
-          const option = document.createElement('option');
-          option.value = size;
-          option.textContent = size;
-          sizeSelect.appendChild(option);
-        });
-
-        // Populate thumbnail gallery
-        thumbnailGallery.innerHTML = ''; // Clear existing thumbnails
-        if (product.additionalImages) {
-            product.additionalImages.forEach(imgSrc => {
-              const thumb = document.createElement('img');
-              thumb.src = imgSrc;
-              thumb.alt = `${product.name} thumbnail`;
-              thumb.classList.add('thumbnail');
-              thumb.addEventListener('click', () => {
-                mainProductImage.src = imgSrc;
-                // Remove active class from all thumbnails
-                Array.from(thumbnailGallery.children).forEach(t => t.classList.remove('active'));
-                // Add active class to clicked thumbnail
-                thumb.classList.add('active');
-              });
-              thumbnailGallery.appendChild(thumb);
-            });
-            // Set the first thumbnail as active by default
-            if (thumbnailGallery.firstElementChild) {
-              thumbnailGallery.firstElementChild.classList.add('active');
-            }
-        }
-
-        document.getElementById('add-to-cart-btn').addEventListener('click', () => {
-          const selectedSize = sizeSelect.value;
-          const quantity = parseInt(document.getElementById('product-quantity').value);
-
-          // Add to local cart only
-          const existingItemIndex = cart.findIndex(item =>
-              item.id === product.id && item.size === selectedSize
-          );
-
-          if (existingItemIndex > -1) {
-              cart[existingItemIndex].quantity += quantity;
-          } else {
-              cart.push({
-                  id: product.id,
-                  name: product.name,
-                  price: product.price,
-                  image: product.image,
-                  size: selectedSize,
-                  quantity: quantity,
-                  shopifyVariantId: product.shopifyVariantId // Keep Shopify ID for checkout
-              });
-          }
-          updateCartDisplay();
-          showCustomAlert(`${quantity} x ${product.name} (${selectedSize}) added to your cart!`);
-        });
-      } else {
-        // Handle product not found: display message and provide a way back
-        if (productDetailContainer) {
-          productDetailContainer.innerHTML = `
-            <p class="text-center text-xl font-bold text-red-600">Artifact not found. Please return to the market.</p>
-            <button class="bg-black text-white px-4 py-2 mt-4 hover:bg-gray-800" onclick="window.history.back()">Go Back</button>
-          `;
-        }
-      }
-
-      // Marquee content duplication and animation setup for seamless loop
+      // Marquee
       const marqueeContentWrapper = document.querySelector('.marquee-container .marquee-content-wrapper');
       const originalMarqueeText = document.querySelector('.marquee-container .marquee-text');
-
       if (marqueeContentWrapper && originalMarqueeText) {
         const originalContent = originalMarqueeText.outerHTML;
-
-        // Clear existing content to prevent multiple duplications on re-run
         marqueeContentWrapper.innerHTML = '';
-
-        // Duplicate the content multiple times to ensure continuous flow
         for (let i = 0; i < 3; i++) {
-            marqueeContentWrapper.innerHTML += originalContent;
+          marqueeContentWrapper.innerHTML += originalContent;
         }
-
         requestAnimationFrame(() => {
-            const firstMarqueeTextElement = marqueeContentWrapper.firstElementChild;
-            if (firstMarqueeTextElement) {
-                const singleTextWidth = firstMarqueeTextElement.offsetWidth;
-                marqueeContentWrapper.style.setProperty('--marquee-distance', `-${singleTextWidth}px`);
-                const pixelsPerSecond = 150;
-                const calculatedSpeed = singleTextWidth / pixelsPerSecond;
-                marqueeContentWrapper.style.setProperty('--marquee-speed', `${calculatedSpeed}s`);
-                marqueeContentWrapper.style.animation = 'none';
-                void marqueeContentWrapper.offsetWidth;
-                marqueeContentWrapper.style.animation = `marquee var(--marquee-speed) linear infinite`;
-            }
+          const first = marqueeContentWrapper.firstElementChild;
+          if (first) {
+            const width = first.offsetWidth;
+            marqueeContentWrapper.style.setProperty('--marquee-distance', `-${width}px`);
+            marqueeContentWrapper.style.setProperty('--marquee-speed', `${width / 150}s`);
+            marqueeContentWrapper.style.animation = 'none';
+            void marqueeContentWrapper.offsetWidth;
+            marqueeContentWrapper.style.animation = `marquee var(--marquee-speed) linear infinite`;
+          }
         });
       }
-
-      updateCartDisplay(); // Initialize cart display on page load
     });
   </script>
 </body>
