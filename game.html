@@ -140,6 +140,7 @@
             pointer-events: none; /* Allow clicks to pass through */
         }
     </style>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
 </head>
 <body>
     <div id="game-container">
@@ -882,7 +883,6 @@
         async function startGame() {
             if (Tone.context.state !== 'running') {
                 await Tone.start();
-                console.log('Audio context resumed!');
             }
 
             score = 0;
@@ -932,7 +932,6 @@
 
             if (Tone.context.state !== 'running') {
                 await Tone.start();
-                console.log('Audio context resumed on click!');
             }
 
             if (gameRunning) {
@@ -956,7 +955,6 @@
 
             if (Tone.context.state !== 'running') {
                 await Tone.start();
-                console.log('Audio context resumed on touchstart!');
             }
 
             if (gameRunning) {
@@ -970,7 +968,6 @@
         startButton.addEventListener('click', async () => {
             if (Tone.context.state !== 'running') {
                 await Tone.start();
-                console.log('Audio context resumed on start button click!');
             }
             startGame();
         });
@@ -989,7 +986,6 @@
                     title: 'AWAKEN - Dystopian Flap Game',
                     url: gameUrl,
                 }).then(() => {
-                    console.log('Thanks for sharing!');
                 }).catch(console.error);
             } else {
                 // Fallback for environments that do not support navigator.share

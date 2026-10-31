@@ -19,6 +19,11 @@ const PRODUCTS = window.AWAKEN_PRODUCTS || [];
 const DROP = window.AWAKEN_DROP || null;
 const dropCanBuy = id => (DROP ? DROP.canBuy(id) : true);
 
+// Analytics is optional (analytics.js); events are silently skipped without it.
+function trackEvent(name, data) {
+  if (window.awakenTrack) window.awakenTrack(name, data);
+}
+
 // --- Formatting ---
 function formatZAR(amount) {
   const n = Number(amount) || 0;
@@ -170,6 +175,10 @@ function addItemToCart(product, variantId, quantity = 1) {
   if (existing) existing.quantity += quantity;
   else cart.push({ shopifyVariantId: variantId, quantity });
   updateCartDisplay();
+  trackEvent('add_to_cart', {
+    item_id: product.id, item_name: product.name, variant: found.variant.option,
+    value: variantPrice(product, found.variant), currency: 'ZAR', quantity
+  });
   const label = isOneOption(product) ? product.name : `${product.name} (${found.variant.option})`;
   showCustomAlert(`${label} added to cart!`);
 }
@@ -463,6 +472,7 @@ async function proceedToShopifyCheckout() {
       url.searchParams.set('ref', ref);
       finalUrl = url.toString();
     }
+    trackEvent('begin_checkout', { value: cartTotal(), currency: 'ZAR', quantity: cart.reduce((n, i) => n + i.quantity, 0) });
     window.location.href = finalUrl;
   } catch (error) {
     setCartError('We could not reach checkout. Check your connection and try again.');

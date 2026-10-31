@@ -573,6 +573,7 @@
     }
   </style>
   <link rel="stylesheet" href="site.css">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
 </head>
 <body>
 
@@ -672,6 +673,7 @@
     </div>
   </footer>
 
+  <script src="analytics.js"></script>
   <script src="products.js"></script>
   <script src="drop.js"></script>
   <script src="cart.js"></script>
@@ -784,6 +786,10 @@
 
       renderStructuredData(product);
       renderRelated(product);
+      if (!window.__viewItemSent) {
+        window.__viewItemSent = true;
+        trackEvent('view_item', { item_id: product.id, item_name: product.name, value: productFromPrice(product), currency: 'ZAR' });
+      }
     }
 
     // Pre-order label, ship-by line and button state for the current drop.
