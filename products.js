@@ -11,9 +11,9 @@ window.AWAKEN_PRODUCTS = [
     "id": "p6",
     "name": "MCGA Cap",
     "price": 333,
-    "image": "https://i.ibb.co/GvhVTBTc/MCGA-CAP.webp",
+    "image": "assets/products/MCGA-CAP.webp",
     "images": [
-      "https://i.ibb.co/GvhVTBTc/MCGA-CAP.webp"
+      "assets/products/MCGA-CAP.webp"
     ],
     "optionName": "Size",
     "variants": [
@@ -30,9 +30,9 @@ window.AWAKEN_PRODUCTS = [
     "id": "p2",
     "name": "Fake News Hoodie",
     "price": 999,
-    "image": "https://i.ibb.co/mrTy6Mhw/fake-news-hoodie.webp",
+    "image": "assets/products/fake-news-hoodie.webp",
     "images": [
-      "https://i.ibb.co/mrTy6Mhw/fake-news-hoodie.webp"
+      "assets/products/fake-news-hoodie.webp"
     ],
     "optionName": "Size",
     "variants": [
@@ -64,9 +64,9 @@ window.AWAKEN_PRODUCTS = [
     "id": "p1",
     "name": "XTCY Tee",
     "price": 444,
-    "image": "https://i.ibb.co/twNrP2xF/XTCYYYY.webp",
+    "image": "assets/products/XTCYYYY.webp",
     "images": [
-      "https://i.ibb.co/twNrP2xF/XTCYYYY.webp"
+      "assets/products/XTCYYYY.webp"
     ],
     "optionName": "Size",
     "variants": [
@@ -98,9 +98,9 @@ window.AWAKEN_PRODUCTS = [
     "id": "p4",
     "name": "Vision Jacket",
     "price": 1111,
-    "image": "https://i.ibb.co/JFyXsdVv/vzn-jacket.webp",
+    "image": "assets/products/vzn-jacket.webp",
     "images": [
-      "https://i.ibb.co/JFyXsdVv/vzn-jacket.webp"
+      "assets/products/vzn-jacket.webp"
     ],
     "optionName": "Size",
     "variants": [
@@ -124,9 +124,9 @@ window.AWAKEN_PRODUCTS = [
     "id": "p5",
     "name": "Obey Sweater",
     "price": 777,
-    "image": "https://i.ibb.co/V0FTWqC1/oberyyy.webp",
+    "image": "assets/products/oberyyy.webp",
     "images": [
-      "https://i.ibb.co/V0FTWqC1/oberyyy.webp"
+      "assets/products/oberyyy.webp"
     ],
     "optionName": "Size",
     "variants": [
@@ -150,9 +150,9 @@ window.AWAKEN_PRODUCTS = [
     "id": "p3",
     "name": "Third Eye Balaclava",
     "price": 350,
-    "image": "https://i.ibb.co/JRsBZr2d/BURN-BALACLAVAAA.webp",
+    "image": "assets/products/BURN-BALACLAVAAA.webp",
     "images": [
-      "https://i.ibb.co/JRsBZr2d/BURN-BALACLAVAAA.webp"
+      "assets/products/BURN-BALACLAVAAA.webp"
     ],
     "optionName": "Colour",
     "variants": [
@@ -176,9 +176,9 @@ window.AWAKEN_PRODUCTS = [
     "id": "p7",
     "name": "Exclusive Baby Tee",
     "price": 444,
-    "image": "https://i.ibb.co/Y72p2qg9/baby-tee-2.png",
+    "image": "assets/products/baby-tee-2.png",
     "images": [
-      "https://i.ibb.co/Y72p2qg9/baby-tee-2.png"
+      "assets/products/baby-tee-2.png"
     ],
     "optionName": "Size",
     "variants": [
@@ -228,9 +228,9 @@ window.AWAKEN_PRODUCTS = [
     "id": "p9",
     "name": "NWO Tank",
     "price": 444,
-    "image": "https://i.ibb.co/60JYHjrZ/tank.webp",
+    "image": "assets/products/tank.webp",
     "images": [
-      "https://i.ibb.co/60JYHjrZ/tank.webp"
+      "assets/products/tank.webp"
     ],
     "optionName": "Size",
     "variants": [
@@ -254,10 +254,10 @@ window.AWAKEN_PRODUCTS = [
     "id": "p10",
     "name": "Combat Pants",
     "price": 1111,
-    "image": "https://i.ibb.co/kgfzBRBr/pants.png",
+    "image": "assets/products/pants.png",
     "images": [
-      "https://i.ibb.co/kgfzBRBr/pants.png",
-      "https://i.ibb.co/HyRqj7X/pants-side.png"
+      "assets/products/pants.png",
+      "assets/products/pants-side.png"
     ],
     "optionName": "Size",
     "variants": [
