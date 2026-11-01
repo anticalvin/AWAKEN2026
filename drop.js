@@ -2,7 +2,7 @@
  * The current drop. Edit this file to open, change or close a pre-order window;
  * nothing else on the site needs touching.
  *
- * OWNER TO CONFIRM BEFORE LAUNCH:
+ * Owner sets these before launch (check-launch.sh flags them):
  *   closesAt   ISO timestamp with offset. 23:59 SAST on 20 Nov 2026 is '2026-11-20T23:59:00+02:00'.
  *              Leave null and the banner says PRE-ORDERS OPEN with no countdown.
  *   shipsBy    Text shown to customers, e.g. '15 December 2026'. Leave null and the

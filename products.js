@@ -4,7 +4,7 @@
  * refreshes them from the Storefront API by variant ID, so the site, cart and
  * checkout cannot drift apart.
  * Do not change shopifyVariantId values without checking Shopify admin.
- * TODO (owner): add fabric / fit / print method to each `details` line once confirmed.
+ * Owner: add fabric / fit / print method to each `details` line once confirmed.
  */
 window.AWAKEN_PRODUCTS = [
   {
