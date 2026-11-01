@@ -1,8 +1,11 @@
 /* Soft launch gate. Visitors without access are sent to coming-soon.html.
  * Client-side only: it keeps casual visitors out, it is not security.
- * Change the password: set HASH to the SHA-256 hex of the new one
- * (printf 'newpass' | shasum -a 256). Current password: awaken */
+ * Set GATE_ENABLED to false to open the site to everyone.
+ * Change the code: set HASH to the SHA-256 hex of the new one (lowercased, trimmed):
+ * printf 'newcode' | shasum -a 256 */
+var GATE_ENABLED = true;
 (function () {
+  if (!GATE_ENABLED) return;
   var HASH = 'cdd35a708cf7fbc0a70f4d0f7ec42dcc269a97e1894726d8e175a2d830d336cd';
   var KEY = 'awakenAccess';
   function ok() { try { return localStorage.getItem(KEY) === HASH; } catch (e) { return false; } }
