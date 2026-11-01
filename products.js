@@ -202,9 +202,9 @@ window.AWAKEN_PRODUCTS = [
     "id": "p8",
     "name": "Shook Tee",
     "price": 555,
-    "image": "https://i.ibb.co/qM5H0KXG/shook-final.webp",
+    "image": "assets/img/shook-final.webp",
     "images": [
-      "https://i.ibb.co/qM5H0KXG/shook-final.webp"
+      "assets/img/shook-final.webp"
     ],
     "optionName": "Size",
     "variants": [
@@ -297,9 +297,9 @@ window.AWAKEN_PRODUCTS = [
     "id": "p11",
     "name": "Utility Rain Poncho",
     "price": 1111,
-    "image": "https://i.ibb.co/XZH1pMxf/poncho-2.webp",
+    "image": "assets/img/poncho-2.webp",
     "images": [
-      "https://i.ibb.co/XZH1pMxf/poncho-2.webp"
+      "assets/img/poncho-2.webp"
     ],
     "optionName": "Size",
     "variants": [
@@ -315,9 +315,9 @@ window.AWAKEN_PRODUCTS = [
     "id": "p12",
     "name": "Ameen Hoodie",
     "price": 777,
-    "image": "https://i.ibb.co/tMDwdkpT/ameen-final.png",
+    "image": "assets/img/ameen-final.png",
     "images": [
-      "https://i.ibb.co/tMDwdkpT/ameen-final.png"
+      "assets/img/ameen-final.png"
     ],
     "optionName": "Size",
     "variants": [

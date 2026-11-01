@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <link rel="canonical" href="https://awakencult.com/product-detail.html">
   <script src="gate.js"></script> 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AWAKEN Cult | Pre-order</title>
@@ -578,11 +579,11 @@
   <meta property="og:site_name" content="AWAKEN Cult">
   <meta property="og:title" content="AWAKEN Cult | Pre-order">
   <meta property="og:description" content="Pre-order from AWAKEN Cult NEW WORLD ORDER. Limited run.">
-  <meta property="og:image" content="https://i.ibb.co/mrTy6Mhw/fake-news-hoodie.webp">
+  <meta property="og:image" content="https://awakencult.com/assets/og.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="AWAKEN Cult | Pre-order">
   <meta name="twitter:description" content="Pre-order from AWAKEN Cult NEW WORLD ORDER. Limited run.">
-  <meta name="twitter:image" content="https://i.ibb.co/mrTy6Mhw/fake-news-hoodie.webp">
+  <meta name="twitter:image" content="https://awakencult.com/assets/og.jpg">
 </head>
 <body>
 
@@ -744,6 +745,8 @@
       }
 
       document.title = `${product.name} | AWAKEN`;
+      const canon = document.querySelector('link[rel="canonical"]');
+      if (canon) canon.href = 'https://awakencult.com/product-detail.html?id=' + encodeURIComponent(productId);
       const mainImage = document.getElementById('product-image');
       mainImage.src = product.image;
       mainImage.alt = product.name;

@@ -11,8 +11,10 @@ flag() { # label, pattern, [files]
 flag "Owner to confirm" 'OWNER TO CONFIRM'
 flag "TODO" 'TODO'
 flag "YOUR_ placeholder" 'YOUR_'
-flag "placehold.co" 'placehold\.co'
-flag "Hotlinked i.ibb.co image" 'i\.ibb\.co'
+# Pages marked noindex are not part of the launch, so they are skipped for image checks.
+PUBLIC=$(grep -LE 'name="robots" content="[^"]*noindex' $FILES)
+flag "placehold.co" 'placehold\.co' "$PUBLIC"
+flag "Hotlinked i.ibb.co image" 'i\.ibb\.co' "$PUBLIC"
 flag "Drop closesAt not set" 'closesAt: *null' drop.js
 flag "Drop shipsBy not set" 'shipsBy: *null' drop.js
 flag "Password gate still on" 'GATE_ENABLED *= *true' gate.js
