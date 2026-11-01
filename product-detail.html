@@ -688,6 +688,15 @@
   <script src="drop.js"></script>
   <script src="cart.js"></script>
   <script>
+    // Only fields the owner has filled in are shown, then the sizes from the variants.
+    function detailLines(product) {
+      const d = product.details || {};
+      const out = [['Fabric', d.fabric], ['Fit', d.fit], ['Print', d.print], ['Made in', d.madeIn]]
+        .filter(x => x[1]).map(x => x[0] + ': ' + x[1]);
+      const opts = (product.variants || []).map(v => v.option).filter(Boolean);
+      if (opts.length > 1 || (opts.length === 1 && !/^(one size|default)/i.test(opts[0]))) out.push((product.optionName || 'Sizes') + 's: ' + opts.join(', '));
+      return out;
+    }
     const PAGE_URL = window.location.origin + window.location.pathname;
 
     function selectedVariant(product) {
@@ -708,7 +717,7 @@
         '@type': 'Product',
         name: product.name,
         image: product.images,
-        description: `${product.lore} ${product.details}`,
+        description: `${product.lore} ${detailLines(product).join('. ')}`.trim(),
         brand: { '@type': 'Brand', name: 'AWAKEN Cult' },
         offers: {
           '@type': 'AggregateOffer',
@@ -752,7 +761,7 @@
       mainImage.alt = product.name;
       document.getElementById('product-title').textContent = product.name;
       document.getElementById('product-description').textContent = product.lore;
-      document.getElementById('product-lore').textContent = product.details;
+      document.getElementById('product-lore').innerHTML = detailLines(product).map(l => `<span style="display:block">${l.replace(/&/g,'&amp;').replace(/</g,'&lt;')}</span>`).join('');
 
       // Variant picker: keep the chosen option when the page re-renders after a price sync.
       const select = document.getElementById('product-size');

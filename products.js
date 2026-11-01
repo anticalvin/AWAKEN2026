@@ -24,7 +24,7 @@ window.AWAKEN_PRODUCTS = [
     ],
     "maxPerCart": 1,
     "lore": "Make Cults Great Again. Worn at every gathering since the early days.",
-    "details": "Cap. One size."
+    "details": { "fabric": null, "fit": null, "print": null, "madeIn": null }
   },
   {
     "id": "p2",
@@ -58,7 +58,7 @@ window.AWAKEN_PRODUCTS = [
       }
     ],
     "lore": "\"They feed you lies. We wear the truth.\" First seen during the Information Purge of 2023.",
-    "details": "Hooded sweatshirt. Sizes S to XXL."
+    "details": { "fabric": null, "fit": null, "print": null, "madeIn": null }
   },
   {
     "id": "p1",
@@ -92,7 +92,7 @@ window.AWAKEN_PRODUCTS = [
       }
     ],
     "lore": "Worn by the first initiates. Side effects include clarity.",
-    "details": "T-shirt. Sizes S to XXL."
+    "details": { "fabric": null, "fit": null, "print": null, "madeIn": null }
   },
   {
     "id": "p4",
@@ -118,7 +118,7 @@ window.AWAKEN_PRODUCTS = [
       }
     ],
     "lore": "Appeared to the founder in a vision. He sewed it anyway.",
-    "details": "Jacket. Sizes S to L."
+    "details": { "fabric": null, "fit": null, "print": null, "madeIn": null }
   },
   {
     "id": "p5",
@@ -144,7 +144,7 @@ window.AWAKEN_PRODUCTS = [
       }
     ],
     "lore": "Obey. Then ask who wrote the rules.",
-    "details": "Sweater. Sizes S to L."
+    "details": { "fabric": null, "fit": null, "print": null, "madeIn": null }
   },
   {
     "id": "p3",
@@ -170,7 +170,7 @@ window.AWAKEN_PRODUCTS = [
       }
     ],
     "lore": "For when the truth must be spoken and the face must not.",
-    "details": "Balaclava. Black, Cream or Green."
+    "details": { "fabric": null, "fit": null, "print": null, "madeIn": null }
   },
   {
     "id": "p7",
@@ -196,7 +196,7 @@ window.AWAKEN_PRODUCTS = [
       }
     ],
     "lore": "Reserved for the inner circle. The criteria remain undisclosed.",
-    "details": "Baby tee. Sizes S to L."
+    "details": { "fabric": null, "fit": null, "print": null, "madeIn": null }
   },
   {
     "id": "p8",
@@ -222,7 +222,7 @@ window.AWAKEN_PRODUCTS = [
       }
     ],
     "lore": "For the moment the truth lands. Hard.",
-    "details": "T-shirt. Sizes S to L."
+    "details": { "fabric": null, "fit": null, "print": null, "madeIn": null }
   },
   {
     "id": "p9",
@@ -248,7 +248,7 @@ window.AWAKEN_PRODUCTS = [
       }
     ],
     "lore": "The New World Order, sleeveless.",
-    "details": "Tank top. Sizes S to L."
+    "details": { "fabric": null, "fit": null, "print": null, "madeIn": null }
   },
   {
     "id": "p10",
@@ -291,7 +291,7 @@ window.AWAKEN_PRODUCTS = [
       }
     ],
     "lore": "Standard issue for those who go looking.",
-    "details": "Combat pants. Waist 28 to 40."
+    "details": { "fabric": null, "fit": null, "print": null, "madeIn": null }
   },
   {
     "id": "p11",
@@ -309,7 +309,7 @@ window.AWAKEN_PRODUCTS = [
       }
     ],
     "lore": "The storm was forecast. By us.",
-    "details": "Rain poncho. One size."
+    "details": { "fabric": null, "fit": null, "print": null, "madeIn": null }
   },
   {
     "id": "p12",
@@ -343,6 +343,6 @@ window.AWAKEN_PRODUCTS = [
       }
     ],
     "lore": "Named for the elder who walked the first initiates through. Comfortable by design.",
-    "details": "Hooded sweatshirt. Sizes S to XXL."
+    "details": { "fabric": null, "fit": null, "print": null, "madeIn": null }
   }
 ];
