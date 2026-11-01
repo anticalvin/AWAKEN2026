@@ -268,3 +268,8 @@ html { background-color: #d94a44; }
 
 /* Thin fixed strip the phone samples for its top-bar tint: red at the top, black once scrolled */
 #chrome-bar { position: fixed; top: 0; left: 0; right: 0; height: 4px; z-index: 2147483000; pointer-events: none; }
+
+/* Campaign photos: no zoomed-in crop */
+#campaign { height: auto !important; }
+@media (min-width: 1024px) { #campaign .mobile-full-height { height: auto; aspect-ratio: 9 / 10; min-height: 34rem; max-height: 100vh; } }
+@media (max-width: 1023px) { #campaign .mobile-full-height:first-child { height: auto; aspect-ratio: 4 / 5; } }

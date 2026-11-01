@@ -15,7 +15,7 @@ window.AWAKEN_DROP = {
   status: 'preorder',
   closesAt: null,
   shipsBy: null,
-  productIds: ['p6', 'p2', 'p1', 'p4', 'p3']
+  productIds: ['p6', 'p2', 'p1', 'p8', 'p4', 'p3']
 };
 
 (function () {

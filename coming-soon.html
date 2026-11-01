@@ -74,7 +74,7 @@
 
     /* Custom CSS for the logo and its hover effect */
     .logo-container {
-      position: absolute; /* Position absolutely within the body */
+      position: fixed;
       top: 50%; /* Move top edge to the vertical middle */
       left: 50%; /* Move left edge to the horizontal middle */
       transform: translate(-50%, -50%); /* Adjust by half its own width/height to truly center */
@@ -106,7 +106,7 @@
     }
   
     .logo-container { border: 0; background: none; cursor: pointer; padding: 0; }
-    .soon { position: absolute; bottom: 1.2rem; left: 0; right: 0; text-align: center; z-index: 10; color: #000;
+    .soon { position: fixed; bottom: 1.4rem; left: 50%; transform: translateX(-50%); width: max-content; background: #da4944; padding: .35rem .9rem; text-align: center; z-index: 10; color: #000;
       font-family: 'Anton', sans-serif; letter-spacing: .3em; text-transform: uppercase; font-size: 1rem; }
     #modal { display: none; position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,.85); align-items: center; justify-content: center; padding: 1rem; }
     #modal.open { display: flex; }
@@ -141,7 +141,7 @@
   <div id="modal" role="dialog" aria-modal="true" aria-label="Join the list">
     <div class="card">
       <button class="close" id="close" aria-label="Close">&times;</button>
-      <div class="mast"><div class="mast-l"><span>The Daily</span><b>AWAKEN</b></div><div class="mast-r"><div>&#9733;&#9733;&#9733;&#9733;&#9733;</div><div>SPECIAL WEEKLY</div><div>15&cent;</div></div></div>
+      <div class="mast"><div class="mast-l"><span>The Daily</span><b>AWAKEN</b></div><div class="mast-r"><div>&#9733;&#9733;&#9733;&#9733;&#9733;</div><div>SPECIAL WEEKLY</div></div></div>
       <p class="mast-head">OPEN YOUR EYES</p>
       <form class="signup-form" method="post" action="https://250375c7.sibforms.com/v2/serve/MUIFAE2BqiVBXIqyyxSqmPGzmlOjC3QuMs5XGvuujpTqAgJGC4_t5mxkr3GGJsHQ5TkQpCqrlUju7RPOSQpLgJrFPbiJ62w1A0wu1uVE5vwyEt4MRLhscaO0fQm1CC1FozTXBRxFWTFOdptOWqsoMFIRCMjsVszn4GQdF2-xBGWBSjmR78FBAU9sBYxytek2GXYnKinXsg3Zw4H8gQ==" target="signup-frame">
       <p class="signup-title">STAY AWAKE</p>
