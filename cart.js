@@ -256,7 +256,7 @@ function productCardHTML(product, cardClass, headingLinked) {
   const title = esc(product.name);
   const price = `${isOneOption(product) ? '' : 'From '}${formatZAR(productFromPrice(product))}`;
   let action;
-  if (!inDrop) action = '<span class="archive-tag">Archive</span>';
+  if (!inDrop) action = '<span class="archive-tag">Coming soon</span>';
   else if (closed) action = '<button type="button" class="add-to-cart-btn" disabled>Closed</button>';
   else action = `<button type="button" class="add-to-cart-btn" data-add-product="${esc(product.id)}">${DROP ? 'Pre-order' : 'Add to Cart'}</button>`;
   const shipsLine = inDrop && DROP && !closed ? `<p class="ships-by">Ships by ${esc(DROP.shipsByText())}</p>` : '';

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AWAKEN CULT | Coming Soon</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body { height: 100%; overflow: hidden; }
+    
+    /* Import the Anton font from Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+    /* Custom CSS for the stretched and condensed text effect */
+    .stretched-text {
+      font-family: 'Anton', sans-serif; /* Apply the Anton font */
+      color: white; /* Set text color to white */
+      text-align: center; /* Center the text horizontally */
+      
+      /*
+       * Base font size using viewport width (vw) for responsiveness.
+       * Reverted to previous values for desired stretch.
+       */
+      font-size: 35vw; /* Reverted to previous value */
+      
+      /*
+       * Line height is less critical for a single line but can still influence
+       * the vertical space the text occupies if there's padding/margin.
+       */
+      line-height: 0.9; /* Adjusted for single line */
+      
+      white-space: nowrap; /* Ensures the text stays on a single line */
+      display: inline-block; /* Necessary for applying CSS transforms correctly */
+      
+      /*
+       * Apply both vertical stretching (scaleY) and horizontal compression (scaleX).
+       * Reverted to previous values for desired stretch and compression.
+       */
+      transform: scaleY(1.8) scaleX(0.4); /* Reverted to previous values */
+      
+      /* Ensures the transformation originates from the center of the text element */
+      transform-origin: center center;
+      
+      /*
+       * Adjust letter spacing to spread out the now-horizontally-compressed characters
+       * to fill the screen width. This value is crucial for the responsive horizontal spread.
+       */
+      letter-spacing: 0.25em; /* Reverted to previous value */
+    }
+
+    /* Media queries for further responsive adjustments (optional, but good for fine-tuning) */
+    @media (max-width: 768px) {
+      .stretched-text {
+        font-size: 45vw; /* Reverted to previous value */
+        line-height: 0.9; 
+        transform: scaleY(1.9) scaleX(0.35); /* More stretch/compression */
+        letter-spacing: 0.2em; /* Slightly less letter spacing on smaller screens */
+      }
+    }
+
+    @media (max-width: 480px) {
+      .stretched-text {
+        font-size: 55vw; /* Reverted to previous value */
+        line-height: 0.9;
+        transform: scaleY(2.0) scaleX(0.3); /* Even more stretch/compression */
+        letter-spacing: 0.15em; /* Minimal letter spacing on very small screens */
+      }
+    }
+
+    /* Custom CSS for the logo and its hover effect */
+    .logo-container {
+      position: absolute; /* Position absolutely within the body */
+      top: 50%; /* Move top edge to the vertical middle */
+      left: 50%; /* Move left edge to the horizontal middle */
+      transform: translate(-50%, -50%); /* Adjust by half its own width/height to truly center */
+      z-index: 10; /* Ensure it's above the text */
+    }
+
+    .logo-container img {
+      width: 240px; /* Logo size remains as previously set */
+      height: auto; /* Maintain aspect ratio */
+      transition: opacity 0.3s ease-in-out; /* Smooth transition for hover effect */
+      border-radius: 0.5rem; /* Slightly rounded corners for aesthetics */
+    }
+
+    .logo-container img:hover {
+      opacity: 0.7; /* Reduce opacity on hover */
+    }
+
+    /* Responsive adjustments for logo size */
+    @media (max-width: 768px) {
+      .logo-container img {
+        width: 180px; /* Logo size remains as previously set */
+      }
+    }
+
+    @media (max-width: 480px) {
+      .logo-container img {
+        width: 140px; /* Logo size remains as previously set */
+      }
+    }
+  
+    .logo-container { border: 0; background: none; cursor: pointer; padding: 0; }
+    .soon { position: absolute; bottom: 1.2rem; left: 0; right: 0; text-align: center; z-index: 10; color: #000;
+      font-family: 'Anton', sans-serif; letter-spacing: .3em; text-transform: uppercase; font-size: 1rem; }
+    #modal { display: none; position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,.85); align-items: center; justify-content: center; padding: 1rem; }
+    #modal.open { display: flex; }
+    .card { background: #f3f0e7; color: #000; width: 100%; max-width: 22rem; padding: 1.5rem; text-align: center; font-family: 'Roboto Condensed', sans-serif; position: relative; }
+    .card h2 { font-family: 'Anton', sans-serif; font-size: 1.8rem; text-transform: uppercase; margin-bottom: .25rem; }
+    .card input[type=email] { width: 100%; padding: .7rem; border: 1px solid #000; background: #fff; margin: .75rem 0 .5rem; }
+    .card button.go { width: 100%; background: #000; color: #fff; padding: .7rem; font-weight: 700; text-transform: uppercase; }
+    .card button.go:hover { background: #da4944; }
+    .close { position: absolute; top: .4rem; right: .7rem; font-size: 1.5rem; line-height: 1; }
+    .pw { margin-top: 1.25rem; opacity: .35; transition: opacity .2s; }
+    .pw:hover, .pw:focus-within { opacity: 1; }
+    .pw input { width: 6rem; padding: .2rem .4rem; border: 0; border-bottom: 1px solid #000; background: transparent; text-align: center; font-size: .8rem; }
+    .pw input.bad { border-color: #da4944; }
+    #msg { font-size: .85rem; min-height: 1.2rem; }
+
+  </style>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body class="relative flex items-center justify-center h-screen m-0 p-0 overflow-hidden" style="background-color: #da4944;">
+  <button class="logo-container" id="eye" aria-label="Open the eye">
+    <img src="https://i.ibb.co/23z6psTD/NEW-EYE-LOGO-BLACK-VEC.png" alt="Eye" />
+  </button>
+  <pre id="flashingText" class="stretched-text">WAKE UP</pre>
+  <div class="soon">Coming soon</div>
+
+  <div id="modal" role="dialog" aria-modal="true" aria-label="Join the list">
+    <div class="card">
+      <button class="close" id="close" aria-label="Close">&times;</button>
+      <h2>Be first</h2>
+      <p>New World Order. Pre-orders open soon.</p>
+      <form id="f" action="https://assets.mailerlite.com/jsonp/1660429/forms/159738966717761336/subscribe" method="post" target="ml">
+        <input type="email" name="fields[email]" placeholder="your@email.com" required autocomplete="email">
+        <input type="hidden" name="ml-submit" value="1">
+        <button class="go" type="submit">Notify me</button>
+      </form>
+      <iframe name="ml" hidden></iframe>
+      <p id="msg" role="status"></p>
+      <form class="pw" id="pf" autocomplete="off">
+        <input type="password" id="pwd" placeholder="&middot;&middot;&middot;&middot;" aria-label="Access code">
+      </form>
+    </div>
+  </div>
+
+  <script src="gate.js"></script>
+  <script>
+    const el = document.getElementById('flashingText');
+    const words = ["WAKE UP", "JOIN US", "AWAKEN", "CULT", "SEE TRUTH", "OPEN EYES", "OR", "OBEY", "BE AWARE"];
+    let i = 0;
+    setInterval(() => { el.textContent = words[i]; i = (i + 1) % words.length; }, 200);
+    const m = document.getElementById('modal'), msg = document.getElementById('msg');
+    document.getElementById('eye').onclick = () => { m.classList.add('open'); };
+    document.getElementById('close').onclick = () => m.classList.remove('open');
+    m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') m.classList.remove('open'); });
+    document.getElementById('f').addEventListener('submit', () => {
+      setTimeout(() => { document.getElementById('f').style.display = 'none'; msg.textContent = 'You are on the list.'; }, 600);
+    });
+    document.getElementById('pf').addEventListener('submit', async e => {
+      e.preventDefault();
+      const inp = document.getElementById('pwd');
+      if (await AWAKEN_GATE.check(inp.value)) location.href = 'index.html';
+      else { inp.classList.add('bad'); inp.value = ''; }
+    });
+  </script>
+</body>
+</html>

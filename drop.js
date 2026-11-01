@@ -7,7 +7,7 @@
  *              Leave null and the banner says PRE-ORDERS OPEN with no countdown.
  *   shipsBy    Text shown to customers, e.g. '15 December 2026'. Leave null and the
  *              site says "after the drop closes".
- *   productIds 3 to 5 hero items. Anything not listed is shown under Archive and cannot be bought.
+ *   productIds 3 to 5 hero items. Anything not listed is shown under Coming soon and cannot be bought.
  *   status     'preorder' while open, 'closed' to shut the drop early.
  */
 window.AWAKEN_DROP = {
@@ -15,7 +15,7 @@ window.AWAKEN_DROP = {
   status: 'preorder',
   closesAt: null,
   shipsBy: null,
-  productIds: ['p6', 'p2', 'p1', 'p4', 'p5', 'p3']
+  productIds: ['p6', 'p2', 'p1', 'p4', 'p8', 'p3']
 };
 
 (function () {
