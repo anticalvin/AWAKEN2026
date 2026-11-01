@@ -36,6 +36,10 @@ document.addEventListener('DOMContentLoaded', function () {
     var k = el.dataset.showIf;
     el.hidden = !(P[k] || window[k]);
   });
+  document.querySelectorAll('[data-hide-if]').forEach(function (el) {
+    var k = el.dataset.hideIf;
+    el.hidden = !!(P[k] || window[k]);
+  });
   var m = document.getElementById('measurements');
   if (m && P.measurements && P.measurements.rows && P.measurements.rows.length) {
     var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
