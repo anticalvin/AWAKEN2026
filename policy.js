@@ -29,7 +29,7 @@ window.AFFILIATE_TERMS = null;
 document.addEventListener('DOMContentLoaded', function () {
   var P = window.AWAKEN_POLICY;
   document.querySelectorAll('[data-owner]').forEach(function (el) {
-    var v = P[el.dataset.owner];
+    var v = P[el.dataset.owner] || window[el.dataset.owner];
     if (v) el.textContent = v;
   });
   document.querySelectorAll('[data-show-if]').forEach(function (el) {

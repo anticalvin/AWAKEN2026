@@ -1,83 +1,402 @@
+<!DOCTYPE html>
 <html lang="en">
- <head>
-  <meta charset="utf-8"/>
+<head>
+  <meta charset="UTF-8" />
   <link rel="canonical" href="https://awakencult.com/about.html">
   <script src="gate.js"></script>
-  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>About | AWAKEN Cult</title>
-  <script src="https://cdn.tailwindcss.com">
-  </script>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&amp;display=swap" rel="stylesheet"/>
-  <link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Oswald:wght@700&family=Playfair+Display&family=Roboto+Condensed:wght@300;400;700&family=Roboto+Slab:wght@300;400;700&display=swap">
   <style>
-   body {
-      font-family: 'Roboto Mono', monospace;
+
+    /* Custom font classes - Consistent with main site */
+    .font-anton { font-family: 'Anton', sans-serif; }
+    .font-roboto-condensed { font-family: 'Roboto Condensed', sans-serif; }
+    .font-roboto-slab { font-family: 'Roboto Slab', serif; }
+    .font-tattler { font-family: 'Anton', sans-serif; letter-spacing: -0.05em; }
+    .font-national { font-family: 'Oswald', sans-serif; font-weight: 700; letter-spacing: 0.1em; }
+
+    /* Basic body styles - Consistent with main site */
+    body {
+      background-color: #f3f0e7; /* Light newspaper-like background */
+      color: #000; /* Black text */
+      font-family: 'Roboto Slab', serif; /* Default font for manifesto body */
+      line-height: 1.6;
+      overflow-x: hidden; /* Prevent horizontal scrolling */
+      margin: 0; /* Ensure no default body margin */
+      padding: 0; /* Ensure no default body padding */
     }
+
+    /* General section padding and max-width - Consistent with main site */
+    .content-section {
+      padding: 3rem 1rem; /* Default vertical padding for sections */
+      max-width: 1280px; /* Max width for content */
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Header specific styles - Consistent with main site */
+    header {
+        background-color: #d94a44;
+        display: flex;
+        justify-content: space-between; /* Space between logo and nav */
+        align-items: center; /* Vertically center */
+        width: 100%;
+        box-sizing: border-box;
+        position: sticky; /* Make header sticky */
+        top: 0;
+        z-index: 99;
+        padding: 0.5rem 1rem; /* Consistent padding */
+    }
+    header .header-logo {
+        font-family: 'Anton', sans-serif;
+        font-size: 4rem; /* Default size for mobile */
+        color: #f3f0e7;
+        line-height: 1;
+        text-decoration: none;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+    header .header-logo:hover {
+        color: #fff;
+    }
+    header nav {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center; /* Center nav items horizontally if they wrap */
+        flex-wrap: wrap; /* Allow nav items to wrap */
+    }
+    header nav a {
+        color: #f3f0e7;
+        font-family: 'Roboto Condensed', sans-serif;
+        font-size: 0.875rem;
+        text-decoration: none;
+        margin: 0 0.5rem; /* Adjusted margin for wrapped items */
+        transition: underline 0.2s;
+    }
+    header nav a:hover {
+        text-decoration: underline;
+    }
+    .cart-icon-container {
+      position: relative;
+      cursor: pointer;
+      color: #f3f0e7;
+      font-size: 1.5rem;
+      margin-left: 1.5rem;
+    }
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: black;
+      color: white;
+      border-radius: 50%;
+      padding: 0.1rem 0.4rem;
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+
+    /* Manifesto specific styles */
+    .manifesto-container {
+      border: 1px solid black;
+      padding: 2rem;
+      background-color: #fff; /* Slightly whiter background for the manifesto content itself */
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+    }
+
+    .manifesto-logo-container {
+      text-align: center;
+      margin-bottom: 1rem; /* Space between logo and title */
+    }
+
+    .manifesto-logo {
+      width: 100px; /* Adjust size as needed */
+      height: auto;
+      display: inline-block; /* Allows centering */
+    }
+
+    .manifesto-title {
+      font-family: 'Anton', sans-serif;
+      font-size: 4rem;
+      line-height: 1;
+      text-align: center;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      color: #d94a44; /* Use the header red for emphasis */
+    }
+
+    .manifesto-subtitle {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: 1.5rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      font-weight: bold;
+    }
+
+    .manifesto-section-title {
+      font-family: 'Anton', sans-serif;
+      font-size: 2.5rem;
+      line-height: 1.1;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      border-bottom: 2px solid black;
+      padding-bottom: 0.5rem;
+      text-transform: uppercase;
+    }
+
+    .manifesto-paragraph {
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+      text-align: justify; /* Justify text for newspaper feel */
+    }
+
+    .manifesto-quote {
+      font-family: 'Roboto Slab', serif;
+      font-style: italic;
+      font-size: 1.2rem;
+      border-left: 4px solid #d94a44;
+      padding-left: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    /* Columns for manifesto body on larger screens */
+    @media (min-width: 768px) {
+      .manifesto-body-columns {
+        column-count: 2;
+        column-gap: 2rem;
+      }
+    }
+    @media (min-width: 1024px) {
+      .manifesto-body-columns {
+        column-count: 3;
+        column-gap: 2.5rem;
+      }
+    }
+
+    /* Footer adjustments - Consistent with main site */
+    footer {
+      border-top: 1px solid black;
+      padding: 1.5rem 1rem;
+      font-size: 0.75rem;
+      text-align: center;
+    }
+    footer a {
+      text-decoration: underline;
+      color: inherit;
+    }
+    footer .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 0.75rem;
+      font-size: 1.25rem;
+    }
+
+    /* Responsive adjustments for header */
+    @media (min-width: 1024px) { /* Desktop screens and up */
+      header .header-logo {
+        font-size: 6rem;
+      }
+      header nav a {
+        font-size: 1rem;
+        margin-left: 2.5rem;
+      }
+    }
+    @media (max-width: 1023px) { /* All screens smaller than desktop */
+      header {
+          flex-direction: column; /* Stack logo and nav vertically on mobile/tablet */
+          align-items: center; /* Center items when stacked */
+      }
+      header .header-logo {
+          font-size: 4rem;
+          margin-bottom: 0.5rem; /* Space below logo when stacked */
+          margin-left: 0; /* Remove left margin when centered */
+      }
+      header nav {
+          margin-top: 0.5rem; /* Space above nav when stacked */
+          margin-right: 0; /* Remove right margin when centered */
+      }
+      .cart-icon-container {
+        font-size: 1.2rem;
+      }
+    }
+    /* Responsive adjustments for manifesto text */
+    @media (max-width: 768px) {
+      .manifesto-title {
+        font-size: 3rem;
+      }
+      .manifesto-subtitle {
+        font-size: 1.2rem;
+      }
+      .manifesto-section-title {
+        font-size: 2rem;
+      }
+      .manifesto-paragraph {
+        font-size: 1rem;
+      }
+      .manifesto-quote {
+        font-size: 1rem;
+      }
+    }
+    @media (max-width: 480px) {
+      .manifesto-title {
+        font-size: 2.5rem;
+      }
+      .manifesto-subtitle {
+        font-size: 1rem;
+      }
+      .manifesto-section-title {
+        font-size: 1.5rem;
+      }
+      .manifesto-paragraph {
+        font-size: 0.9rem;
+      }
+      .manifesto-quote {
+        font-size: 0.9rem;
+      }
+    }
+
   </style>
-   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <meta name="description" content="About AWAKEN Cult: a collective for awakening and transformation.">
+  <link rel="stylesheet" href="site.css">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <meta name="description" content="About AWAKEN: a small clothing label dressed as a cult. Limited drops, sold by pre-order.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="AWAKEN Cult">
   <meta property="og:title" content="About | AWAKEN Cult">
-  <meta property="og:description" content="About AWAKEN Cult: a collective for awakening and transformation.">
+  <meta property="og:description" content="About AWAKEN: a small clothing label dressed as a cult. Limited drops, sold by pre-order.">
   <meta property="og:image" content="https://awakencult.com/assets/og.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="About | AWAKEN Cult">
-  <meta name="twitter:description" content="About AWAKEN Cult: a collective for awakening and transformation.">
+  <meta name="twitter:description" content="About AWAKEN: a small clothing label dressed as a cult. Limited drops, sold by pre-order.">
   <meta name="twitter:image" content="https://awakencult.com/assets/og.jpg">
 </head>
- <body class="bg-black text-white p-6 min-h-screen flex items-center justify-center">
-  <div class="max-w-xl w-full">
-   <a href="index.html" id="back-link" class="inline-block mb-4 text-xs font-mono underline py-2">&larr; Back</a>
-   <div class="flex items-center space-x-3 mb-6">
-    <img alt="Red triangular AWAKEN CULT logo with horizontal stripes" class="w-20 h-15 object-contain" height="60" src="https://i.ibb.co/R49Dxwg7/NEW-EYE-LOGO-WHITE-VEC.png" width="80"/>
-    <div class="text-white leading-tight">
-     <h1 class="text-2xl font-semibold">
-      AWAKEN
-     </h1>
-     <h2 class="text-2xl font-semibold -mt-1">
-      CULT
-     </h2>
-     <p class="text-xs font-mono mt-1">
-      www.awakencult.com
-     </p>
+<body>
+  <!-- Header - Consistent with main site -->
+  <header class="bg-[#d94a44] px-3 pt-2 pb-1">
+    <a href="index.html" class="header-logo">AWAKEN</a>
+    <nav>
+      <a href="shop.html">Shop</a>
+      <a href="manifesto.html">Manifesto</a>
+      <a href="join-us.html">Join Us</a>
+      <a href="about.html">About</a>
+      <div class="cart-icon-container" onclick="toggleCart()">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count" id="cart-count">0</span>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Manifesto Content Section -->
+  <section class="about-wrap">
+    <a href="index.html" id="back-link" class="about-back">&larr; Back</a>
+    <div class="about-head">
+      <h1>About AWAKEN</h1>
+      <p class="about-standfirst">A clothing label dressed as a cult. Or the other way round.</p>
     </div>
-   </div>
-   <pre class="text-xs font-mono whitespace-pre-wrap leading-relaxed mb-6">
-AWAKEN CULT (C) 2025 AWAKEN CULT VISIONS, Inc.
 
-About Us:
-AWAKEN CULT is a visionary collective dedicated to awakening consciousness and inspiring transformation. We explore the boundaries of mind, spirit, and creativity to create a new paradigm.
+    <div class="poster">
+      <div class="cell">
+        <div class="rot">
+          <p class="p-sm">SMALL RUNS</p>
+          <p class="p-md"><strong>MADE TO ORDER</strong></p>
+          <p class="p-sm">NO OVERSTOCK</p>
+          <p class="p-sm">DROP DATES ARE REAL</p>
+          <p class="p-xs">CLOSE AND SHIP DATES SHOWN BEFORE YOU PAY</p>
+          <p class="p-md"><strong>STAND.<br>ASK WHO PROFITS.</strong></p>
+        </div>
+      </div>
+      <div class="cell">
+        <p class="p-sm">AWAKEN HOUSE RULES</p>
+        <p class="p-xl">FIVE RULES</p>
+        <span class="poster-eye" role="img" aria-label="AWAKEN eye logo"></span>
+        <p class="p-sm">Check before you share.</p>
+        <p class="p-sm"><strong>Ask who profits.</strong></p>
+        <p class="p-sm">Make something.</p>
+        <p class="p-sm">Be decent in person.</p>
+        <p class="p-sm">Repeat.</p>
+        <p class="p-md"><strong>WEAR IT.<br>EXPLAIN IT.</strong></p>
+      </div>
+      <div class="cell">
+        <p class="p-sm">WE MAKE</p>
+        <p class="p-lg">CLOTHES</p>
+        <p class="p-sm">THAT GET</p>
+        <p class="p-lg">ASKED</p>
+        <p class="p-sm">ABOUT</p>
+        <p class="p-lg">IT</p>
+      </div>
+      <div class="cell">
+        <p class="p-xl">NEW WORLD ORDER</p>
+      </div>
+      <div class="cell">
+        <p class="p-md" id="poster-status">PRE-ORDERS OPEN</p>
+      </div>
+      <div class="cell">
+        <img src="assets/products/fake-news-hoodie.webp" alt="AWAKEN Fake News Hoodie" width="320" height="320" loading="lazy">
+      </div>
+    </div>
 
-Our Mission:
-To empower individuals through knowledge, creativity, and community, fostering a culture of awakening and evolution.
+    <div class="about-prose">
+      <h2>What we are</h2>
+      <p>AWAKEN is a small clothing label with a big costume. The cult is the aesthetic. The clothes are real, the drops are limited, and the point is simple: wear something that makes people ask a question.</p>
+      <h2>What we make</h2>
+      <p>Hoodies, tees, caps and the occasional piece of tactical nonsense. Each piece carries one idea. Most of them are about paying attention.</p>
+      <h2>How drops work</h2>
+      <p>We open a pre-order window. When it closes, we make what was ordered, then we ship. No overstock, no clearance bin. The close date and the ship-by date are shown before you pay. Full terms are on the <a href="returns.html#preorder-terms">pre-order terms</a> page.</p>
+      <h2>What we believe</h2>
+      <p>Check before you share. Ask who profits. Make something. Be decent in person. The longer version is in the <a href="manifesto.html">manifesto</a>.</p>
+      <div data-show-if="ABOUT_FOUNDER" hidden>
+        <h2>Who's behind it</h2>
+        <p data-owner="ABOUT_FOUNDER"></p>
+      </div>
+      <h2>Get in touch</h2>
+      <p>Orders and sizing: <a href="mailto:info@awakencult.com">info@awakencult.com</a>. Collabs, press and stockists: same address, say which in the subject line. Instagram: <a href="https://instagram.com/awakencult" target="_blank" rel="noopener">@awakencult</a>.</p>
+    </div>
+  </section>
 
-Contact:
-Email: info@awakencult.com
-Website: www.awakencult.com
-   </pre>
-   <div class="text-xs font-mono">
-    <p>
-     Press
-     <span class="font-bold">
-      ESC
-     </span>
-     to visit our website
-    </p>
-    <p>
-     Press
-     <span class="font-bold">
-      &lt;ENTER&gt;
-     </span>
-     for contact options
-    </p>
-   </div>
-  </div>
-   <script>
-   // Back goes to the page the visitor came from; direct visits fall back to the homepage.
-   const back = () => { (document.referrer && new URL(document.referrer).origin === location.origin && history.length > 1) ? history.back() : (location.href = "index.html"); };
-   document.getElementById("back-link").addEventListener("click", e => { e.preventDefault(); back(); });
-   document.addEventListener("keydown", e => { if (e.key === "Escape") back(); });
+  <!-- New Section with Provided Text Layout -->
+
+  <!-- Footer - Consistent with main site -->
+  <footer class="bg-[#f3f0e7] border-t border-black text-xs font-roboto-condensed text-center py-4">
+    <div class="max-w-6xl mx-auto px-4">
+      <nav class="footer-links" aria-label="Store information">
+        <a href="shipping.html">Shipping</a>
+        <a href="returns.html">Returns</a>
+        <a href="returns.html#preorder-terms">Pre-order terms</a>
+        <a href="size-guide.html">Size guide</a>
+        <a href="faq.html">FAQ</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <p class="mb-2">© 2026 AWAKEN CULT. Contact: <a href="mailto:info@awakencult.com" class="underline">info@awakencult.com</a></p>
+      <div class="social-icons">
+        <a href="https://instagram.com/awakencult" class="hover:text-gray-600" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://x.com/awakencult" class="hover:text-gray-600" target="_blank"><i class="fab fa-twitter"></i></a>
+        <a href="https://youtube.com/@awakencult" target="_blank"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+  </footer>
+  <script src="analytics.js"></script>
+  <script src="products.js"></script>
+  <script src="drop.js"></script>
+  <script src="policy.js"></script>
+  <script src="cart.js"></script>
+  <script>
+    (function () {
+      function back() {
+        var r = document.referrer;
+        if (r && r.indexOf(location.origin) === 0 && history.length > 1) history.back();
+        else location.href = 'index.html';
+      }
+      document.getElementById('back-link').addEventListener('click', function (e) { e.preventDefault(); back(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') back(); });
+      document.addEventListener('DOMContentLoaded', function () {
+        if (window.AWAKEN_DROP && AWAKEN_DROP.isClosed()) document.getElementById('poster-status').textContent = 'CLOSED';
+      });
+    })();
   </script>
- </body>
+</body>
 </html>
