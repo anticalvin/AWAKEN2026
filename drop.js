@@ -127,6 +127,9 @@ window.AWAKEN_DROP = {
     if (!meta) { meta = document.createElement('meta'); meta.name = 'theme-color'; document.head.appendChild(meta); }
     meta.content = colour;
     document.documentElement.style.backgroundColor = colour;
+    let bar = document.getElementById('chrome-bar');
+    if (!bar && document.body) { bar = document.createElement('div'); bar.id = 'chrome-bar'; bar.setAttribute('aria-hidden', 'true'); document.body.prepend(bar); }
+    if (bar) bar.style.backgroundColor = colour;
   }
 
   document.addEventListener('DOMContentLoaded', () => {

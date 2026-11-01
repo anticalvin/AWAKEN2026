@@ -135,7 +135,7 @@
   <button class="logo-container" id="eye" aria-label="Open the eye">
     <img src="assets/img/NEW-EYE-LOGO-BLACK-VEC.png" alt="Eye" />
   </button>
-  <pre id="flashingText" class="stretched-text">WAKE UP</pre>
+  <pre id="flashingText"></pre>
   <div class="soon">Coming soon</div>
 
   <div id="modal" role="dialog" aria-modal="true" aria-label="Join the list">
@@ -163,13 +163,14 @@
     </div>
   </div>
 
+  <script src="fit.js"></script>
   <script src="gate.js"></script>
   <script src="signup.js"></script>
   <script>
-    const el = document.getElementById('flashingText');
     const words = ["WAKE UP", "NEW", "WORLD", "ORDER", "JOIN US", "AWAKEN", "CULT", "SEE TRUTH", "OPEN EYES", "OR", "OBEY", "BE AWARE"];
     let i = 0;
-    setInterval(() => { el.textContent = words[i]; i = (i + 1) % words.length; }, 200);
+    const step = () => { fitWord(words[i]); i = (i + 1) % words.length; };
+    step(); setInterval(step, 200);
     const m = document.getElementById('modal'), msg = document.getElementById('msg');
     document.getElementById('eye').onclick = () => { m.classList.add('open'); };
     document.getElementById('close').onclick = () => m.classList.remove('open');

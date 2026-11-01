@@ -119,11 +119,11 @@
   <!-- 
     The text is "WAKE UP" and set to display on a single line.
   -->
-  <pre id="flashingText" class="stretched-text">WAKE UP</pre>
+  <pre id="flashingText"></pre>
+  <script src="fit.js"></script>
 
   <script>
     // Get the text element by its ID
-    const flashingTextElement = document.getElementById('flashingText');
 
     // Define the words to cycle through
     const words = ["WAKE UP", "NEW", "WORLD", "ORDER", "JOIN US", "AWAKEN", "CULT", "SEE TRUTH", "OPEN EYES", "OR" , "OBEY", "BE AWARE"]; 
@@ -132,7 +132,7 @@
     // Function to update the text content
     function updateText() {
       // Set the text content to the current word in the array
-      flashingTextElement.textContent = words[wordIndex];
+      fitWord(words[wordIndex]);
       // Move to the next word, cycling back to the beginning if the end is reached
       wordIndex = (wordIndex + 1) % words.length;
     }
