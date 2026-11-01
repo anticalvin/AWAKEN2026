@@ -23,7 +23,7 @@ window.AWAKEN_PRODUCTS = [
       }
     ],
     "maxPerCart": 1,
-    "lore": "Make Cults Great Again. Worn at every gathering since the early days.",
+    "lore": "Make Cults Great Again. Nobody remembers who wore it first. Everyone remembers seeing it.",
     "details": { "fabric": null, "fit": null, "print": null, "madeIn": null }
   },
   {
@@ -57,7 +57,7 @@ window.AWAKEN_PRODUCTS = [
         "shopifyVariantId": "gid://shopify/ProductVariant/41554317410407"
       }
     ],
-    "lore": "\"They feed you lies. We wear the truth.\" First seen during the Information Purge of 2023.",
+    "lore": "\"They feed you lies. We wear the truth.\" Heavy enough to keep the headlines out.",
     "details": { "fabric": null, "fit": null, "print": null, "madeIn": null }
   },
   {
@@ -91,7 +91,7 @@ window.AWAKEN_PRODUCTS = [
         "shopifyVariantId": "gid://shopify/ProductVariant/41554323275879"
       }
     ],
-    "lore": "Worn by the first initiates. Side effects include clarity.",
+    "lore": "Worn by the first ones through the door. Side effects: clarity, mild suspicion.",
     "details": { "fabric": null, "fit": null, "print": null, "madeIn": null }
   },
   {
@@ -117,7 +117,7 @@ window.AWAKEN_PRODUCTS = [
         "shopifyVariantId": "gid://shopify/ProductVariant/41554326421607"
       }
     ],
-    "lore": "Appeared to the founder in a vision. He sewed it anyway.",
+    "lore": "Arrived in a dream, uninvited. Stitched anyway.",
     "details": { "fabric": null, "fit": null, "print": null, "madeIn": null }
   },
   {
@@ -169,7 +169,7 @@ window.AWAKEN_PRODUCTS = [
         "shopifyVariantId": "gid://shopify/ProductVariant/41554330320999"
       }
     ],
-    "lore": "For when the truth must be spoken and the face must not.",
+    "lore": "For when the truth has to be said and the face doesn't.",
     "details": { "fabric": null, "fit": null, "print": null, "madeIn": null }
   },
   {
@@ -195,7 +195,7 @@ window.AWAKEN_PRODUCTS = [
         "shopifyVariantId": "gid://shopify/ProductVariant/41554597740647"
       }
     ],
-    "lore": "Reserved for the inner circle. The criteria remain undisclosed.",
+    "lore": "Small fit, loud opinion. Reserved for the inner circle, whose criteria remain undisclosed.",
     "details": { "fabric": null, "fit": null, "print": null, "madeIn": null }
   },
   {
@@ -221,7 +221,7 @@ window.AWAKEN_PRODUCTS = [
         "shopifyVariantId": "gid://shopify/ProductVariant/41554599870567"
       }
     ],
-    "lore": "For the moment the truth lands. Hard.",
+    "lore": "For the moment it lands. Hard.",
     "details": { "fabric": null, "fit": null, "print": null, "madeIn": null }
   },
   {
@@ -247,7 +247,7 @@ window.AWAKEN_PRODUCTS = [
         "shopifyVariantId": "gid://shopify/ProductVariant/41554600067175"
       }
     ],
-    "lore": "The New World Order, sleeveless.",
+    "lore": "The New World Order, sleeveless. Nothing to hide, nowhere to hide it.",
     "details": { "fabric": null, "fit": null, "print": null, "madeIn": null }
   },
   {
@@ -290,7 +290,7 @@ window.AWAKEN_PRODUCTS = [
         "shopifyVariantId": "gid://shopify/ProductVariant/41554605310055"
       }
     ],
-    "lore": "Standard issue for those who go looking.",
+    "lore": "Standard issue for those who go looking. Built to keep up.",
     "details": { "fabric": null, "fit": null, "print": null, "madeIn": null }
   },
   {
@@ -308,7 +308,7 @@ window.AWAKEN_PRODUCTS = [
         "shopifyVariantId": "gid://shopify/ProductVariant/41554605703271"
       }
     ],
-    "lore": "The storm was forecast. By us.",
+    "lore": "The storm was forecast. By us. Wear it out in the weather.",
     "details": { "fabric": null, "fit": null, "print": null, "madeIn": null }
   },
   {
@@ -342,7 +342,7 @@ window.AWAKEN_PRODUCTS = [
         "shopifyVariantId": "gid://shopify/ProductVariant/41554606227559"
       }
     ],
-    "lore": "Named for the elder who walked the first initiates through. Comfortable by design.",
+    "lore": "Named for the one who walked the first ones through. Comfortable by design, in case you stay a while.",
     "details": { "fabric": null, "fit": null, "print": null, "madeIn": null }
   }
 ];
