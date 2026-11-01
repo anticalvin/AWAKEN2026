@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /coming-soon.html
+Disallow: /eye.html
+Disallow: /game.html
+Disallow: /cult.html
+Disallow: /archive-detail.html
+Disallow: /archives.html
+Disallow: /breaking-news.html
+
+Sitemap: https://awakencult.com/sitemap.xml
