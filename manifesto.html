@@ -261,227 +261,6 @@
       }
     }
 
-    /* New section styles for the provided layout */
-    .manifesto-additional-content {
-        background-color: #f3f0e7; /* Same as body background */
-        padding: 2rem 1rem; /* Adjust padding as needed */
-        margin-top: 3rem; /* Add top margin to separate from manifesto */
-        font-family: 'Anton', sans-serif; /* Apply Anton font to all new content */
-    }
-
-    .manifesto-additional-content .grid {
-        display: grid;
-        grid-template-columns: 1fr; /* Default to single column for mobile */
-        gap: 2rem; /* Gap between columns/rows */
-        max-width: 1280px; /* Max width for content */
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    /* Adjust grid for desktop to ensure proper left-middle-right alignment */
-    @media (min-width: 768px) { /* Tablet and up */
-        .manifesto-additional-content .grid {
-            grid-template-columns: repeat(3, 1fr); /* 3 columns for larger screens */
-            justify-items: center; /* Center items within their grid cells */
-            align-items: start; /* Align items to the start of their cells vertically */
-        }
-    }
-
-    .manifesto-additional-content .col-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center; /* Center content horizontally within the column */
-        text-align: center;
-        position: relative; /* Make col-item a positioning context */
-    }
-
-    /* Desktop styles for vertical-text-group */
-    .manifesto-additional-content .vertical-text-group {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start; /* Align children to the start (left) */
-        min-height: 250px; /* Ensure enough height for all content */
-        width: 100%;
-        box-sizing: border-box;
-        position: relative; /* Make it a positioning context for absolute children */
-        max-width: 200px; /* Constrain the width of the rotated text block */
-    }
-
-    /* Adjust the parent col-item for the left column to shift the entire block on desktop */
-    @media (min-width: 768px) {
-      .manifesto-additional-content .col-item:nth-child(1) {
-          margin-top: 100px;
-          margin-left: 100px;
-          align-items: flex-start;
-      }
-    }
-
-    /* Desktop styles for rotated text within the first column */
-    .manifesto-additional-content .vertical-text-group p {
-        transform: rotate(-90deg);
-        white-space: nowrap;
-        line-height: 1;
-        margin: 0;
-        padding: 0;
-        transform-origin: left center;
-        position: absolute;
-        width: max-content;
-        max-width: 150px;
-    }
-
-    /* Precise positioning for each rotated line relative to its rotated state on desktop */
-    .manifesto-additional-content .vertical-text-group p:nth-child(1) { top: 0px; left: -80px; }
-    .manifesto-additional-content .vertical-text-group p:nth-child(2) { top: 40px; left: -65px; }
-    .manifesto-additional-content .vertical-text-group p:nth-child(3) { top: 90px; left: -50px; }
-    .manifesto-additional-content .vertical-text-group p:nth-child(4) { top: 115px; left: -40px; }
-    .manifesto-additional-content .vertical-text-group p:nth-child(5) { top: 140px; left: -30px; }
-    .manifesto-additional-content .vertical-text-group .stand-embrace-text {
-        bottom: 0px;
-        left: -45px;
-        font-weight: 800;
-        font-size: 20px;
-        line-height: 1;
-    }
-
-
-    /* Ensure center and right column items are centered */
-    .manifesto-additional-content .col-item:nth-child(2),
-    .manifesto-additional-content .col-item:nth-child(3),
-    .manifesto-additional-content .col-item:nth-child(5),
-    .manifesto-additional-content .col-item:nth-child(6) {
-        align-items: center; /* Center content horizontally */
-        text-align: center; /* Center text within the content */
-    }
-
-    .manifesto-additional-content .center-text-group p {
-        line-height: 1;
-        margin-bottom: 0.25rem; /* Tighten for center group */
-    }
-
-    .manifesto-additional-content .right-text-group p {
-        line-height: 1;
-        margin-bottom: 0.25rem; /* Tighten for right group */
-    }
-
-    .manifesto-additional-content img {
-        display: block; /* Ensure images behave as blocks */
-        margin: 0 auto; /* Center images */
-        max-width: 100%; /* Ensure images don't overflow their containers */
-        height: auto; /* Maintain aspect ratio */
-        object-fit: contain; /* Prevent stretching */
-    }
-
-    .manifesto-additional-content .border-line {
-        border-left: 2px solid black;
-        padding-left: 0.5rem;
-        position: relative;
-        min-height: 160px; /* Ensure enough height for the lines */
-    }
-    /* Adjusted pseudo-elements to align with the border-line */
-    .manifesto-additional-content .border-line::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0; /* Align with the parent's left edge */
-        width: 2px;
-        height: 80px;
-        background-color: black;
-    }
-    .manifesto-additional-content .border-line::after {
-        content: '';
-        position: absolute;
-        top: 80px;
-        left: 0; /* Align with the parent's left edge */
-        width: 2px;
-        height: 40px;
-        border-bottom: 2px solid black;
-    }
-    /* Additional lines for the right column's border effect */
-    .manifesto-additional-content .border-line-extra-1::before {
-        content: '';
-        position: absolute;
-        top: 120px;
-        left: 0;
-        width: 2px;
-        height: 20px;
-        border-bottom: 2px solid black;
-    }
-    .manifesto-additional-content .border-line-extra-2::before {
-        content: '';
-        position: absolute;
-        top: 140px;
-        left: 0;
-        width: 2px;
-        height: 20px;
-        border-bottom: 2px solid black;
-    }
-
-    /* Mobile specific adjustments for the first column and rotated text */
-    @media (max-width: 767px) {
-      /* The parent column item for the rotated text */
-      .manifesto-additional-content .col-item:nth-child(1) {
-          margin: 0; /* Reset desktop margins */
-          width: 100%; /* Take full width */
-          display: flex; /* Enable flexbox */
-          justify-content: center; /* Center horizontally */
-          align-items: center; /* Center vertically */
-          min-height: 450px; /* Ample space for the rotated block */
-          padding: 2rem 0; /* Add some vertical padding */
-      }
-
-      /* The container for the rotated text block */
-      .manifesto-additional-content .vertical-text-group {
-          padding: 0; /* Remove any conflicting padding */
-          /* Define dimensions for the container *before* rotation */
-          /* These dimensions will swap when rotated - width becomes effective height, height becomes effective width */
-          width: 400px;  /* This will be the effective height after rotation */
-          height: 300px; /* This will be the effective width after rotation */
-          display: flex;
-          flex-direction: column;
-          justify-content: center; /* Center content vertically within this block (before rotation) */
-          align-items: center; /* Center content horizontally within this block (before rotation) */
-          position: relative; /* Keep relative for containing the rotated content */
-          overflow: visible; /* Ensure nothing is clipped */
-
-          /* Apply rotation to the entire container itself */
-          transform: rotate(-90deg);
-          transform-origin: center center; /* Rotate around its center */
-      }
-
-      /* Individual p tags within the rotated container */
-      .manifesto-additional-content .vertical-text-group p {
-          position: static; /* Remove absolute positioning on mobile */
-          transform: none; /* Remove individual rotation on mobile */
-          white-space: nowrap;
-          line-height: 1.2; /* Add some line height for spacing */
-          margin: 0.5rem 0; /* Add vertical margin between lines */
-          padding: 0;
-          text-align: center; /* Center text within each p tag */
-      }
-
-      /* Specific styles for the "STAND! EMBRACE THE TRUTH" text on mobile */
-      .manifesto-additional-content .vertical-text-group .stand-embrace-text {
-          font-weight: 800;
-          font-size: 20px;
-          line-height: 1.2;
-          margin-top: 1rem; /* More space above this prominent text */
-      }
-
-      /* Ensure the bottom middle image is truly centered on mobile */
-      .manifesto-additional-content .col-item:nth-child(5) img {
-          max-width: 80%;
-          width: auto;
-          margin-left: auto;
-          margin-right: auto;
-      }
-      /* Ensure the entire bottom-middle col-item is centered on mobile */
-      .manifesto-additional-content .col-item:nth-child(5) {
-          width: 100%;
-          align-items: center;
-          text-align: center;
-      }
-    }
-
   </style>
   <link rel="stylesheet" href="site.css">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -520,231 +299,47 @@
         <img src="assets/img/NEW-EYE-LOGO-BLACK-VEC.png" alt="AWAKEN Logo" class="manifesto-logo" />
       </div>
       <h1 class="manifesto-title">The Awakening Manifesto</h1>
-      <p class="manifesto-subtitle">A simple truth for a new world.</p>
+      <p class="manifesto-subtitle">Short version: pay attention to what has your attention.</p>
 
       <div class="manifesto-body-columns">
-        <h2 class="manifesto-section-title">I. The Fake World</h2>
+        <h2 class="manifesto-section-title">I. The Feed</h2>
         <p class="manifesto-paragraph">
-          You live in a lie. They feed you stories, distractions, and fake reality. They want you weak, buying their junk, and never seeing the truth. Your screens glow, news screams, and control tightens. You're a slave, and you don't even know it.
-        </p>
-        <p class="manifesto-paragraph">
-          They tell you what to think, how to feel, what to want. They get rich off your ignorance. The people you trust? Just tools in a bigger plan. Your past is rewritten, your future decided, your present a controlled show.
+          You didn't choose most of what you saw today. It was ranked, tested and served to you, because your attention is how someone else gets paid. That isn't a conspiracy. It's a business model, and it works.
         </p>
 
-        <h2 class="manifesto-section-title">II. Wake Up</h2>
+        <h2 class="manifesto-section-title">II. The Fog</h2>
         <p class="manifesto-paragraph">
-          But it's breaking. The truth is getting louder. A new feeling is rising, a hunger for real life, for freedom. This is the call to AWAKEN. It's your soul screaming to see past the fake, to break free, to take back what's yours.
+          Scroll long enough and everything blurs: the same opinions, the same outrage, the same shirt. You can feel it. You just can't name it. We think that feeling is worth listening to.
         </p>
+
+        <h2 class="manifesto-section-title">III. Awake</h2>
         <p class="manifesto-paragraph">
-          AWAKEN isn't just a group; it's how you live. It's daring to question everything, demanding real answers, and living by true rules. We want those with open minds and restless spirits. Join us.
+          Awake doesn't mean angry, and it doesn't mean certain. It means checking before you share, asking who profits, and being fine with not having a take. Question everything. Start with us.
         </p>
+
+        <h2 class="manifesto-section-title">IV. The Cult</h2>
+        <p class="manifesto-paragraph">
+          Yes, we know what the name sounds like. That's the joke, and the joke has a serious side: if someone is going to sell you a belief system, you should at least know you're being sold one. Ours comes as clothing. Wear it, and let people ask.
+        </p>
+
         <blockquote class="manifesto-quote">
-          "The truth isn't out there. It's inside you. Just open your eyes."
+          "Pay attention to what has your attention."
         </blockquote>
 
-        <h2 class="manifesto-section-title">III. The Real Path</h2>
-        <p class="manifesto-paragraph">
-          Our way is about finding yourself, truly, and waking up together. We strip away the lies, smash the fake idols, and build a new understanding of reality from scratch. We share knowledge, support each other, and stay focused. That's how we move forward.
-        </p>
-        <p class="manifesto-paragraph">
-          We believe in you, strong alone, stronger together. We are building the New World Order. Not one of chains, but of freedom. A world where truth wins, minds open, and people live real lives, finally free.
-        </p>
-
-        <h2 class="manifesto-section-title">IV. New Day. New You.</h2>
-        <p class="manifesto-paragraph">
-          No more just taking what they give you. A new time is here. A time of clear sight, real purpose, and true connection. Join AWAKEN. Face the truth. Be a light in the dark. Your awakening isn't just for you; it's for all of us. It's for the future.
-        </p>
-        <p class="manifesto-paragraph">
-          The fake world is crumbling. Are you ready for the real one?
-        </p>
+        <h2 class="manifesto-section-title">The five rules</h2>
+        <ol class="manifesto-rules">
+          <li>Check before you share.</li>
+          <li>Ask who profits.</li>
+          <li>Make something.</li>
+          <li>Be decent in person.</li>
+          <li>Repeat.</li>
+        </ol>
+        <p class="manifesto-cta"><a href="shop.html" class="manifesto-cta-btn">SEE THE DROP</a></p>
       </div>
     </div>
   </section>
 
   <!-- New Section with Provided Text Layout -->
-  <section class="manifesto-additional-content">
-    <main class="grid">
-      <!-- Top Left Vertical Text -->
-      <div class="col-item">
-        <div class="vertical-text-group">
-          <!-- Individual p tags no longer have absolute positioning on mobile -->
-          <p class="text-[10px] font-normal">
-            WE ARE READY AND WILLING TO IGNITE
-          </p>
-          <p class="font-extrabold text-[24px]">
-            JUST BORN TO AWAKEN
-          </p>
-          <p class="text-[10px] font-normal">
-            TRUE COMPANIONSHIP
-          </p>
-          <p class="text-[8px] font-normal">
-            EVERYTHING BELONGS TO US
-          </p>
-          <p class="text-[8px] font-normal">
-            BECAUSE WE ARE AWARE, UNCHAINED, UNAPPREHENSIVE
-          </p>
-          <!-- This text is now positioned by flexbox within the rotated group -->
-          <p class="font-extrabold text-[20px] stand-embrace-text">
-            STAND!
-            <br/>
-            EMBRACE THE TRUTH
-          </p>
-        </div>
-      </div>
-      <!-- Top Center -->
-      <div class="col-item">
-        <p class="text-[12px] font-normal">
-          #12 "FOREVER AWAKENED"
-        </p>
-        <p class="font-extrabold text-[32px]">
-          REVELATION
-        </p>
-        <img alt="AWAKEN Eye Logo" class="w-20 h-20" height="80" src="assets/img/NEW-EYE-LOGO-BLACK-VEC.png" width="80"/>
-        <p class="text-[10px] font-normal max-w-[180px]">
-          WE ARE READY AND WILLING TO IGNITE,
-        </p>
-        <p class="font-extrabold text-[14px]">
-          JUST BORN TO AWAKEN
-        </p>
-        <p class="text-[8px] font-normal max-w-[180px]">
-          TRUE COMPANIONSHIP
-        </p>
-        <p class="text-[8px] font-normal max-w-[180px]">
-          EVERYTHING BELONGS TO US
-        </p>
-        <p class="text-[8px] font-normal max-w-[180px]">
-          BECAUSE WE ARE AWARE, UNCHAINED, UNAPPREHENSIVE
-        </p>
-        <p class="font-extrabold text-[16px] mt-2">
-          STAND!
-          <br/>
-          EMBRACE THE TRUTH
-        </p>
-      </div>
-      <!-- Top Right -->
-      <div class="col-item">
-        <p class="font-extrabold text-[20px]">
-          WE ARE
-        </p>
-        <p class="font-extrabold text-[28px]">
-          READY
-        </p>
-        <p class="font-extrabold text-[20px]">
-          AND
-        </p>
-        <p class="font-extrabold text-[28px]">
-          WILLING
-        </p>
-        <p class="font-extrabold text-[20px]">
-          TO
-        </p>
-        <p class="font-extrabold text-[28px]">
-          IGNITE
-        </p>
-        <p class="font-extrabold text-[20px]">
-          JUST
-        </p>
-        <p class="font-extrabold text-[28px]">
-          BORN
-        </p>
-        <p class="font-extrabold text-[20px]">
-          TO
-        </p>
-        <p class="font-extrabold text-[28px]">
-          AWAKEN
-        </p>
-      </div>
-      <!-- Bottom Left -->
-      <div class="col-item">
-        <img alt="AWAKEN Symbol" class="w-24 h-24" height="100" src="assets/img/3rd-eye-smiley.png" width="100" loading="lazy" decoding="async"/>
-        <div class="text-[12px] font-extrabold text-center max-w-[180px]"> <!-- Increased font size -->
-          STAND WITH
-          <span class="font-normal">
-          [AND REJOICE] // AWAKEN
-          </span>
-        </div>
-        <div class="text-[10px] font-normal max-w-[180px] text-center"> <!-- Increased font size -->
-          SO MANY TRUTHS TO UNCOVER SO MANY MINDS TO FREE
-        </div>
-        <div class="text-[10px] font-normal max-w-[180px] text-center"> <!-- Increased font size -->
-          EMBRACE A SYMBOL, REFLECT IN SILENCE AND SECRECY
-        </div>
-        <div class="text-[10px] font-normal max-w-[180px] text-center"> <!-- Increased font size -->
-          RAISE A BANNER, RELEASE THE ENSLAVED, THE NEW DAWN AWAITS
-        </div>
-        <div class="text-[10px] font-extrabold max-w-[180px] text-center"> <!-- Increased font size -->
-          A THOUSAND MILES LONG, TWO LIGHTYEARS DEEP
-        </div>
-        <div class="text-[10px] font-normal max-w-[180px] text-center"> <!-- Increased font size -->
-          COULDN'T BREAK US, TRUTH EMERGES STRONG. MOUNTAINS KEEP BACK DRAGONIC WINGS AS CALMLY AS POSSIBLE, AS CALMLY AS
-        </div>
-        <div class="text-[10px] font-normal max-w-[180px] text-center"> <!-- Increased font size -->
-          POSSIBLE ...
-        </div>
-        <img alt="AWAKEN Hand Symbol" class="w-16 h-20 mx-auto" height="80" src="assets/img/snsb.png" width="60" loading="lazy" decoding="async"/>
-        <div class="text-[10px] font-extrabold max-w-[180px] text-center"> <!-- Increased font size -->
-          UNYIELDING RESISTANCE ICONIC TRUTH DEVOTED VIGILANCE NATURE, NATURE, NATURE SOME GREAT REWARD CODE OF AWAKENING
-        </div>
-      </div>
-      <!-- Bottom Center -->
-      <div class="col-item">
-        <p class="font-extrabold text-[28px]">
-          THE DAY IS HERE...
-        </p>
-        <p class="font-extrabold text-[28px]">
-          THE DAY IS HERE...
-        </p>
-        <p class="font-extrabold text-[28px]">
-          THE DAY IS HERE...
-        </p>
-        <img alt="AWAKEN Collective" class="max-w-xs mx-auto" height="120" src="assets/img/jhbhjb.png" width="220" loading="lazy" decoding="async"/>
-      </div>
-      <!-- Bottom Right -->
-      <div class="col-item items-start">
-        <p class="font-extrabold text-[16px]">
-          #12 "FOREVER AWAKENED"
-        </p>
-        <p class="font-extrabold text-[32px]">
-          REVELATION
-        </p>
-        <div class="border-line relative" style="min-height: 160px;">
-          <div class="absolute top-0 left-0 w-0.5 h-[80px] bg-black"></div>
-          <div class="absolute top-[80px] left: 0; width: 0.5px; height: 40px; border-b-2 border-black;"></div>
-          <div class="absolute top-[120px] left: 0; width: 0.5px; height: 20px; border-b-2 border-black;"></div>
-          <div class="absolute top-[140px] left: 0; width: 0.5px; height: 20px; border-bottom: 2px solid black;"></div>
-        </div>
-        <p class="font-extrabold text-[12px]">
-          WE BELIEVE
-          <br/>
-          WE REJECT THE LIES
-          <br/>
-          WE WERE TAUGHT TO ESCAPE
-          <br/>
-          WE'LL TAKE BACK CONTROL
-          <br/>
-          WE PLAN FOR A NEW WORLD
-          <br/>
-          WE SHALL OVERCOME
-          <br/>
-          WE PLEDGE OUR TRUTH
-          <br/>
-          WE BELIEVE IN AWAKENING
-          <br/>
-          WE REJECT THE OLD WAYS
-          <br/>
-          WE ARE SEEKING THE TRUTH
-          <br/>
-          WE'LL TAKE OUR FREEDOM
-          <br/>
-          WE PLAN FOR ENLIGHTENMENT
-          <br/>
-          WE SHALL RISE
-          <br/>
-          WE PLEDGE OUR ALLEGIANCE
-        </p>
-      </div>
-    </main>
-  </section>
 
   <!-- Footer - Consistent with main site -->
   <footer class="bg-[#f3f0e7] border-t border-black text-xs font-roboto-condensed text-center py-4">
