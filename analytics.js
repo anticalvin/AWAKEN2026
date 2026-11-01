@@ -8,7 +8,7 @@
  * Events sent: view_item, add_to_cart, begin_checkout (plus the automatic page view).
  */
 const ANALYTICS = {
-  plausibleDomain: '',
+  plausibleDomain: 'awakencult.com',
   ga4Id: ''
 };
 
