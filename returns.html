@@ -1008,16 +1008,16 @@
   <li><strong>You pay today.</strong> The full price, plus shipping, is charged at checkout.</li>
   <li><strong>We make it after the window closes.</strong> <span data-drop="name"></span> closes on <strong data-drop="closes"></strong>. Production starts after that.</li>
   <li><strong>Ship-by date.</strong> Your order ships by <strong data-drop="shipsBy"></strong>.</li>
-  <li><strong>Minimum run.</strong> A product is only made if enough people order it: <span class="owner-todo">OWNER TO CONFIRM: minimum units per product</span>. If a product does not reach its minimum, we cancel that item and refund it in full to the payment method you used. You do not need to ask.</li>
-  <li><strong>Cancelling before the window closes.</strong> <span class="owner-todo">OWNER TO CONFIRM: whether customers may cancel before close, and how</span></li>
-  <li><strong>If we are late.</strong> If we miss the ship-by date, you can cancel for a full refund. <span class="owner-todo">OWNER TO CONFIRM: how many days late before this applies</span></li>
+  <li data-show-if="minRun" hidden><strong>Minimum run.</strong> A product is only made if enough people order it: <span data-owner="minRun"></span>. If a product does not reach its minimum, we cancel that item and refund it in full to the payment method you used. You do not need to ask.</li>
+  <li data-show-if="cancelBeforeClose" hidden><strong>Cancelling before the window closes.</strong> <span data-owner="cancelBeforeClose"></span></li>
+  <li><strong>If we are late.</strong> If we miss the ship-by date, you can cancel for a full refund. <span data-show-if="lateDays" hidden>Grace period: <span data-owner="lateDays"></span>.</span></li>
 </ol>
 <h2>Refunds</h2>
-<p>Refunds go back to the original payment method. <span class="owner-todo">OWNER TO CONFIRM: how many business days refunds take to appear</span></p>
+<p>Refunds go back to the original payment method. <span data-show-if="refundDays" hidden>Refund timing: <span data-owner="refundDays"></span>.</span></p>
 <h2>Faulty or wrong item</h2>
-<p>If your item arrives damaged, faulty or not what you ordered, email <a href="mailto:info@awakencult.com">info@awakencult.com</a> within <span class="owner-todo">OWNER TO CONFIRM: number of days</span> of delivery with your order number and a photo. We replace it or refund it.</p>
+<p>If your item arrives damaged, faulty or not what you ordered, email <a href="mailto:info@awakencult.com">info@awakencult.com</a> <span data-show-if="faultyDays" hidden>within <span data-owner="faultyDays"></span> of delivery </span>with your order number and a photo. We replace it or refund it.</p>
 <h2>Sizing</h2>
-<p>Check the <a href="size-guide.html">size guide</a> before you order. <span class="owner-todo">OWNER TO CONFIRM: whether size exchanges are offered, and who pays return shipping</span></p>
+<p>Check the <a href="size-guide.html">size guide</a> before you order. <span data-show-if="sizeExchange" hidden>Size exchanges: <span data-owner="sizeExchange"></span>.</span> <span data-show-if="returnShipPays" hidden>Return shipping paid by: <span data-owner="returnShipPays"></span>.</span></p>
   </main>
 
   <!-- Shopping Cart Overlay -->
@@ -1068,6 +1068,7 @@
   <script src="analytics.js"></script>
   <script src="products.js"></script>
   <script src="drop.js"></script>
+  <script src="policy.js"></script>
   <script src="cart.js"></script>
 </body>
 </html>
