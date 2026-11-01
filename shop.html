@@ -970,15 +970,15 @@
   </style>
   <link rel="stylesheet" href="site.css">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <meta name="description" content="Pre-order NEW WORLD ORDER from AWAKEN Cult. Limited run, ships after the window closes.">
+  <meta name="description" content="NEW WORLD ORDER from AWAKEN Cult. Orders are dispatched after the drop date.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="AWAKEN Cult">
   <meta property="og:title" content="Shop NEW WORLD ORDER | AWAKEN Cult">
-  <meta property="og:description" content="Pre-order NEW WORLD ORDER from AWAKEN Cult. Limited run, ships after the window closes.">
+  <meta property="og:description" content="NEW WORLD ORDER from AWAKEN Cult. Orders are dispatched after the drop date.">
   <meta property="og:image" content="https://awakencult.com/assets/og.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Shop NEW WORLD ORDER | AWAKEN Cult">
-  <meta name="twitter:description" content="Pre-order NEW WORLD ORDER from AWAKEN Cult. Limited run, ships after the window closes.">
+  <meta name="twitter:description" content="NEW WORLD ORDER from AWAKEN Cult. Orders are dispatched after the drop date.">
   <meta name="twitter:image" content="https://awakencult.com/assets/og.jpg">
 </head>
 <body>
@@ -1025,8 +1025,17 @@
     <section id="drop-list" class="drop-list">
       <h2 id="drop-list-title">Get the close-reminder</h2>
       <p id="drop-list-text">One email before pre-orders close. Nothing else.</p>
-      <iframe class="brevo-form" src="https://250375c7.sibforms.com/v2/serve/MUIFAE2BqiVBXIqyyxSqmPGzmlOjC3QuMs5XGvuujpTqAgJGC4_t5mxkr3GGJsHQ5TkQpCqrlUju7RPOSQpLgJrFPbiJ62w1A0wu1uVE5vwyEt4MRLhscaO0fQm1CC1FozTXBRxFWTFOdptOWqsoMFIRCMjsVszn4GQdF2-xBGWBSjmR78FBAU9sBYxytek2GXYnKinXsg3Zw4H8gQ==" title="Join the list" width="100%" frameborder="0" scrolling="no" allowfullscreen loading="lazy" style="display:block;margin:0 auto;max-width:100%;"></iframe>
-      <p id="drop-list-thanks" role="status" style="display:none;margin-top:0.75rem;font-weight:700;">You're on the list.</p>
+      <form class="signup-form signup-bare" method="post" action="https://250375c7.sibforms.com/v2/serve/MUIFAE2BqiVBXIqyyxSqmPGzmlOjC3QuMs5XGvuujpTqAgJGC4_t5mxkr3GGJsHQ5TkQpCqrlUju7RPOSQpLgJrFPbiJ62w1A0wu1uVE5vwyEt4MRLhscaO0fQm1CC1FozTXBRxFWTFOdptOWqsoMFIRCMjsVszn4GQdF2-xBGWBSjmR78FBAU9sBYxytek2GXYnKinXsg3Zw4H8gQ==" target="signup-frame">
+      <label class="signup-label" for="su-email-1">Your email</label>
+      <div class="signup-row">
+        <input id="su-email-1" type="email" name="EMAIL" placeholder="you@email.com" required autocomplete="email">
+        <input type="text" name="email_address_check" value="" class="signup-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <input type="hidden" name="locale" value="en">
+        <button type="submit">Subscribe</button>
+      </div>
+      <p class="signup-thanks" role="status" hidden>You're in. Stay awake.</p>
+    </form>
+    <iframe name="signup-frame" title="" hidden></iframe>
     </section>
 
     <h2 id="drop-title" class="text-3xl font-anton text-center mb-8">New World Order</h2>
@@ -1110,6 +1119,7 @@
   <script src="analytics.js"></script>
   <script src="products.js"></script>
   <script src="drop.js"></script>
+  <script src="signup.js"></script>
   <script src="cart.js"></script>
   <script>
     function renderProducts() {

@@ -105,4 +105,33 @@ window.AWAKEN_DROP = {
     if (header && window.ResizeObserver) new ResizeObserver(syncHeaderHeight).observe(header);
     setInterval(tick, 1000);
   });
+
+  // Ticker: replaces each page's old marquee with a seamless loop (two identical halves).
+  const TICKER = ['ENLIGHTENMENT IS A CHOICE', 'JOIN THE CULT', 'AWAKEN', 'THE NEW WORLD ORDER IS HERE', 'WAKE UP', 'BURN THE MASK', 'REVEAL THE TRUTH',
+    'CHECK BEFORE YOU SHARE', 'ASK WHO PROFITS', 'EYES OPEN', 'QUESTION EVERYTHING', 'START WITH US', 'MAKE SOMETHING', 'BE DECENT IN PERSON', 'PAY ATTENTION'];
+  function buildTicker() {
+    const old = document.querySelector('.marquee-container');
+    if (!old) return;
+    const seq = TICKER.map(t => `<span>${t}</span><i>&bull;</i>`).join('');
+    const el = document.createElement('div');
+    el.className = 'ticker';
+    el.setAttribute('aria-hidden', 'true');
+    el.innerHTML = `<div class="ticker-track"><div class="ticker-seq">${seq}</div><div class="ticker-seq">${seq}</div></div>`;
+    old.replaceWith(el);
+  }
+
+  // Browser chrome colour: AWAKEN red at the top of the page, black once scrolled.
+  function paintChrome() {
+    const colour = window.scrollY > 4 ? '#000000' : '#d94a44';
+    let meta = document.querySelector('meta[name="theme-color"]');
+    if (!meta) { meta = document.createElement('meta'); meta.name = 'theme-color'; document.head.appendChild(meta); }
+    meta.content = colour;
+    document.documentElement.style.backgroundColor = colour;
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    buildTicker();
+    paintChrome();
+    window.addEventListener('scroll', paintChrome, { passive: true });
+  });
 })();
