@@ -214,3 +214,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .about-prose p { font-size: 1.05rem; line-height: 1.65; }
 .join-q { font-family: "Roboto Condensed", sans-serif; font-weight: 700; font-size: 1.15rem; margin: 1.25rem 0 0.25rem; }
 .join-steps { font-size: 1.3rem; }
+
+/* Brevo signup iframe: fixed height so it never scrolls; taller on phones where the text wraps */
+.brevo-form { height: 250px; border: 0; overflow: hidden; }
+@media (max-width: 480px) { .brevo-form { height: 290px; } }

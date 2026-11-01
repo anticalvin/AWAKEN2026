@@ -109,7 +109,9 @@
       font-family: 'Anton', sans-serif; letter-spacing: .3em; text-transform: uppercase; font-size: 1rem; }
     #modal { display: none; position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,.85); align-items: center; justify-content: center; padding: 1rem; }
     #modal.open { display: flex; }
-    .card { background: #f3f0e7; color: #000; width: 100%; max-width: 22rem; padding: 1.5rem; text-align: center; font-family: 'Roboto Condensed', sans-serif; position: relative; }
+    .brevo-form { width: 100%; height: 250px; border: 0; overflow: hidden; }
+    @media (max-width: 480px) { .brevo-form { height: 290px; } }
+    .card { background: #f3f0e7; color: #000; width: 100%; max-width: 26rem; padding: 1rem; text-align: center; font-family: 'Roboto Condensed', sans-serif; position: relative; }
     .card h2 { font-family: 'Anton', sans-serif; font-size: 1.8rem; text-transform: uppercase; margin-bottom: .25rem; }
     .card input[type=email] { width: 100%; padding: .7rem; border: 1px solid #000; background: #fff; margin: .75rem 0 .5rem; }
     .card button.go { width: 100%; background: #000; color: #fff; padding: .7rem; font-weight: 700; text-transform: uppercase; }
@@ -134,9 +136,7 @@
   <div id="modal" role="dialog" aria-modal="true" aria-label="Join the list">
     <div class="card">
       <button class="close" id="close" aria-label="Close">&times;</button>
-      <h2>Be first</h2>
-      <p>New World Order. Pre-orders open soon.</p>
-      <iframe class="brevo-form" src="https://250375c7.sibforms.com/v2/serve/MUIFAE2BqiVBXIqyyxSqmPGzmlOjC3QuMs5XGvuujpTqAgJGC4_t5mxkr3GGJsHQ5TkQpCqrlUju7RPOSQpLgJrFPbiJ62w1A0wu1uVE5vwyEt4MRLhscaO0fQm1CC1FozTXBRxFWTFOdptOWqsoMFIRCMjsVszn4GQdF2-xBGWBSjmR78FBAU9sBYxytek2GXYnKinXsg3Zw4H8gQ==" title="Join the list" width="100%" height="305" frameborder="0" scrolling="auto" allowfullscreen loading="lazy" style="display:block;margin:0 auto;max-width:100%;"></iframe>
+      <iframe class="brevo-form" src="https://250375c7.sibforms.com/v2/serve/MUIFAE2BqiVBXIqyyxSqmPGzmlOjC3QuMs5XGvuujpTqAgJGC4_t5mxkr3GGJsHQ5TkQpCqrlUju7RPOSQpLgJrFPbiJ62w1A0wu1uVE5vwyEt4MRLhscaO0fQm1CC1FozTXBRxFWTFOdptOWqsoMFIRCMjsVszn4GQdF2-xBGWBSjmR78FBAU9sBYxytek2GXYnKinXsg3Zw4H8gQ==" title="Join the list" width="100%" frameborder="0" scrolling="no" allowfullscreen loading="lazy" style="display:block;margin:0 auto;max-width:100%;"></iframe>
       <p id="msg" role="status"></p>
       <form class="pw" id="pf" autocomplete="off">
         <input type="password" id="pwd" placeholder="&middot;&middot;&middot;&middot;" aria-label="Access code">
