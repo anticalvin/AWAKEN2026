@@ -136,12 +136,7 @@
       <button class="close" id="close" aria-label="Close">&times;</button>
       <h2>Be first</h2>
       <p>New World Order. Pre-orders open soon.</p>
-      <form id="f" action="https://assets.mailerlite.com/jsonp/1660429/forms/159738966717761336/subscribe" method="post" target="ml">
-        <input type="email" name="fields[email]" placeholder="your@email.com" required autocomplete="email">
-        <input type="hidden" name="ml-submit" value="1">
-        <button class="go" type="submit">Notify me</button>
-      </form>
-      <iframe name="ml" hidden></iframe>
+      <iframe class="brevo-form" src="https://250375c7.sibforms.com/v2/serve/MUIFAE2BqiVBXIqyyxSqmPGzmlOjC3QuMs5XGvuujpTqAgJGC4_t5mxkr3GGJsHQ5TkQpCqrlUju7RPOSQpLgJrFPbiJ62w1A0wu1uVE5vwyEt4MRLhscaO0fQm1CC1FozTXBRxFWTFOdptOWqsoMFIRCMjsVszn4GQdF2-xBGWBSjmR78FBAU9sBYxytek2GXYnKinXsg3Zw4H8gQ==" title="Join the list" width="100%" height="305" frameborder="0" scrolling="auto" allowfullscreen loading="lazy" style="display:block;margin:0 auto;max-width:100%;"></iframe>
       <p id="msg" role="status"></p>
       <form class="pw" id="pf" autocomplete="off">
         <input type="password" id="pwd" placeholder="&middot;&middot;&middot;&middot;" aria-label="Access code">
@@ -160,9 +155,6 @@
     document.getElementById('close').onclick = () => m.classList.remove('open');
     m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') m.classList.remove('open'); });
-    document.getElementById('f').addEventListener('submit', () => {
-      setTimeout(() => { document.getElementById('f').style.display = 'none'; msg.textContent = 'You are on the list.'; }, 600);
-    });
     document.getElementById('pf').addEventListener('submit', async e => {
       e.preventDefault();
       const inp = document.getElementById('pwd');

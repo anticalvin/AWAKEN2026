@@ -1025,14 +1025,8 @@
     <section id="drop-list" class="drop-list">
       <h2 id="drop-list-title">Get the close-reminder</h2>
       <p id="drop-list-text">One email before pre-orders close. Nothing else.</p>
-      <form action="https://assets.mailerlite.com/jsonp/1660429/forms/159738966717761336/subscribe" method="post" target="ml-frame" id="drop-list-form">
-        <input type="email" name="fields[email]" placeholder="Enter your email" required aria-label="Email address" />
-        <input type="hidden" name="ml-submit" value="1">
-        <input type="hidden" name="anticsrf" value="true">
-        <button type="submit">Notify me</button>
-      </form>
+      <iframe class="brevo-form" src="https://250375c7.sibforms.com/v2/serve/MUIFAE2BqiVBXIqyyxSqmPGzmlOjC3QuMs5XGvuujpTqAgJGC4_t5mxkr3GGJsHQ5TkQpCqrlUju7RPOSQpLgJrFPbiJ62w1A0wu1uVE5vwyEt4MRLhscaO0fQm1CC1FozTXBRxFWTFOdptOWqsoMFIRCMjsVszn4GQdF2-xBGWBSjmR78FBAU9sBYxytek2GXYnKinXsg3Zw4H8gQ==" title="Join the list" width="100%" height="305" frameborder="0" scrolling="auto" allowfullscreen loading="lazy" style="display:block;margin:0 auto;max-width:100%;"></iframe>
       <p id="drop-list-thanks" role="status" style="display:none;margin-top:0.75rem;font-weight:700;">You're on the list.</p>
-      <iframe name="ml-frame" title="Subscription" style="display:none" tabindex="-1" aria-hidden="true"></iframe>
     </section>
 
     <h2 id="drop-title" class="text-3xl font-anton text-center mb-8">New World Order</h2>
@@ -1171,12 +1165,6 @@
       renderProducts();
       document.addEventListener('awaken:catalogue', renderProducts);
       document.addEventListener('awaken:dropchange', renderProducts);
-      document.getElementById('drop-list-form').addEventListener('submit', () => {
-        setTimeout(() => {
-          document.getElementById('drop-list-form').style.display = 'none';
-          document.getElementById('drop-list-thanks').style.display = 'block';
-        }, 400);
-      });
       updateMarquee();
       window.addEventListener('resize', updateMarquee);
     });
