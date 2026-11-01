@@ -5,7 +5,6 @@
  * printf 'newcode' | shasum -a 256 */
 var GATE_ENABLED = true;
 (function () {
-  if (!GATE_ENABLED) return;
   var HASH = 'cdd35a708cf7fbc0a70f4d0f7ec42dcc269a97e1894726d8e175a2d830d336cd';
   var KEY = 'awakenAccess';
   function ok() { try { return localStorage.getItem(KEY) === HASH; } catch (e) { return false; } }
@@ -18,6 +17,7 @@ var GATE_ENABLED = true;
       return true;
     }
   };
+  if (!GATE_ENABLED) return;
   if (/coming-soon\.html$/.test(location.pathname) || /eye\.html$/.test(location.pathname)) return;
   if (!ok()) location.replace('coming-soon.html');
 })();
