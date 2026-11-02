@@ -160,7 +160,7 @@
       font-family: 'Roboto Slab', serif;
       font-style: italic;
       font-size: 1.2rem;
-      border-left: 4px solid #d94a44;
+      border-left: 0;
       padding-left: 1rem;
       margin: 1.5rem 0;
     }
@@ -266,15 +266,15 @@
   </style>
   <link rel="stylesheet" href="site.css">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <meta name="description" content="About AWAKEN: a small clothing label dressed as a cult. Limited drops, sold by pre-order.">
+  <meta name="description" content="About AWAKEN: a cult, or the other way round. Ask us again later.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="AWAKEN Cult">
   <meta property="og:title" content="About | AWAKEN Cult">
-  <meta property="og:description" content="About AWAKEN: a small clothing label dressed as a cult. Limited drops, sold by pre-order.">
+  <meta property="og:description" content="About AWAKEN: a cult, or the other way round. Ask us again later.">
   <meta property="og:image" content="https://awakencult.com/assets/og.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="About | AWAKEN Cult">
-  <meta name="twitter:description" content="About AWAKEN: a small clothing label dressed as a cult. Limited drops, sold by pre-order.">
+  <meta name="twitter:description" content="About AWAKEN: a cult, or the other way round. Ask us again later.">
   <meta name="twitter:image" content="https://awakencult.com/assets/og.jpg">
 </head>
 <body>
@@ -298,17 +298,15 @@
     <a href="index.html" id="back-link" class="about-back">&larr; Back</a>
     <div class="about-head">
       <h1>About AWAKEN</h1>
-      <p class="about-standfirst">A clothing label dressed as a cult. Or the other way round.</p>
+      <p class="about-standfirst">A cult. Or the other way round.</p>
     </div>
 
     <div class="poster">
       <div class="cell">
         <div class="rot">
-          <p class="p-sm">SMALL RUNS</p>
-          <p class="p-md"><strong>MADE TO ORDER</strong></p>
-          <p class="p-sm">DISPATCHED AFTER THE DROP DATE</p>
-          <p class="p-sm">DROP DATES ARE REAL</p>
-          <p class="p-xs">CLOSE AND SHIP DATES SHOWN BEFORE YOU PAY</p>
+          <p class="p-sm">NO MEMBERSHIP</p>
+          <p class="p-md"><strong>NO LEADER</strong></p>
+          <p class="p-sm">ONLY ATTENTION</p>
           <p class="p-md"><strong>STAND.<br>ASK WHO PROFITS.</strong></p>
         </div>
       </div>
@@ -321,7 +319,7 @@
         <p class="p-sm">Make something.</p>
         <p class="p-sm">Be decent in person.</p>
         <p class="p-sm">Repeat.</p>
-        <p class="p-md"><strong>WEAR IT.<br>EXPLAIN IT.</strong></p>
+        <p class="p-md"><strong>THINK IT.<br>SAY IT.</strong></p>
       </div>
       <div class="cell">
         <p class="p-sm">WE ARE</p>
@@ -335,7 +333,7 @@
         <p class="p-xl">NEW WORLD ORDER</p>
       </div>
       <div class="cell">
-        <p class="p-md" id="poster-status">PRE-ORDERS OPEN</p>
+        <p class="p-md">EYES OPEN</p>
       </div>
       <div class="cell">
         <p class="p-xl">WAKE UP</p>
@@ -347,9 +345,7 @@
       <h2>Who we are</h2>
       <p>Depends who's asking. AWAKEN is a name, a symbol, a feeling and, if you want it to be, a way of paying attention. We don't explain ourselves well. That's deliberate.</p>
       <h2>What we do</h2>
-      <p>We make things and release them in drops. Each one carries one idea, and most of them are about paying attention.</p>
-      <h2>How drops work</h2>
-      <p>Each drop has a date. Orders placed before it are dispatched after it. The drop date and the dispatch date are shown before you pay. Full terms are on the <a href="returns.html#preorder-terms">pre-order terms</a> page.</p>
+      <p>We put out ideas, images and the odd signal. Most of them are about paying attention.</p>
       <h2>What we believe</h2>
       <p>Check before you share. Ask who profits. Make something. Be decent in person. The longer version is in the <a href="manifesto.html">manifesto</a>.</p>
       <h2>Is it a cult?</h2>
@@ -359,7 +355,7 @@
         <p data-owner="ABOUT_FOUNDER"></p>
       </div>
       <h2>Get in touch</h2>
-      <p>Orders and sizing: <a href="mailto:info@awakencult.com">info@awakencult.com</a>. Collabs, press and stockists: same address, say which in the subject line. Instagram: <a href="https://instagram.com/awakencult" target="_blank" rel="noopener">@awakencult</a>.</p>
+      <p>Questions, collabs and press: <a href="mailto:info@awakencult.com">info@awakencult.com</a>. Instagram: <a href="https://instagram.com/awakencult" target="_blank" rel="noopener">@awakencult</a>.</p>
     </div>
   </section>
 
@@ -402,9 +398,6 @@
       }
       document.getElementById('back-link').addEventListener('click', function (e) { e.preventDefault(); back(); });
       document.addEventListener('keydown', function (e) { if (e.key === 'Escape') back(); });
-      document.addEventListener('DOMContentLoaded', function () {
-        if (window.AWAKEN_DROP && AWAKEN_DROP.isClosed()) document.getElementById('poster-status').textContent = 'CLOSED';
-      });
     })();
   </script>
 </body>

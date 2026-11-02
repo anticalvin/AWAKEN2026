@@ -127,6 +127,16 @@ window.AWAKEN_DROP = {
     if (!meta) { meta = document.createElement('meta'); meta.name = 'theme-color'; document.head.appendChild(meta); }
     meta.content = colour;
     document.documentElement.style.backgroundColor = colour;
+    const b = document.body;
+    if (b) {
+      if (!b.dataset.paint) {
+        let c0 = getComputedStyle(b).backgroundColor;
+        if (/rgba\(.*,\s*0\)$|transparent/.test(c0)) c0 = '#f3f0e7';
+        b.dataset.paint = c0;
+        b.style.backgroundImage = `linear-gradient(${c0},${c0})`;
+      }
+      b.style.backgroundColor = colour;
+    }
     let bar = document.getElementById('chrome-bar');
     if (!bar && document.body) { bar = document.createElement('div'); bar.id = 'chrome-bar'; bar.setAttribute('aria-hidden', 'true'); document.body.prepend(bar); }
     if (bar) bar.style.backgroundColor = colour;
