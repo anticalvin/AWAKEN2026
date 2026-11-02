@@ -130,8 +130,8 @@ button.add-to-cart-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 .drop-list {
   max-width: 40rem;
   margin: 0 auto 2rem;
-  padding: 1rem;
-  border: 2px solid #000;
+  padding: 1.5rem 1rem;
+  border: 1px solid #000;
   background: #f3f0e7;
   text-align: center;
 }
@@ -237,11 +237,11 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .signup-bare > * { padding-left: 0; padding-right: 0; }
 
 /* --- Ticker (replaces the old marquee): seamless loop, two identical halves --- */
-.ticker { background: #d94a44; color: #f3f0e7; border-top: 1px solid #000; border-bottom: 1px solid #000; overflow: hidden; white-space: nowrap; font-family: 'Roboto Condensed', sans-serif; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.4rem 0; }
+.ticker { background: #000; color: #f3f0e7; border-top: 1px solid #000; border-bottom: 1px solid #000; overflow: hidden; white-space: nowrap; font-family: 'Roboto Condensed', sans-serif; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.4rem 0; }
 .ticker-track { display: flex; width: max-content; animation: ticker-slide 70s linear infinite; }
 .ticker-seq { display: flex; flex-shrink: 0; }
 .ticker-seq span { padding: 0 0.9rem; }
-.ticker-seq i { font-style: normal; color: #000; }
+.ticker-seq i { font-style: normal; color: #d94a44; }
 @keyframes ticker-slide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 body { min-height: 100vh; }
 
@@ -292,3 +292,10 @@ html { background-color: #d94a44; }
 #chrome-bar { display: none; }
 
 body { overflow-x: clip !important; }
+
+/* Related / product cards: same image box so titles, text and buttons line up */
+.related-article-card img { aspect-ratio: 1 / 1; height: auto; object-fit: contain; }
+.related-article-card h3 { min-height: 2.6em; }
+.related-article-card p { min-height: 4.2em; }
+.related-article-card .view-artifact-button { align-self: center; }
+

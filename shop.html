@@ -970,6 +970,9 @@
   </style>
   <link rel="stylesheet" href="site.css">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <meta name="description" content="NEW WORLD ORDER from AWAKEN Cult. Orders are dispatched after the drop date.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="AWAKEN Cult">
@@ -1023,8 +1026,8 @@
   <!-- Product Grid Section -->
   <section class="content-section product-grid-section">
     <section id="drop-list" class="drop-list">
-      <h2 id="drop-list-title">Get the close-reminder</h2>
-      <p id="drop-list-text">One email before pre-orders close. Nothing else.</p>
+      <h2 id="drop-list-title">Stay in the loop</h2>
+      <p id="drop-list-text">New drops, restocks and signals. Nothing else.</p>
       <form class="signup-form signup-bare" method="post" action="https://250375c7.sibforms.com/v2/serve/MUIFAE2BqiVBXIqyyxSqmPGzmlOjC3QuMs5XGvuujpTqAgJGC4_t5mxkr3GGJsHQ5TkQpCqrlUju7RPOSQpLgJrFPbiJ62w1A0wu1uVE5vwyEt4MRLhscaO0fQm1CC1FozTXBRxFWTFOdptOWqsoMFIRCMjsVszn4GQdF2-xBGWBSjmR78FBAU9sBYxytek2GXYnKinXsg3Zw4H8gQ==" target="signup-frame">
       <label class="signup-label" for="su-email-1">Your email</label>
       <div class="signup-row">
@@ -1137,10 +1140,10 @@
     // The email box reads "close-reminder" while open and "join the list" once the drop is over.
     function renderListCopy() {
       const closed = DROP.isClosed();
-      document.getElementById('drop-list-title').textContent = closed ? `${DROP.name} is closed` : 'Get the close-reminder';
+      document.getElementById('drop-list-title').textContent = closed ? `${DROP.name} is closed` : 'Stay in the loop';
       document.getElementById('drop-list-text').textContent = closed
         ? 'Join the list. You hear about the next drop first.'
-        : 'One email before pre-orders close. Nothing else.';
+        : 'New drops, restocks and signals. Nothing else.';
     }
 
     // Marquee
