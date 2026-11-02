@@ -125,7 +125,8 @@ window.AWAKEN_DROP = {
   let lastColour = '';
   function paintChrome() {
     const y = window.pageYOffset || document.documentElement.scrollTop || 0;
-    const colour = y > 4 ? '#000000' : '#d94a44';
+    // Some phone browsers rest a few dozen pixels down when the toolbar collapses, so "top" is generous.
+    const colour = y > 60 ? '#000000' : '#d94a44';
     if (colour === lastColour) return;
     lastColour = colour;
     let meta = document.querySelector('meta[name="theme-color"]');
