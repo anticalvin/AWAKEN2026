@@ -120,40 +120,16 @@ window.AWAKEN_DROP = {
     old.replaceWith(el);
   }
 
-  // Browser chrome colour: AWAKEN red at the top of the page, black once scrolled.
-  // The body background carries it (browsers tint from it); the page keeps its own colour via an image layer.
-  let lastColour = '';
-  function paintChrome() {
-    const y = window.pageYOffset || document.documentElement.scrollTop || 0;
-    // Some phone browsers rest a few dozen pixels down when the toolbar collapses, so "top" is generous.
-    const colour = y > 60 ? '#000000' : '#d94a44';
-    if (colour === lastColour) return;
-    lastColour = colour;
-    let meta = document.querySelector('meta[name="theme-color"]');
-    if (!meta) { meta = document.createElement('meta'); meta.name = 'theme-color'; document.head.appendChild(meta); }
-    meta.content = colour;
-    const b = document.body;
-    if (!b.dataset.paint) {
-      let c0 = getComputedStyle(b).backgroundColor;
-      if (/rgba\(.*,\s*0\)$|transparent/.test(c0)) c0 = '#f3f0e7';
-      b.dataset.paint = c0;
-      b.style.backgroundImage = `linear-gradient(${c0},${c0})`;
-    }
-    b.style.backgroundColor = colour;
-  }
-
+  // Browser chrome colour: AWAKEN red, always. The body background carries it (browsers tint from it);
+  // the page keeps its own colour via an image layer.
   document.addEventListener('DOMContentLoaded', () => {
     buildTicker();
-    // A refresh can restore a few pixels of scroll and clip the header: start at the very top instead.
+    const b = document.body;
+    let c0 = getComputedStyle(b).backgroundColor;
+    if (/rgba\(.*,\s*0\)$|transparent/.test(c0)) c0 = '#f3f0e7';
+    b.style.backgroundImage = `linear-gradient(${c0},${c0})`;
+    b.style.backgroundColor = '#d94a44';
     const reset = () => { if ((window.pageYOffset || 0) < 160 && window.pageYOffset !== 0) window.scrollTo(0, 0); };
     window.addEventListener('load', () => { reset(); setTimeout(reset, 150); });
-    paintChrome();
-    let queued = false;
-    window.addEventListener('scroll', () => {
-      if (queued) return;
-      queued = true;
-      requestAnimationFrame(() => { queued = false; paintChrome(); });
-    }, { passive: true });
-    window.addEventListener('pageshow', paintChrome);
   });
 })();

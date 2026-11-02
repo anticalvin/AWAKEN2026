@@ -768,6 +768,7 @@
       document.getElementById('product-description').textContent = product.lore;
       document.getElementById('product-lore').innerHTML = detailLines(product).map(l => `<span style="display:block">${l.replace(/&/g,'&amp;').replace(/</g,'&lt;')}</span>`).join('');
 
+      const gallery = document.getElementById('thumbnail-gallery');
       // Variant picker: keep the chosen option when the page re-renders after a price sync.
       const select = document.getElementById('product-size');
       const previous = select.value;
@@ -782,10 +783,14 @@
       });
       if (previous && product.variants.some(v => v.shopifyVariantId === previous)) select.value = previous;
       select.closest('.product-options-group').style.display = isOneOption(product) ? 'none' : '';
-      select.onchange = () => renderPrice(product);
+      const showColourway = () => {
+        const v = selectedVariant(product);
+        mainImage.src = (product.variantImages && product.variantImages[v.option]) || product.image;
+        gallery.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+      };
+      select.onchange = () => { renderPrice(product); showColourway(); };
       renderPrice(product);
 
-      const gallery = document.getElementById('thumbnail-gallery');
       gallery.innerHTML = '';
       if (product.images.length > 1) {
         product.images.forEach((src, i) => {

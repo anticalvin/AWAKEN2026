@@ -155,6 +155,7 @@ window.AWAKEN_PRODUCTS = [
       "assets/products/BURN-BALACLAVAAA.webp"
     ],
     "optionName": "Colour",
+    "variantImages": { "Cream": "assets/products/BURN-BALACLAVA-CREAM.webp" },
     "variants": [
       {
         "option": "Black",

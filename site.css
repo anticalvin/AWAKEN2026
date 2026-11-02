@@ -48,7 +48,7 @@
   position: absolute;
   top: 0.5rem;
   left: 0.5rem;
-  background: #d94a44;
+  background: #000;
   color: #fff;
   padding: 0.15rem 0.55rem;
   font-family: 'Anton', sans-serif;
@@ -58,6 +58,7 @@
   pointer-events: none;
 }
 .preorder-badge.is-closed { background: #000; }
+.product-card:hover .preorder-badge:not(.is-closed), .preorder-badge:not(.is-closed):hover { background: #d94a44; }
 .ships-by {
   font-family: 'Roboto Condensed', sans-serif;
   font-size: 0.8rem;
@@ -269,7 +270,7 @@ html { background-color: #d94a44; }
 /* Campaign photos: no zoomed-in crop */
 #campaign { height: auto !important; }
 @media (min-width: 1024px) { #campaign .mobile-full-height { height: auto; aspect-ratio: 9 / 10; min-height: 34rem; max-height: 100vh; } }
-@media (max-width: 1023px) { #campaign .mobile-full-height:first-child { height: auto; aspect-ratio: 4 / 5; } }
+@media (max-width: 1023px) { #campaign .mobile-full-height { height: auto; aspect-ratio: 4 / 5; } }
 
 .icon-x { width: 1em; height: 1em; fill: currentColor; vertical-align: -0.125em; display: inline-block; }
 
