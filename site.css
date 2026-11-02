@@ -282,3 +282,5 @@ html { background-color: #d94a44; }
 }
 .manifesto-container { position: relative; }
 .share-btn { position: absolute; top: 0; right: 0; display: inline-flex; align-items: center; gap: .4rem; padding: .55rem 1rem; font-family: 'Anton', sans-serif; font-size: 1rem; letter-spacing: .08em; text-transform: uppercase; border: 1px solid; cursor: pointer; }
+
+.manifesto-sign { font-family: 'Anton', sans-serif; font-size: 2rem; letter-spacing: .08em; margin-top: 2rem; }
