@@ -121,34 +121,38 @@ window.AWAKEN_DROP = {
   }
 
   // Browser chrome colour: AWAKEN red at the top of the page, black once scrolled.
+  // The body background carries it (browsers tint from it); the page keeps its own colour via an image layer.
+  let lastColour = '';
   function paintChrome() {
-    const colour = (window.pageYOffset || document.documentElement.scrollTop || 0) > 4 ? '#000000' : '#d94a44';
+    const y = window.pageYOffset || document.documentElement.scrollTop || 0;
+    const colour = y > 4 ? '#000000' : '#d94a44';
+    if (colour === lastColour) return;
+    lastColour = colour;
     let meta = document.querySelector('meta[name="theme-color"]');
     if (!meta) { meta = document.createElement('meta'); meta.name = 'theme-color'; document.head.appendChild(meta); }
     meta.content = colour;
-    document.documentElement.style.backgroundColor = colour;
     const b = document.body;
-    if (b) {
-      if (!b.dataset.paint) {
-        let c0 = getComputedStyle(b).backgroundColor;
-        if (/rgba\(.*,\s*0\)$|transparent/.test(c0)) c0 = '#f3f0e7';
-        b.dataset.paint = c0;
-        b.style.backgroundImage = `linear-gradient(${c0},${c0})`;
-      }
-      b.style.backgroundColor = colour;
+    if (!b.dataset.paint) {
+      let c0 = getComputedStyle(b).backgroundColor;
+      if (/rgba\(.*,\s*0\)$|transparent/.test(c0)) c0 = '#f3f0e7';
+      b.dataset.paint = c0;
+      b.style.backgroundImage = `linear-gradient(${c0},${c0})`;
     }
-    let bar = document.getElementById('chrome-bar');
-    if (!bar && document.body) { bar = document.createElement('div'); bar.id = 'chrome-bar'; bar.setAttribute('aria-hidden', 'true'); document.body.prepend(bar); }
-    if (bar) bar.style.backgroundColor = colour;
+    b.style.backgroundColor = colour;
   }
 
   document.addEventListener('DOMContentLoaded', () => {
     buildTicker();
+    // A refresh can restore a few pixels of scroll and clip the header: start at the very top instead.
+    const reset = () => { if ((window.pageYOffset || 0) < 160 && window.pageYOffset !== 0) window.scrollTo(0, 0); };
+    window.addEventListener('load', () => { reset(); setTimeout(reset, 150); });
     paintChrome();
-    window.addEventListener('scroll', paintChrome, { passive: true });
-    window.addEventListener('scrollend', paintChrome);
-    window.addEventListener('touchend', () => setTimeout(paintChrome, 120), { passive: true });
+    let queued = false;
+    window.addEventListener('scroll', () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(() => { queued = false; paintChrome(); });
+    }, { passive: true });
     window.addEventListener('pageshow', paintChrome);
-    setInterval(paintChrome, 250);
   });
 })();

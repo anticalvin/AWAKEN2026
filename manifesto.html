@@ -165,19 +165,11 @@
       margin: 1.5rem 0;
     }
 
-    /* Columns for manifesto body on larger screens */
-    @media (min-width: 768px) {
-      .manifesto-body-columns {
-        column-count: 2;
-        column-gap: 2rem;
-      }
-    }
-    @media (min-width: 1024px) {
-      .manifesto-body-columns {
-        column-count: 3;
-        column-gap: 2.5rem;
-      }
-    }
+    /* One readable column on every screen; each chapter heading starts its block */
+    .manifesto-body-columns { max-width: 38rem; margin: 0 auto; text-align: left; }
+    .manifesto-body-columns .manifesto-paragraph { text-align: left; margin-bottom: 1.1rem; }
+    .manifesto-body-columns .manifesto-section-title { margin-top: 3rem; }
+    .manifesto-body-columns > .manifesto-section-title:first-child { margin-top: 1.5rem; }
 
     /* Footer adjustments - Consistent with main site */
     footer {

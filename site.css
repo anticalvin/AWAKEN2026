@@ -284,3 +284,7 @@ html { background-color: #d94a44; }
 .share-btn { position: absolute; top: 0; right: 0; display: inline-flex; align-items: center; gap: .4rem; padding: .55rem 1rem; font-family: 'Anton', sans-serif; font-size: 1rem; letter-spacing: .08em; text-transform: uppercase; border: 1px solid; cursor: pointer; }
 
 .manifesto-sign { font-family: 'Anton', sans-serif; font-size: 2rem; letter-spacing: .08em; margin-top: 2rem; }
+
+@media (max-width: 767px) { .drop-banner { top: 0; } }
+/* Remove the extra top strip: the body background carries the colour */
+#chrome-bar { display: none; }
