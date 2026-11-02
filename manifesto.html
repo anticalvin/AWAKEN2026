@@ -5,7 +5,7 @@
   <meta name="theme-color" content="#d94a44">
   <link rel="canonical" href="https://awakencult.com/manifesto.html">
   <script src="gate.js"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Manifesto | AWAKEN Cult</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
@@ -295,6 +295,7 @@
   <!-- Manifesto Content Section -->
   <section class="content-section">
     <div class="manifesto-container">
+      <button type="button" class="share-btn" id="share-btn" aria-label="Share the manifesto">Share</button>
       <!-- Logo above the title -->
       <div class="manifesto-logo-container">
         <img src="assets/img/NEW-EYE-LOGO-BLACK-VEC.png" alt="AWAKEN Logo" class="manifesto-logo" />
@@ -347,7 +348,6 @@
           <li>Be decent in person.</li>
           <li>Repeat.</li>
         </ol>
-        <p class="manifesto-cta"><a href="shop.html" class="manifesto-cta-btn">SEE THE DROP</a></p>
       </div>
     </div>
   </section>
@@ -381,5 +381,16 @@
   <script src="products.js"></script>
   <script src="drop.js"></script>
   <script src="cart.js"></script>
+<script>
+  document.getElementById('share-btn').addEventListener('click', async function () {
+    var data = { title: 'The AWAKEN Manifesto', text: 'Wake up. Ask who profits.', url: location.origin + location.pathname };
+    try {
+      if (navigator.share) { await navigator.share(data); return; }
+      await navigator.clipboard.writeText(data.url);
+      this.textContent = 'Link copied';
+      var b = this; setTimeout(function () { b.textContent = 'Share'; }, 1800);
+    } catch (e) {}
+  });
+</script>
 </body>
 </html>

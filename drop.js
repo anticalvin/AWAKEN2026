@@ -122,7 +122,7 @@ window.AWAKEN_DROP = {
 
   // Browser chrome colour: AWAKEN red at the top of the page, black once scrolled.
   function paintChrome() {
-    const colour = window.scrollY > 4 ? '#000000' : '#d94a44';
+    const colour = (window.pageYOffset || document.documentElement.scrollTop || 0) > 4 ? '#000000' : '#d94a44';
     let meta = document.querySelector('meta[name="theme-color"]');
     if (!meta) { meta = document.createElement('meta'); meta.name = 'theme-color'; document.head.appendChild(meta); }
     meta.content = colour;
@@ -146,5 +146,9 @@ window.AWAKEN_DROP = {
     buildTicker();
     paintChrome();
     window.addEventListener('scroll', paintChrome, { passive: true });
+    window.addEventListener('scrollend', paintChrome);
+    window.addEventListener('touchend', () => setTimeout(paintChrome, 120), { passive: true });
+    window.addEventListener('pageshow', paintChrome);
+    setInterval(paintChrome, 250);
   });
 })();

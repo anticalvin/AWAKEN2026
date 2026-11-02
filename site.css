@@ -264,12 +264,21 @@ html { background-color: #d94a44; }
 }
 
 /* Thin fixed strip the phone samples for its top-bar tint: red at the top, black once scrolled */
-#chrome-bar { position: fixed; top: 0; left: 0; right: 0; height: max(env(safe-area-inset-top, 0px), 4px); z-index: 2147483000; pointer-events: none; }
+#chrome-bar { position: fixed; top: 0; left: 0; right: 0; height: 4px; z-index: 2147483000; pointer-events: none; }
 
 /* Campaign photos: no zoomed-in crop */
 #campaign { height: auto !important; }
 @media (min-width: 1024px) { #campaign .mobile-full-height { height: auto; aspect-ratio: 9 / 10; min-height: 34rem; max-height: 100vh; } }
 @media (max-width: 1023px) { #campaign .mobile-full-height:first-child { height: auto; aspect-ratio: 4 / 5; } }
 
-header { padding-top: env(safe-area-inset-top, 0px); }
 .icon-x { width: 1em; height: 1em; fill: currentColor; vertical-align: -0.125em; display: inline-block; }
+
+/* Buttons: AWAKEN red, black on hover */
+.signup-row button, .add-to-cart-btn, .cart-checkout-btn, .manifesto-cta-btn, .game-button, .view-artifact-button, .drop-list button, .share-btn, .card button.go {
+  background: #d94a44 !important; color: #f3f0e7 !important; border-color: #d94a44 !important;
+}
+.signup-row button:hover, .add-to-cart-btn:hover:not(:disabled), .cart-checkout-btn:hover, .manifesto-cta-btn:hover, .game-button:hover, .view-artifact-button:hover, .drop-list button:hover, .share-btn:hover, .card button.go:hover {
+  background: #000 !important; border-color: #000 !important;
+}
+.manifesto-container { position: relative; }
+.share-btn { position: absolute; top: 0; right: 0; display: inline-flex; align-items: center; gap: .4rem; padding: .55rem 1rem; font-family: 'Anton', sans-serif; font-size: 1rem; letter-spacing: .08em; text-transform: uppercase; border: 1px solid; cursor: pointer; }
